@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float forwardSpeed = 10f;
 
-    public float laneDistance = 3f;   // Distance between lanes
+    public float laneDistance = 6f;   // Distance between lanes
     public float laneChangeSpeed = 10f;
 
     private int currentLane = 0;      // -1 = left, 0 = middle, 1 = right
