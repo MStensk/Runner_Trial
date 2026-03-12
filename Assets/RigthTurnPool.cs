@@ -1,23 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class StraightTrackPool : MonoBehaviour
+public class RigthTurnPool : MonoBehaviour
 {
-
-/*   [SerializeField] private GameObject trackOne;
-
-   // ListGame objcts  (tile prefabs)
-
-private void PlaceTrackElement()
-{
- //   Instantiate();
-}*/
-
 [SerializeField] private GameObject objectToPool;
-public static StraightTrackPool SharedInstance;
+public static RigthTurnPool SharedInstance;
 public List<GameObject> pooledObjects;
 public int amountToPool;
-
 public void Awake()
     {
         SharedInstance = this;
@@ -30,7 +19,7 @@ public void Awake()
             tmp = Instantiate(objectToPool);
             tmp.SetActive(false);
 
-        StraightTrackController controller = tmp.GetComponent<StraightTrackController>();
+        RigthTurnController controller = tmp.GetComponent<RigthTurnController>();
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = false;
 
@@ -39,17 +28,13 @@ public void Awake()
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+ void Start()
     {
-      
-    
+        
     }
 
-    public GameObject GetTrack()
-    {/*
- if (pooledObjects == null || pooledObjects.Count == 0)
-        return null;  */
-
+       public GameObject GetTrack()
+    {
         for(int i = 0; i < amountToPool; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)

@@ -5,8 +5,8 @@ public class LeftTurnController : MonoBehaviour
 
      public bool isActiveInnPool;
      public bool triggerTrackConstruction;
-     public float lengthOnX = 15f;
-     public float lengthOnZ = 15f;
+     public float lengthOnX = 41.5f;
+     public float lengthOnZ = 45.5f;
 
      private Transform character;
 

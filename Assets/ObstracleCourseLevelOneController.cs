@@ -5,8 +5,8 @@ public class ObstracleCourseLevelOneController : MonoBehaviour
 {
      public bool isActiveInnPool;
      public bool triggerTrackConstruction;
-     public float lengthOnX = 15f;
-     public float lengthOnZ = 30f;
+     public float lengthOnX = 20.4f;
+     public float lengthOnZ = 24f;
 
      private Transform character;
  

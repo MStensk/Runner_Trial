@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class LeftCornerController : MonoBehaviour
+public class RigthTurnController : MonoBehaviour
 {
 
      public bool isActiveInnPool;
      public bool triggerTrackConstruction;
-     public float lengthOnX = 15f;
-     public float lengthOnZ = 15f;
+     public float lengthOnX = 41.5f;
+     public float lengthOnZ = 45.5f;
 
      private Transform character;
 
@@ -19,7 +19,10 @@ Debug.Log(playerNinjaCollider.name);
 
         if (triggerTrackConstruction)
         {
-        TrackGenerators generator = FindObjectOfType<TrackGenerators>();
+        TrackGenerator generator = FindObjectOfType<TrackGenerator>();
+
+Debug.Log("Rigth turn have triggered track build");
+
         generator.BuildTrack();    
         }
     }
