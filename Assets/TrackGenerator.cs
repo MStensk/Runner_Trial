@@ -29,21 +29,14 @@ public class TrackGenerator : MonoBehaviour
 
  float xPosition = xDisplacement / 2;
  float zPosition = zDisplacement / 2;
- //float startXPosition = 192.5;
- //float startZPosition = 200;
 
             trackPiece.transform.position = new Vector3(currentBuildPosition.x + xPosition, 1.1f, currentBuildPosition.z + zPosition);
-            //trackPiece.transform.position = new Vector3(xPosition, 0.1f, zDisplacement);
-            
+ 
             currentBuildPosition = new Vector3(currentBuildPosition.x, 0.1f, currentBuildPosition.z);
             trackPiece.SetActive(true);
             
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = true;
-
-         //   BoxCollider collider = trackPiece.GetComponent<BoxCollider>();
-
-      //      collider.center = new Vector3(xPosition, 0.1f, zPosition + 5);
 
             currentBuildPosition += new Vector3(0.0f, 0.0f, zDisplacement);
 
@@ -63,16 +56,12 @@ currentDirection = buildDirections[directionValue];
 
     public void BuildTrack()
     {
-    //    Debug.Log("turnController value: " + turnController );
-        
-        // skal evt tilbage på: turnController >= 4
-        if(turnController >= 2)
+          
+        if(turnController >= 4)
         {
            int turnDirection = UnityEngine.Random.Range(0, 2);
            Debug.Log("Randum number: " + turnDirection);
             turnController = 0;
-
-     turnDirection = 0;
 
             if(turnDirection == 0)
             {
@@ -89,8 +78,6 @@ currentDirection = buildDirections[directionValue];
     }
         public void BuildLeftCorner()
     {
-       Debug.Log("Build a left corner "); 
-        Debug.Log("Build direction: " + currentDirection); 
     GameObject trackPiece = LeftTurnPool.SharedInstance.GetTrack();
 
 LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
@@ -111,7 +98,7 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
              newXValue = currentBuildPosition.x + xPosition;
              newZValue = currentBuildPosition.z + zPosition;
 
-               currentBuildPosition += new Vector3(-21.45f, 0f, +24.5f);
+             currentBuildPosition += new Vector3(-21.45f, 0f, +24.5f);
 
             }
             else if(currentDirection == "East")
@@ -151,23 +138,11 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = true;
 
-          //  currentBuildPosition += new Vector3(0.0f, 0f, zDisplacement);
-
             directionValue += -1;
 
-            if(directionValue < 0)
-            {
-                directionValue = 3;
-            }
-
-            if(directionValue > 3)
-            {
-                directionValue = 0;
-            }
+            if(directionValue < 0)  directionValue = 3; 
 
              SetCurrentDirection();
-
-      //      Debug.Log("newXValue: " + newXValue + " newYValue: " + newYValue);
 
             turnController = 0;
         }   
@@ -216,20 +191,19 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
 
- currentBuildPosition += new Vector3(-40f, 0f, -41.5f);
- //currentBuildPosition += new Vector3(50f, 0f, -151.5f);
-           //   currentBuildPosition += new Vector3(-21.45f, 0f, -34.5f);
+             currentBuildPosition += new Vector3(-40f, 0f, -41.5f);
+
             }
             else if(currentDirection == "West")
             {
                 
-                   newXValue = currentBuildPosition.x - zPosition;
+             newXValue = currentBuildPosition.x - zPosition;
              newZValue = currentBuildPosition.z + xPosition;
 
              trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
 
- currentBuildPosition += new Vector3(-41.2f, 0f, 25.8f);
-          //   currentBuildPosition += new Vector3(-25f, 0f, 17.45f);
+             currentBuildPosition += new Vector3(-41.2f, 0f, 25.8f);
+        
                 
             }
             else{return;}
@@ -240,33 +214,17 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = true;
 
-          //  currentBuildPosition += new Vector3(0.0f, 0f, zDisplacement);
-
             directionValue += 1;
 
-            if(directionValue < 0)
-            {
-                directionValue = 3;
-            }
-
-            if(directionValue > 3)
-            {
-                directionValue = 0;
-            }
-
+            if(directionValue > 3) directionValue = 0;
+            
              SetCurrentDirection();
-
-      //      Debug.Log("newXValue: " + newXValue + " newYValue: " + newYValue);
 
             turnController = 0;
         }   
     }
     public void BuildStraightTrack()
     {
-
-Debug.Log("Build a Straight track"); 
-Debug.Log("Build direction: x " + currentDirection); 
-Debug.Log("Byg z position: " + currentBuildPosition.z );
 
 GameObject trackPiece = ObstracleCourseLevelOnePool.SharedInstance.GetTrack();
 
@@ -281,7 +239,6 @@ GameObject trackPiece = ObstracleCourseLevelOnePool.SharedInstance.GetTrack();
  float newXValue;
  float newZValue;
 
-
          if(trackPiece != null)
         {
 if(currentDirection == "North")
@@ -289,7 +246,7 @@ if(currentDirection == "North")
                  newXValue = currentBuildPosition.x + xPosition;
                  newZValue = currentBuildPosition.z + zPosition;
 
-                currentBuildPosition += new Vector3(0.0f, 0f, zDisplacement);
+                 currentBuildPosition += new Vector3(0.0f, 0f, zDisplacement);
 
             }
             else if(currentDirection == "East")
@@ -309,12 +266,12 @@ if(currentDirection == "North")
                  newXValue = currentBuildPosition.x - xPosition;
                  newZValue = currentBuildPosition.z - zPosition;
 
-                currentBuildPosition += new Vector3(0.0f, 0f, - zDisplacement);
+                 currentBuildPosition += new Vector3(0.0f, 0f, - zDisplacement);
             }
             else if(currentDirection == "West")
             {
-                // West
-                 trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
+             
+                trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
 
                 newXValue = currentBuildPosition.x - zPosition;
                 newZValue = currentBuildPosition.z + xPosition;
@@ -323,17 +280,12 @@ if(currentDirection == "North")
             }
             else{return;}
 
-          //  newXValue = currentBuildPosition.x + xPosition;
-           // newYValue = currentBuildPosition.z + zPosition;
-            Debug.Log("Placement nexZValue" + newZValue );
             trackPiece.transform.position = new Vector3(newXValue, 1.1f, newZValue);
             
             trackPiece.SetActive(true);
             
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = true;
-
-       //     currentBuildPosition += new Vector3(0.0f, 0f, zDisplacement);
        
        turnController += 1;
         }   
