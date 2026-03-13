@@ -66,13 +66,13 @@ currentDirection = buildDirections[directionValue];
     //    Debug.Log("turnController value: " + turnController );
         
         // skal evt tilbage på: turnController >= 4
-        if(turnController >= 3)
+        if(turnController >= 2)
         {
-           int turnDirection = UnityEngine.Random.Range(0, 1);
-        //   Debug.Log("Randum number: " + turnDirection);
+           int turnDirection = UnityEngine.Random.Range(0, 2);
+           Debug.Log("Randum number: " + turnDirection);
             turnController = 0;
 
-     turnDirection = 1;
+     turnDirection = 0;
 
             if(turnDirection == 0)
             {
@@ -87,36 +87,7 @@ currentDirection = buildDirections[directionValue];
             BuildStraightTrack();
             }
     }
-/*
-public void BuildRightCorner()
-    {
-GameObject trackPiece = StraightTrackPool.SharedInstance.GetTrack();
-
-StraightTrackController controller = trackPiece.GetComponent<StraightTrackController>();
-
- float xDisplacement = controller.lengthOnX;
- float zDisplacement = controller.lengthOnZ;
-
- float xPosition = xDisplacement / 2;
- float zPosition = zDisplacement / 2;
-
-         if(trackPiece != null)
-        {
-            float newXValue = currentBuildPosition.x + xPosition;
-            float newYValue = currentBuildPosition.z + zPosition;
-            
-            trackPiece.transform.position = new Vector3(newXValue, 0.1f, newYValue);
-            trackPiece.SetActive(true);
-            
-            controller.isActiveInnPool = false;
-            controller.triggerTrackConstruction = true;
-
-            currentBuildPosition += new Vector3(0.0f, 0f, zDisplacement);
-        }   
-    }
-
-    */
-    public void BuildLeftCorner()
+        public void BuildLeftCorner()
     {
        Debug.Log("Build a left corner "); 
         Debug.Log("Build direction: " + currentDirection); 
@@ -148,7 +119,10 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
              newXValue = currentBuildPosition.x + zPosition;
              newZValue = currentBuildPosition.z - xPosition;
 
-             trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
+             trackPiece.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+                currentBuildPosition += new Vector3(24.8f, 0f, +20.3f);
+          
             }
               else if(currentDirection == "South")
             {
@@ -156,15 +130,18 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
              newZValue = currentBuildPosition.z - zPosition;
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            else if(currentDirection == "West")
+           
+            currentBuildPosition += new Vector3(21.2f, 0f, -24.8f);
+           }
+                     else if(currentDirection == "West")
             {
                 
-                   newXValue = currentBuildPosition.x - zPosition;
+             newXValue = currentBuildPosition.x - zPosition;
              newZValue = currentBuildPosition.z + xPosition;
 
              trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
-                
+
+            currentBuildPosition += new Vector3(-24.8f, 0f, -21.2f);    
             }
             else{return;}
 
@@ -230,7 +207,7 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 90, 0);
 
-             currentBuildPosition += new Vector3(34.5f, 0f, -21.45f);
+             currentBuildPosition += new Vector3(41.6f, 0f, -41.4f);
             }
               else if(currentDirection == "South")
             {
@@ -239,7 +216,9 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
 
-              currentBuildPosition += new Vector3(-21.45f, 0f, -34.5f);
+ currentBuildPosition += new Vector3(-40f, 0f, -41.5f);
+ //currentBuildPosition += new Vector3(50f, 0f, -151.5f);
+           //   currentBuildPosition += new Vector3(-21.45f, 0f, -34.5f);
             }
             else if(currentDirection == "West")
             {
@@ -249,7 +228,8 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
 
-             currentBuildPosition += new Vector3(-25f, 0f, 17.45f);
+ currentBuildPosition += new Vector3(-41.2f, 0f, 25.8f);
+          //   currentBuildPosition += new Vector3(-25f, 0f, 17.45f);
                 
             }
             else{return;}
