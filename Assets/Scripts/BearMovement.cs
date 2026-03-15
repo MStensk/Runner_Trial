@@ -6,7 +6,6 @@ public class BearMovement : MonoBehaviour
     [SerializeField] private float speed = 4f;         // move speed
 
     private Vector3 startPos;
-    private bool movingRight = true;
     private void Start()
     {
         startPos = transform.position;
