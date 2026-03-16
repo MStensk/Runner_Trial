@@ -44,7 +44,7 @@ Vector3 move = new Vector3(0f, 0f, 5.0f);
 
     */
 
-  Vector3 move = transform.forward * 5.0f;
+  Vector3 move = transform.forward * 1.5f;
     playerController.Move(move);
 
     //    transform.position = playerCurrentPosition;

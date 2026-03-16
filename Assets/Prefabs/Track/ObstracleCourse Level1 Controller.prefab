@@ -51,6 +51,7 @@ MonoBehaviour:
   triggerTrackConstruction: 0
   lengthOnX: 20.4
   lengthOnZ: 24
+  currentTrackPiece: 0
 --- !u!65 &2787467906104223252
 BoxCollider:
   m_ObjectHideFlags: 0

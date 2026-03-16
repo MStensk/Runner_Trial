@@ -7,8 +7,12 @@ public class ObstracleCourseLevelOneController : MonoBehaviour
      public bool triggerTrackConstruction;
      public float lengthOnX = 20.4f;
      public float lengthOnZ = 24f;
-
      private Transform character;
+     public int currentTrackPiece;
+   public void SetCurrentTrackPiece(int level)
+    {
+        currentTrackPiece = level;
+    }
  
 private void OnTriggerEnter(Collider playerNinjaCollider)
     {
@@ -30,16 +34,10 @@ private void OnTriggerEnter(Collider playerNinjaCollider)
                 triggerTrackConstruction = false;
                 gameObject.SetActive(false);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
+                // Kalde metode i generate track med sit: currentTrackPiece værdi
+                // Der kalder pools med nmmeret for at deaktivere tilhørende game objekter 
     }
-/*
- public void SetUsedTrack()
-        {
-               isActiveInnPool = true;
-                triggerTrackConstruction = false;
-                gameObject.SetActive(false);
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-*/
+
  // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
@@ -55,6 +53,6 @@ private void OnTriggerEnter(Collider playerNinjaCollider)
     // Update is called once per frame
     void Update()
     {
-   // RemoveUsedTrack();
+  
     }  
 }
