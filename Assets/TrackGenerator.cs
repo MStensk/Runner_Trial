@@ -57,12 +57,12 @@ Debug.Log("antal track bygget initialize: " + counter);
             
 
         }
-        else{ Debug.Log("No straigth track in pool"); }
+        else{ Debug.Log("No straigth tracks in pool"); }
     }
-     BuildTrack();
+  //   BuildTrack();
    //  BuildTrack();
   //   BuildTrack();
-  //   BuildTrack();
+  
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
