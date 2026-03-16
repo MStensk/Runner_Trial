@@ -355,6 +355,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         int coinSpawn = 3;
         int mudSpawn = 0;
         int speedSpawn = 0;
+        int bearSpawn = 2;
 
        // int rowPlacementAdjuster = 0;
        //  int  status = 3;
@@ -439,6 +440,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
 Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
 {
     {"coinSpawnValue", coinSpawn},
+    { "bearSpawnValue", bearSpawn},
     {  "mudSpawnValue", mudSpawn},
     { "speedSpawnValue", speedSpawn}
      };

@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9042222177449685982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5272779634491691950}
+  - component: {fileID: 4233849000720200062}
+  m_Layer: 0
+  m_Name: BearMovement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5272779634491691950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9042222177449685982}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 302.06778, y: 2.41387, z: 300.60577}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9008410939561722233}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4233849000720200062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9042222177449685982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc1800751bfc496a98be91b1bad07c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BearMovement
+  isActiveInnPool: 0
+  laneLength: 12
+  speed: 4
+--- !u!1001 &5272928827581022194
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5272779634491691950}
+    m_Modifications:
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.14782715
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.41387
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.8083801
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921259990484736592, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_Name
+      value: Bear
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+--- !u!4 &9008410939561722233 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+  m_PrefabInstance: {fileID: 5272928827581022194}
+  m_PrefabAsset: {fileID: 0}

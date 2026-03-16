@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class BearMovement : MonoBehaviour
 {
+public bool isActiveInnPool;
+
     [SerializeField] private float laneLength = 12f;   // længden den kan bevæge sig
-    [SerializeField] private float speed = 4f;         // move speed
+    [SerializeField] private float speed = 4f;        // move speed
 
     private Vector3 startPos;
     private void Start()
     {
+        isActiveInnPool = false; 
         startPos = transform.position;
     }
 
