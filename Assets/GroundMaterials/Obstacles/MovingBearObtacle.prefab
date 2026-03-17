@@ -80,9 +80,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc1800751bfc496a98be91b1bad07c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BearMovement
+  isActiveInnPool: 0
   laneLength: 12
   speed: 8
-  centerOnStart: 1
 --- !u!65 &1400433431288072169
 BoxCollider:
   m_ObjectHideFlags: 0
