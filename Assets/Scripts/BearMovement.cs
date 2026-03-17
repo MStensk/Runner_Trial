@@ -14,7 +14,12 @@ public bool isActiveInnPool;
     private string moveDirection = "North";
     private int updateCount = 1;
 
+    public int commonID;
 
+public void SetId(int id)
+    {
+        commonID = id;
+    }
     public void SetMoveDirection(string direction)
     {
         moveDirection = direction;

@@ -35,9 +35,7 @@ public void Awake()
     }
 
     public GameObject GetTrack()
-    {/*
- if (pooledObjects == null || pooledObjects.Count == 0)
-        return null;  */
+    {
 
         for(int i = 0; i < amountToPool; i++)
         {

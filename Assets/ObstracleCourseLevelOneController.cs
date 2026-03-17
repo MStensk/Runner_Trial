@@ -9,9 +9,14 @@ public class ObstracleCourseLevelOneController : MonoBehaviour
      public float lengthOnZ = 24f;
      private Transform character;
      public int currentTrackPiece;
+     public int commonId;
    public void SetCurrentTrackPiece(int level)
     {
         currentTrackPiece = level;
+    }
+public void SetId(int id)
+    {
+        commonId = id;
     }
  
 private void OnTriggerEnter(Collider playerNinjaCollider)

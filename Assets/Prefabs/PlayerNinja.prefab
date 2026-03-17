@@ -78,6 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c94c117e37d86b47a85fb439959ff2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  useManualTestMovement: 1
+  testSideStep: 1.2
+  testForwardStep: 5
   forwardSpeed: 8
   gravity: 10
   groundedStickForce: -0.5

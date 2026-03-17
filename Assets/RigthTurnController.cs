@@ -7,9 +7,15 @@ public class RigthTurnController : MonoBehaviour
      public bool triggerTrackConstruction;
      public float lengthOnX = 41.5f;
      public float lengthOnZ = 45.5f;
+     public int commonID;
 
      private Transform character;
 
+
+public void SetId(int id)
+    {
+        commonID = id;
+    }
  public void RemoveUsedTrack()
     {
                 isActiveInnPool = true;
