@@ -4,10 +4,26 @@ public class BearMovement : MonoBehaviour
 {
 public bool isActiveInnPool;
 
+ TrackGenerator track; 
+
     [SerializeField] private float laneLength = 12f;   // længden den kan bevæge sig
-    [SerializeField] private float speed = 4f;        // move speed
+    [SerializeField] private float speed = 4f;   
+         // move speed
 
     private Vector3 startPos;
+    private string moveDirection = "North";
+    private int updateCount = 1;
+
+
+    public void SetMoveDirection(string direction)
+    {
+        moveDirection = direction;
+    }
+
+    private void Awake()
+    {
+        track = FindObjectOfType<TrackGenerator>();
+    }
     private void Start()
     {
         isActiveInnPool = false; 
@@ -17,16 +33,28 @@ public bool isActiveInnPool;
     private void Update()
     {
         float halfLane = laneLength / 2f;
-
+    
         // bevæger sig mellem -halfLane og +halfLane relativt til start pos
         float xOffset = Mathf.PingPong(Time.time * speed, laneLength) - halfLane;
 
+if(moveDirection == "North" || moveDirection == "South")
+{
         transform.position = new Vector3(
             startPos.x + xOffset,
             startPos.y,
             startPos.z
         );
+}
+        else
+        {
+            transform.position = new Vector3(
+            startPos.x,
+            startPos.y,
+            startPos.z + xOffset
+            );
+        }
 
+//delay = 0;
         // Detect direction skift, gør brug af float da movement sjældent lander på præcise tal
         if (xOffset >= halfLane - 0.01f)
             {

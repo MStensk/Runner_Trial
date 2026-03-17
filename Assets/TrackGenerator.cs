@@ -17,8 +17,7 @@ public class TrackGenerator : MonoBehaviour
     public string currentDirection;
     public int directionValue;
     int counter = 0; 
-
-    float coinDistance = 2.0f;
+float coinDistance = 2.0f;
     
     public void InitializeTrack()
     {
@@ -66,15 +65,7 @@ Debug.Log("antal track bygget initialize: " + counter);
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-  /*public void Awake()
-    {
-               directionValue = 0;
-currentDirection = buildDirections[directionValue];
 
-        InitializeTrack();
-    } */
-    
-    
     void Start()
     {
       directionValue = 0;
@@ -84,12 +75,11 @@ currentDirection = buildDirections[directionValue];
     }
     public void BuildTrack()
     {
-          
+          Debug.Log("turncontroller value: " + turnController);
         if(turnController >= 4)
         {
            int turnDirection = UnityEngine.Random.Range(0, 2);
         //   Debug.Log("Randum number: " + turnDirection);
-            turnController = 0;
 
             if(turnDirection == 0)
             {
@@ -200,7 +190,7 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
              newXValue = currentBuildPosition.x + xPosition;
              newZValue = currentBuildPosition.z + zPosition;
 
-               currentBuildPosition += new Vector3(25.45f, 0f, 41.5f);
+             currentBuildPosition += new Vector3(25.45f, 0f, 41.5f);
 
             }
             else if(currentDirection == "East")
@@ -315,20 +305,21 @@ if(currentDirection == "North")
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = true;
 
-            PlaceObstraclesStraigthTrack(trackPiece, currentDirection);
-       
             turnController += 1;
+
+            PlaceObstraclesStraigthTrack(trackPiece, currentDirection);     
         }   
     }
 
 public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDirection)
     {
-        Debug.Log("PlaceObstraclesStraigthTrack hav been called");
+     //   Debug.Log("PlaceObstraclesStraigthTrack have been called");
         
         float xBase = trackPiece.transform.position.x;
-        Debug.Log("xBase value: " + xBase);
+     //   Debug.Log("xBase value: " + xBase);
         float zBase = trackPiece.transform.position.z;
-        Debug.Log("zBase value: " + zBase);
+      //  Debug.Log("zBase value: " + zBase);
+       
         float yBase = trackPiece.transform.position.y;
         float sectionOneX;
         float sectionTwoX;
@@ -349,18 +340,13 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         float reverse =-11.7f;
         float leftPart = -4.5f;
         float rigthPart = 4.5f;
-     
-        int activeSections = 1;
 
         int coinSpawn = 3;
         int mudSpawn = 0;
         int speedSpawn = 0;
         int bearSpawn = 2;
 
-       // int rowPlacementAdjuster = 0;
-       //  int  status = 3;
-
-         int spawnNumber = 1;
+        int spawnNumber = 1;
 
        List<string> frontSections= new List<string>{
     "sectorFour", "sectorFive", "sectorSix"};
@@ -370,7 +356,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
 
         if(currentDirection == "North")
         {
-            Debug.Log("North direction found");
+         //   Debug.Log("North direction found");
             
          sectionOneX = xBase + leftPart;
          sectionTwoX = xBase;
@@ -387,7 +373,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         }
         else if(currentDirection == "East")
         {
-            Debug.Log("East direction found");
+        //    Debug.Log("East direction found");
            
          sectionOneX = xBase + reverse;
          sectionTwoX = xBase + reverse;
@@ -405,7 +391,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
             else if(currentDirection == "South")
             {
           
-        sectionOneX = xBase - leftPart;
+         sectionOneX = xBase - leftPart;
          sectionTwoX = xBase;
          sectionThreeX = xBase - rigthPart;
          sectionFourX = xBase - leftPart;
@@ -421,7 +407,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
             else  //if(currentDirection == "West")
         {
           //West
-          Debug.Log("West direction found");
+       //   Debug.Log("West direction found");
           
          sectionOneX = xBase - reverse;
          sectionTwoX = xBase - reverse;
@@ -445,97 +431,109 @@ Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
     { "speedSpawnValue", speedSpawn}
      };
 
-Debug.Log("ActiveSections: " + activeSections);
-
        var highest = spawnHierarchy.OrderByDescending(x => x.Value)
-       .Take(activeSections)
+       .Take(2)
        .ToList();
 
-Debug.Log("Var highest: " + highest);
+Debug.Log("Var highest: Aktive trap build navn " + highest);
 
-for(int i = 0; i < activeSections; i++)
+for(int i = 0; i < 2; i++)
         {
          
             String currentSpawn = highest[i].Key;
 
             Debug.Log("currentSpawn: " + currentSpawn);
             Debug.Log("spawnNumber: " + spawnNumber);
-
+ 
+ int laneNumber = UnityEngine.Random.Range(0, 3);
+Debug.Log("laneNumber value: " + laneNumber);
+ 
  if(spawnNumber == 1)
             {
+if(laneNumber == 1)
+                {
                 selectedX = sectionOneX;
                 selectedZ = sectionOneZ;
-               spawnNumber += 1;
-
-                Debug.Log("section One");
-            } 
-            else if(spawnNumber == 2)
-            {
-                 selectedX = sectionSixX;
-                selectedZ = sectionSixZ;
-               spawnNumber += 1; 
-            }         
-            else if(spawnNumber == 3)
-            {
+               
+                }
+                else if(laneNumber == 2)
+                {
                 selectedX = sectionTwoX;
                 selectedZ = sectionTwoZ;
-               spawnNumber += 1; 
-            }
-             else if(spawnNumber == 4)
-            {
-                selectedX = sectionFourX;
-                selectedZ = sectionFourZ;
-               spawnNumber += 1; 
-            }
-               else if(spawnNumber == 5)
-            {
+              
+                }
+                else
+                {
                 selectedX = sectionThreeX;
                 selectedZ = sectionThreeZ;
-               spawnNumber += 1; 
-            }
-                else
+                
+                }
+                 spawnNumber += 1;
+
+                Debug.Log("first section"); 
+                } 
+            else 
             {
+                 Debug.Log("last section");
+                if(laneNumber == 1)
+               {
+                selectedX = sectionFourX;
+                selectedZ = sectionFourZ;
+              
+               }
+               else if(laneNumber == 2)
+                {
                 selectedX = sectionFiveX;
                 selectedZ = sectionFiveZ;
-               spawnNumber += 1; 
-
-                Debug.Log("section Six");
+                
+                } 
+                else
+                {
+                selectedX = sectionSixX;
+                selectedZ = sectionSixZ;
+               
+                }
+                 spawnNumber += 1; 
             }
           
   if(currentSpawn == "coinSpawnValue")
             {
-        
-     for(float j = 0.0f; j < 11.7f; j += 2.0f)
+         for(float j = 0.0f; j < 11.7f; j += 2.0f)
                 {
  GameObject coin = CoinPool.SharedInstance.GetTrack();
  CoinController controller = coin.GetComponent<CoinController>();        
                       
                       if(currentDirection == "North")
                     {
-                         Debug.Log("North coin placed");
+            //             Debug.Log("North coin placed");
                          coin.transform.position = new Vector3(selectedX, 1.1f, selectedZ + j);
-                           Debug.Log("North coin placed, selectedX: " + selectedX);
-                            Debug.Log("North coin placed, selectedZ: " + selectedZ);
+               //         Debug.Log("North coin placed, selectedX: " + selectedX);
+              //          Debug.Log("North coin placed, selectedZ: " + selectedZ);
                     }
                          
                       else if(currentDirection == "East")
                     {
-                        Debug.Log("East coin placed");
+                 //       Debug.Log("East coin placed");
                          coin.transform.position = new Vector3(selectedX + j, 1.1f, selectedZ);
+                         coin.transform.rotation = Quaternion.Euler(0, 90, 0);
+
                     }
                          
                      else if(currentDirection == "South")
                     {
-                        Debug.Log("South coin placed");
+                //        Debug.Log("South coin placed");
                          coin.transform.position = new Vector3(selectedX, 1.1f, selectedZ - j);
+                         coin.transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
                      else
                     {
                         //West
-                        Debug.Log("West coin placed");
+                //        Debug.Log("West coin placed");
                          coin.transform.position = new Vector3(selectedX - j, 1.1f, selectedZ);
-                           Debug.Log("West coin placed, selectedX: " + selectedX);
-                            Debug.Log("West coin placed, selectedZ: " + selectedZ);
+                         coin.transform.rotation = Quaternion.Euler(0, -90, 0);
+
+                  //         Debug.Log("West coin placed, selectedX: " + selectedX);
+                     //       Debug.Log("West coin placed, selectedZ: " + selectedZ);
                     }
                      
             coin.SetActive(true);
@@ -548,6 +546,51 @@ for(int i = 0; i < activeSections; i++)
                 //Do something
                  Debug.Log("currentSpawn == speedSpawnValue");
             }
+            else if(currentSpawn == "bearSpawnValue")
+            {
+    GameObject bearMovement = BearPool.SharedInstance.GetTrack();
+    BearMovement controller = bearMovement.GetComponent<BearMovement>(); 
+
+controller.SetMoveDirection(currentDirection);
+
+// selectedX and Z is used different and lane number is ignored for Bears, 
+//because they have to begin in left lane. 
+// spawnNumber is 2 for first row and others for last row, because 1 is already added to the value. 
+
+    if(spawnNumber == 2)
+                {
+                     bearMovement.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
+                } 
+                else
+                {
+                   bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);  
+                }
+
+Debug.Log("Bear have been placed: ");
+ Debug.Log("Bear place CurrentDirection: " + currentDirection);
+ /*   if(currentDirection == "East")
+                {
+                   
+                     bearMovement.transform.rotation = Quaternion.Euler(0, 90, 0);
+                } 
+                else if(currentDirection == "South")
+                {
+                     bearMovement.transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+                else if(currentDirection == "West")
+                {
+                     bearMovement.transform.rotation = Quaternion.Euler(0, -90, 0);
+                }
+                else
+                {
+                    // North
+                    bearMovement.transform.rotation = Quaternion.Euler(0, 90, 0);
+                }
+    */
+    bearMovement.SetActive(true);
+    controller.isActiveInnPool = false;
+            
+         }
             else
             {
                 Debug.Log("currentSpawn == else");
