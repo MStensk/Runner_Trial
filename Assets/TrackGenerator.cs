@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using Unity.Collections;
 using System.Linq;
+using NUnit.Framework;
 
 public class TrackGenerator : MonoBehaviour
 {
@@ -346,6 +347,11 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         int speedSpawn = 0;
         int bearSpawn = 2;
 
+        int isBearSpawn = 0;
+        int bearSpawnLaneFinder = 0;
+        int usedLaneOne = 0;
+        int usedLaneTwo = 0;
+
         int spawnNumber = 1;
 
        List<string> frontSections= new List<string>{
@@ -439,7 +445,6 @@ Debug.Log("Var highest: Aktive trap build navn " + highest);
 
 for(int i = 0; i < 2; i++)
         {
-         
             String currentSpawn = highest[i].Key;
 
             Debug.Log("currentSpawn: " + currentSpawn);
@@ -454,47 +459,163 @@ if(laneNumber == 1)
                 {
                 selectedX = sectionOneX;
                 selectedZ = sectionOneZ;
-               
-                }
+                usedLaneOne = 1;
+                 }
                 else if(laneNumber == 2)
                 {
                 selectedX = sectionTwoX;
                 selectedZ = sectionTwoZ;
+                usedLaneOne = 2;
               
                 }
                 else
                 {
                 selectedX = sectionThreeX;
                 selectedZ = sectionThreeZ;
-                
+                usedLaneOne = 3;
                 }
                  spawnNumber += 1;
+// Makes sure that it is known what lane number BearMovement is placed in
+                bearSpawnLaneFinder = 1;
 
                 Debug.Log("first section"); 
                 } 
-            else 
+                // Skal måske ændres til else, så alle udfale er i betragtning
+            else if(spawnNumber == 2)
             {
                  Debug.Log("last section");
                 if(laneNumber == 1)
                {
                 selectedX = sectionFourX;
                 selectedZ = sectionFourZ;
-              
+                usedLaneTwo = 1;
                }
                else if(laneNumber == 2)
                 {
                 selectedX = sectionFiveX;
                 selectedZ = sectionFiveZ;
+                usedLaneTwo = 2;
                 
                 } 
                 else
                 {
                 selectedX = sectionSixX;
                 selectedZ = sectionSixZ;
+                usedLaneTwo = 3;
                
                 }
                  spawnNumber += 1; 
+// Makes sure that it is known what lane number BearMovement is placed in
+                 bearSpawnLaneFinder = 2;
+       // When usedLaneOne  is set to 4, we knaw that all other lanes in row is blocked
+
             }
+            else if(spawnNumber == 3)
+            {
+                if(bearSpawnLaneFinder == 1)
+                {
+                     usedLaneOne = 4;
+                }
+                else if(bearSpawnLaneFinder == 2)
+                {
+                    usedLaneTwo = 4;
+                }
+
+int laneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
+    
+                if(usedLaneOne == 4)
+                {
+                  if(usedLaneTwo == 1)
+                    {
+                        if(laneNumberThirdSpawn == 1)
+                        {
+                             selectedX = sectionFiveX;
+                             selectedZ = sectionFiveZ;
+                        }
+                        else
+                        {
+                            selectedX = sectionSixX;
+                            selectedZ = sectionSixZ;
+                        }
+                    }  
+                    else if (usedLaneTwo == 2)
+                    {
+                        if(laneNumberThirdSpawn == 1)
+                        {
+                             selectedX = sectionFourX;
+                             selectedZ = sectionFourZ;
+                        }
+                        else
+                        {
+                            selectedX = sectionSixX;
+                            selectedZ = sectionSixZ;
+                        }
+                    } 
+                    else
+                    {
+                        if(laneNumberThirdSpawn == 1)
+                        {
+                             selectedX = sectionFourX;
+                             selectedZ = sectionFourZ;
+                        }
+                        else
+                        {
+                            selectedX = sectionFiveX;
+                            selectedZ = sectionFiveZ;
+                        }
+                    } 
+                }
+                else if(usedLaneTwo == 4)
+                {
+                  if(usedLaneOne == 1)
+                    {
+                        if(laneNumberThirdSpawn == 1)
+                        {
+                             selectedX = sectionTwoX;
+                             selectedZ = sectionTwoZ;
+                        }
+                        else
+                        {
+                            selectedX = sectionThreeX;
+                            selectedZ = sectionThreeZ;
+                        }
+                    }  
+                    else if (usedLaneOne == 2)
+                    {
+                        if(laneNumberThirdSpawn == 1)
+                        {
+                             selectedX = sectionOneX;
+                             selectedZ = sectionOneZ;
+                        }
+                        else
+                        {
+                            selectedX = sectionThreeX;
+                            selectedZ = sectionThreeZ;
+                        }
+                    } 
+                    else
+                    {
+                        if(laneNumberThirdSpawn == 1)
+                        {
+                             selectedX = sectionOneX;
+                             selectedZ = sectionOneZ;
+                        }
+                        else
+                        {
+                            selectedX = sectionTwoX;
+                            selectedZ = sectionTwoZ;
+                        }
+                    } 
+                }
+                else
+                {
+                    //SKAL FJERNES
+                      selectedX = sectionTwoX;
+                            selectedZ = sectionTwoZ;
+                }
+            }  // Skal fjernes
+             else{  selectedX = sectionTwoX;
+                            selectedZ = sectionTwoZ;}
           
   if(currentSpawn == "coinSpawnValue")
             {
@@ -568,38 +689,33 @@ controller.SetMoveDirection(currentDirection);
 
 Debug.Log("Bear have been placed: ");
  Debug.Log("Bear place CurrentDirection: " + currentDirection);
- /*   if(currentDirection == "East")
-                {
-                   
-                     bearMovement.transform.rotation = Quaternion.Euler(0, 90, 0);
-                } 
-                else if(currentDirection == "South")
-                {
-                     bearMovement.transform.rotation = Quaternion.Euler(0, 180, 0);
-                }
-                else if(currentDirection == "West")
-                {
-                     bearMovement.transform.rotation = Quaternion.Euler(0, -90, 0);
-                }
-                else
-                {
-                    // North
-                    bearMovement.transform.rotation = Quaternion.Euler(0, 90, 0);
-                }
-    */
+ 
     bearMovement.SetActive(true);
     controller.isActiveInnPool = false;
-            
+// Aktivates that we know a Bear have been placed, so no other object is placed in that lane.
+// And set it to the correct lane
+  //  isBearSpawn = bearSpawnLaneFinder;
+            if(bearSpawnLaneFinder == 1)
+                {
+                    
+                    
+                    
+                }
          }
             else
             {
                 Debug.Log("currentSpawn == else");
                 // do something, men bliver nok uden else
             }
-         //   status = 3;
+         
         }
 
 spawnNumber = 1;
+usedLaneOne = 0;
+usedLaneTwo = 0;
+ //isBearSpawn = 0;
+ //bearSpawnLaneFinder = 0;
+
     }
    
     public void SetCurrentDirection()
