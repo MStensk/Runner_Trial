@@ -3821,6 +3821,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 3, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2033446547437454226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4701638962711320689}
+  - component: {fileID: 4988345130435099639}
+  m_Layer: 0
+  m_Name: BoxCollision
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4701638962711320689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033446547437454226}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.14, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3320592286417219301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4988345130435099639
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033446547437454226}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.1794229, y: 1.1268615, z: 2.376373}
+  m_Center: {x: 1.1139119, y: 0.55769616, z: -0.18655002}
 --- !u!1 &2055084231900688348
 GameObject:
   m_ObjectHideFlags: 0
@@ -21430,6 +21483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3320592286417219301}
   - component: {fileID: 9120357941932730206}
+  - component: {fileID: 1064085005575313484}
   m_Layer: 0
   m_Name: WoodenObstacleFire
   m_TagString: Untagged
@@ -21459,6 +21513,7 @@ Transform:
   - {fileID: 6713268360902138567}
   - {fileID: 6124862082422967551}
   - {fileID: 2647309789781244348}
+  - {fileID: 4701638962711320689}
   m_Father: {fileID: 5756055875605157094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &9120357941932730206
@@ -21476,12 +21531,25 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.711994, y: 2.0040345, z: 2.862358}
-  m_Center: {x: -2.927957, y: 0.50201714, z: -0.4744568}
+  m_Size: {x: 3.7119942, y: 3.9431176, z: 3.5003276}
+  m_Center: {x: -2.927957, y: 2.0149925, z: -0.5163729}
+--- !u!114 &1064085005575313484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7221328199864250835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db44301c8b724d248b2cdd61a128e82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDamage
+  damage: 20
 --- !u!1 &7289749463975666429
 GameObject:
   m_ObjectHideFlags: 0

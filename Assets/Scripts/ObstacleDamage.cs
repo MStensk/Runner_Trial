@@ -4,12 +4,13 @@ public class ObstacleDamage : MonoBehaviour
 {
     [SerializeField] private int damage = 20;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Health health = collision.gameObject.GetComponentInParent<Health>();
+        Health health = other.GetComponentInParent<Health>();
 
         if (health != null)
         {
+            Debug.Log("Player hit by obstacle");
             health.TakeDamage(damage, gameObject);
         }
     }
