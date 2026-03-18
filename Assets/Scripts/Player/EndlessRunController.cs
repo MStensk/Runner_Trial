@@ -38,6 +38,10 @@ public class EndlessRunController : MonoBehaviour
     private bool canTurnLeft;
     private bool canTurnRight;
 
+    private Transform turnLaneLeft;
+    private Transform turnLaneCenter;
+    private Transform turnLaneRight;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -173,4 +177,46 @@ public class EndlessRunController : MonoBehaviour
 
         animator.SetFloat("Speed", forwardSpeed);
     }
+    public void SetTurnLaneTargets(Transform left, Transform center, Transform right)
+    {
+        turnLaneLeft = left;
+        turnLaneCenter = center;
+        turnLaneRight = right;
+    }
+
+private void HandleManualTestMovement()
+{
+    if (Input.GetKeyDown(KeyCode.A))
+    {
+        Vector3 move = new Vector3(-1.2f, 0f, 0f);
+        controller.Move(move);
+    }
+
+    if (Input.GetKeyDown(KeyCode.D))
+    {
+        Vector3 move = new Vector3(1.2f, 0f, 0f);
+        controller.Move(move);
+    }
+
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+        Vector3 move = transform.forward * 5.0f;
+        controller.Move(move);
+
+    }
+}
+
+private void HandleManualTestTurnInput()
+{
+    if (Input.GetKeyDown(KeyCode.Z))
+    {
+        transform.Rotate(0f, -90f, 0f);
+    }
+
+    if (Input.GetKeyDown(KeyCode.X))
+    {
+        transform.Rotate(0f, 90f, 0f);
+    }
+}
+
 }
