@@ -3,10 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
 {
-   private bool useManualTestMovement = true;
-    [SerializeField] private float testSideStep = 1.2f;
-    [SerializeField] private float testForwardStep = 5.0f;
-
     [Header("Forward Movement")]
     [SerializeField] private float forwardSpeed = 8f;
     [SerializeField] private float gravity = 10f;
@@ -14,7 +10,7 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float maxFallSpeed = -20f;
 
     [Header("Lane Movement")]
-    [SerializeField] private float laneOffset = 5f;
+    [SerializeField] private float laneOffset = 2.5f;
     [SerializeField] private float laneChangeSpeed = 5f;
 
     [Header("Turning")]
@@ -24,13 +20,24 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private CharacterController controller;
+
+    // -2 = far left, 0 = center, 2 = far right
     private int currentLane = 0;
+
+    // Movement directions relative to current track
     private Vector3 forwardDirection;
     private Vector3 rightDirection;
+
+    // Lane anchor
     private Vector3 currentLaneCenter;
+
+    // Gravity
     private float verticalVelocity;
+
+    // Turn permissions
     private bool canTurnLeft;
     private bool canTurnRight;
+
     private Transform turnLaneLeft;
     private Transform turnLaneCenter;
     private Transform turnLaneRight;
@@ -55,19 +62,20 @@ public class EndlessRunController : MonoBehaviour
     }
 
     private void Update()
-{
-    HandleManualTestMovement();
-    HandleManualTestTurnInput();
-    UpdateAnimation();
-}
+    {
+        HandleLaneInput();
+        HandleTurnInput();
+        MovePlayer();
+        UpdateAnimation();
+    }
 
     private void HandleLaneInput()
     {
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-            currentLane = Mathf.Max(currentLane - 1, -1);
+            currentLane = Mathf.Max(currentLane - 2, -2);
 
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            currentLane = Mathf.Min(currentLane + 1, 1);
+            currentLane = Mathf.Min(currentLane + 2, 2);
     }
 
     private void HandleTurnInput()
@@ -81,16 +89,21 @@ public class EndlessRunController : MonoBehaviour
 
     private void MovePlayer()
     {
+        // Move the lane center forward
         currentLaneCenter += forwardDirection * forwardSpeed * Time.deltaTime;
 
+        // Lane target
         Vector3 targetPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
 
+        // Flatten positions so lane movement does not affect Y
         Vector3 currentPosition = transform.position;
         Vector3 flatCurrent = new Vector3(currentPosition.x, 0f, currentPosition.z);
         Vector3 flatTarget = new Vector3(targetPosition.x, 0f, targetPosition.z);
 
+        // Smooth horizontal move
         Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
 
+        // Gravity / ground stick
         if (controller.isGrounded)
         {
             verticalVelocity = groundedStickForce;
@@ -109,6 +122,7 @@ public class EndlessRunController : MonoBehaviour
     }
 
     private void TurnLeft()
+
     {
         transform.Rotate(0f, -90f, 0f);
 
@@ -116,13 +130,18 @@ public class EndlessRunController : MonoBehaviour
         rightDirection = transform.right.normalized;
 
         currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
+        currentLaneCenter.y = transform.position.y;
 
-        SnapToTurnLane();
+        Vector3 snappedPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
+        snappedPosition.y = transform.position.y;
+        transform.position = snappedPosition;
+
         canTurnLeft = false;
         canTurnRight = false;
     }
 
     private void TurnRight()
+    
     {
         transform.Rotate(0f, 90f, 0f);
 
@@ -130,44 +149,14 @@ public class EndlessRunController : MonoBehaviour
         rightDirection = transform.right.normalized;
 
         currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
+        currentLaneCenter.y = transform.position.y;
 
-        SnapToTurnLane();
-        canTurnLeft = false;
-        canTurnRight = false;
-    }
-
-    private void SnapToTurnLane()
-    {
-        if (turnLaneCenter == null) return;
-
-        Transform[] lanes = new Transform[] { turnLaneLeft, turnLaneCenter, turnLaneRight };
-
-        float closestDistance = Mathf.Infinity;
-        Transform closestLane = turnLaneCenter;
-        int closestLaneIndex = 0;
-
-        for (int i = 0; i < lanes.Length; i++)
-        {
-            if (lanes[i] == null) continue;
-
-            float dist = Vector3.Distance(transform.position, lanes[i].position);
-
-            if (dist < closestDistance)
-            {
-                closestDistance = dist;
-                closestLane = lanes[i];
-                closestLaneIndex = i - 1;
-            }
-        }
-
-        Vector3 snappedPosition = closestLane.position;
+        Vector3 snappedPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
 
-        currentLane = closestLaneIndex;
-
-        currentLaneCenter = turnLaneCenter.position;
-        currentLaneCenter.y = transform.position.y;
+        canTurnLeft = false;
+        canTurnRight = false;
     }
 
     public void SetTurnAvailability(bool leftAllowed, bool rightAllowed)
@@ -188,7 +177,6 @@ public class EndlessRunController : MonoBehaviour
 
         animator.SetFloat("Speed", forwardSpeed);
     }
-
     public void SetTurnLaneTargets(Transform left, Transform center, Transform right)
     {
         turnLaneLeft = left;
@@ -196,37 +184,39 @@ public class EndlessRunController : MonoBehaviour
         turnLaneRight = right;
     }
 
-    private void HandleManualTestMovement()
+private void HandleManualTestMovement()
+{
+    if (Input.GetKeyDown(KeyCode.A))
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Vector3 move = new Vector3(-1.2f, 0f, 0f);
-            controller.Move(move);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Vector3 move = new Vector3(1.2f, 0f, 0f);
-            controller.Move(move);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Vector3 move = transform.forward * 5.0f;
-            controller.Move(move);
-        }
+        Vector3 move = new Vector3(-1.2f, 0f, 0f);
+        controller.Move(move);
     }
 
-    private void HandleManualTestTurnInput()
+    if (Input.GetKeyDown(KeyCode.D))
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            transform.Rotate(0f, -90f, 0f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            transform.Rotate(0f, 90f, 0f);
-        }
+        Vector3 move = new Vector3(1.2f, 0f, 0f);
+        controller.Move(move);
     }
+
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+        Vector3 move = transform.forward * 5.0f;
+        controller.Move(move);
+
+    }
+}
+
+private void HandleManualTestTurnInput()
+{
+    if (Input.GetKeyDown(KeyCode.Z))
+    {
+        transform.Rotate(0f, -90f, 0f);
+    }
+
+    if (Input.GetKeyDown(KeyCode.X))
+    {
+        transform.Rotate(0f, 90f, 0f);
+    }
+}
+
 }
