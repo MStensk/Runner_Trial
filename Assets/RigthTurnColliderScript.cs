@@ -6,8 +6,8 @@ public class RigthTurnColliderScript : MonoBehaviour
     private TrackGenerator trackGenerator;
      private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-Debug.Log("ok");
-Debug.Log(playerNinjaCollider.name);
+
+Debug.Log("Ninja name in Rigth controller" +playerNinjaCollider.name);
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 

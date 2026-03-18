@@ -15,11 +15,11 @@ public bool isActiveInnPool;
     private float moveTimer;
     private int updateCount = 1;
 
-    public int commonID;
+    public int commonId;
 
 public void SetId(int id)
     {
-        commonID = id;
+        commonId = id;
     }
     public void SetMoveDirection(string direction)
     {
@@ -100,5 +100,14 @@ public void SetId(int id)
             transform.rotation = Quaternion.Euler(0, -90, 0);
         else
             transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    public void DeactivateBear()
+    {
+                isActiveInnPool = true;
+                gameObject.SetActive(false);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                SetId(0);
+
     }
 }

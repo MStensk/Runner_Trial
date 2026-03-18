@@ -6,8 +6,6 @@ public class RigthTurnRemoveController : MonoBehaviour
   
      private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-Debug.Log("ok");
-Debug.Log(playerNinjaCollider.name);
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 rigthTurnController.RemoveUsedTrack();

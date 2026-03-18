@@ -20,10 +20,7 @@ public void SetId(int id)
     }
  
 private void OnTriggerEnter(Collider playerNinjaCollider)
-    {
-//Debug.Log("ok");
-//Debug.Log(playerNinjaCollider.name);
-        
+    {  
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 
         if (triggerTrackConstruction)

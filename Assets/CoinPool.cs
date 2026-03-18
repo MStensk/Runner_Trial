@@ -11,19 +11,19 @@ public int amountToPool;
 
 public void FindLinkedElements(int id)
 {
-    Debug.Log("Coin have been removed in:  FindLinkedElements 2");
-
-        for(int i = 0; i < pooledObjects.Count; i++)
+ 
+ for(int i = 0; i < pooledObjects.Count; i++)
         {
      GameObject coin = pooledObjects[i];
     CoinController controller = coin.GetComponent<CoinController>(); 
             if(controller.commonID == id)
             {
                 controller.DeactivateCoin();
-                Debug.Log("Coin have been removed in:  FindLinkedElements loop 3");
-            } 
-        }
+              
 }
+    }
+    }
+        
 
 public void Awake()
     {
@@ -51,12 +51,7 @@ public void Awake()
     }
 
     public GameObject GetTrack()
-    {/*
- if (pooledObjects == null || pooledObjects.Count == 0)
-        return null;  */
-Debug.Log("amountToPool skal være lavest" + amountToPool);
-Debug.Log("pooledObjects skal være højest" + pooledObjects.Count);
-
+    {
         for(int i = 0; i < amountToPool; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)

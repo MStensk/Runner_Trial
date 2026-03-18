@@ -23,7 +23,6 @@ public class TrackGenerator : MonoBehaviour
     int spawnId = 1;
     public void InitializeTrack()
     {
-   Debug.Log("InitialTrackLength; " + initialTrackLength);
 
         for(int i = 0; i < initialTrackLength; i++)
         {
@@ -54,14 +53,14 @@ public class TrackGenerator : MonoBehaviour
 
             counter += 1;
 
-Debug.Log("antal track bygget initialize: " + counter); 
+//Debug.Log("antal track bygget initialize: " + counter); 
             
 
         }
         else{ Debug.Log("No straigth tracks in pool"); }
     }
-  //   BuildTrack();
-   //  BuildTrack();
+     BuildTrack();
+     BuildTrack();
   //   BuildTrack();
   
 
@@ -77,7 +76,7 @@ currentDirection = buildDirections[directionValue];
     }
     public void BuildTrack()
     {
-          Debug.Log("turncontroller value: " + turnController);
+        
         if(turnController >= 4)
         {
            int turnDirection = UnityEngine.Random.Range(0, 2);
@@ -98,6 +97,9 @@ currentDirection = buildDirections[directionValue];
     }
         public void BuildLeftCorner()
     {
+
+        Debug.Log("left turn build");
+
     GameObject trackPiece = LeftTurnPool.SharedInstance.GetTrack();
 
 LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
@@ -170,7 +172,7 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
 
   public void BuildRigthCorner()
     {
-    //   Debug.Log("Build a Rigth corner "); 
+       Debug.Log("Build a Rigth corner "); 
      //   Debug.Log("Build direction: " + currentDirection); 
     GameObject trackPiece = RigthTurnPool.SharedInstance.GetTrack();
 
@@ -446,17 +448,17 @@ Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
        .Take(4)
        .ToList();
 
-Debug.Log("Var highest: Aktive trap build navn " + highest);
+//Debug.Log("Var highest: Aktive trap build navn " + highest);
 
 for(int i = 0; i < 4; i++)
         {
             String currentSpawn = highest[i].Key;
 
-            Debug.Log("currentSpawn: " + currentSpawn);
-            Debug.Log("spawnNumber: " + spawnNumber);
+       //     Debug.Log("currentSpawn: " + currentSpawn);
+       //     Debug.Log("spawnNumber: " + spawnNumber);
  
  int laneNumber = UnityEngine.Random.Range(0, 3);
-Debug.Log("laneNumber value: " + laneNumber);
+//Debug.Log("laneNumber value: " + laneNumber);
  
  if(spawnNumber == 1)
             {
@@ -483,12 +485,12 @@ if(laneNumber == 1)
 // Makes sure that it is known what lane number BearMovement is placed in
                 bearSpawnLaneFinder = 1;
 
-                Debug.Log("first section"); 
+        //        Debug.Log("first section"); 
                 } 
                 // Skal måske ændres til else, så alle udfale er i betragtning
             else if(spawnNumber == 2)
             {
-                 Debug.Log("last section");
+        //         Debug.Log("last section");
                 if(laneNumber == 1)
                {
                 selectedX = sectionFourX;
@@ -674,7 +676,7 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
             else if(currentSpawn == "speedSpawnValue")
             {
                 //Do something
-                 Debug.Log("currentSpawn == speedSpawnValue");
+             //    Debug.Log("currentSpawn == speedSpawnValue");
             }
             else if(currentSpawn == "bearSpawnValue")
             {
@@ -700,8 +702,8 @@ controller.SetMoveDirection(currentDirection);
                    bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);  
                 }
 
-Debug.Log("Bear have been placed: ");
- Debug.Log("Bear place CurrentDirection: " + currentDirection);
+//Debug.Log("Bear have been placed: ");
+ //Debug.Log("Bear place CurrentDirection: " + currentDirection);
  
     bearMovement.SetActive(true);
     controller.isActiveInnPool = false;
@@ -709,7 +711,7 @@ Debug.Log("Bear have been placed: ");
          }
             else
             {
-                Debug.Log("currentSpawn == else");
+             //   Debug.Log("currentSpawn == else");
                 // do something, men bliver nok uden else
             }
          
@@ -731,12 +733,8 @@ spawnId += 1;
 
     public void RemoveElementsOnTrack(int id)
     {
-
-        Debug.Log("Coin have been removed in: RemoveElementsOnTrack 1");
-      //  CoinPool current = coinPool.SharedInstance;
-        
         coinPool.FindLinkedElements(id);
-       // BearPool bearPool;
+        bearPool.FindLinkedElements(id);
     }
 
     public void Awake()

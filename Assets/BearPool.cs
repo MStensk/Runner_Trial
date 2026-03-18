@@ -34,6 +34,22 @@ public void Awake()
     
     }
 
+    public void FindLinkedElements(int id)
+{
+    Debug.Log("Bear have been removed in:  FindLinkedElements 2");
+
+        for(int i = 0; i < pooledObjects.Count; i++)
+        {
+     GameObject bear = pooledObjects[i];
+    BearMovement controller = bear.GetComponent<BearMovement>(); 
+            if(controller.commonId == id)
+            {
+                controller.DeactivateBear();
+                Debug.Log("Bear have been removed in:  FindLinkedElements loop 3");
+            } 
+        }
+}
+
     public GameObject GetTrack()
     {
 

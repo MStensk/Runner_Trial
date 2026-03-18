@@ -23,7 +23,7 @@ public void SetId(int id)
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
             DeactivateCoin();
-            Debug.Log("Coin have been deactivated");
+      
     }
 
     public void DeactivateCoin()

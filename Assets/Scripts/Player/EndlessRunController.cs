@@ -4,6 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
 {
+[SerializeField] private bool useManualTestMovement = true;
+[SerializeField] private float testSideStep = 1.2f;
+[SerializeField] private float testForwardStep = 5.0f;
+
     [Header("Forward Movement")]
     [SerializeField] private float forwardSpeed = 8f;
     [SerializeField] private float gravity = 10f;
@@ -58,13 +62,22 @@ public class EndlessRunController : MonoBehaviour
         verticalVelocity = groundedStickForce;
     }
 
-    private void Update()
+private void Update()
+{
+
+    if (useManualTestMovement)
     {
-        HandleLaneInput();
-        HandleTurnInput();
-        MovePlayer();
+        HandleManualTestMovement();
+        HandleManualTestTurnInput();
         UpdateAnimation();
+        return;
     }
+
+  //  HandleLaneInput();
+  //  HandleTurnInput();
+   // MovePlayer();
+    UpdateAnimation();
+}
 
     private void HandleLaneInput()
     {
@@ -174,4 +187,39 @@ public class EndlessRunController : MonoBehaviour
 
         animator.SetFloat("Speed", forwardSpeed);
     }
+
+private void HandleManualTestMovement()
+{
+    if (Input.GetKeyDown(KeyCode.A))
+    {
+        Vector3 move = new Vector3(-1.2f, 0f, 0f);
+        controller.Move(move);
+    }
+
+    if (Input.GetKeyDown(KeyCode.D))
+    {
+        Vector3 move = new Vector3(1.2f, 0f, 0f);
+        controller.Move(move);
+    }
+
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+        Vector3 move = transform.forward * 5.0f;
+        controller.Move(move);
+
+    }
+}
+
+private void HandleManualTestTurnInput()
+{
+    if (Input.GetKeyDown(KeyCode.Z))
+    {
+        transform.Rotate(0f, -90f, 0f);
+    }
+
+    if (Input.GetKeyDown(KeyCode.X))
+    {
+        transform.Rotate(0f, 90f, 0f);
+    }
+}
 }
