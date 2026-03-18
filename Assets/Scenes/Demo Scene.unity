@@ -1146,12 +1146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c94c117e37d86b47a85fb439959ff2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndlessRunController
-  testSideStep: 1.2
-  testForwardStep: 5
   forwardSpeed: 8
   gravity: 10
   groundedStickForce: -0.5
   maxFallSpeed: -20
+  maxSpeed: 20
   laneOffset: 5
   laneChangeSpeed: 5
   allowManualTurnDebug: 0
@@ -1617,67 +1616,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dc692bcc4ba42a4394f4e02f1c8f5f2, type: 3}
---- !u!1001 &2551605057632043020
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837939869914729729, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_Name
-      value: WoodenFireController
-      objectReference: {fileID: 0}
-    - target: {fileID: 7753461563056234144, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1696,4 +1634,3 @@ SceneRoots:
   - {fileID: 557204913}
   - {fileID: 890661999}
   - {fileID: 112323214}
-  - {fileID: 2551605057632043020}
