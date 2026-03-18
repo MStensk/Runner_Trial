@@ -1,11 +1,12 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
 {
     [Header("Forward Movement")]
     [SerializeField] private float forwardSpeed = 8f;
-    [SerializeField] private float gravity = 10f;
+    [SerializeField] private float gravity = 25f;
     [SerializeField] private float groundedStickForce = -0.5f;
     [SerializeField] private float maxFallSpeed = -20f;
     [SerializeField] private float maxSpeed = 20f;
@@ -20,6 +21,10 @@ public class EndlessRunController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
 
+    [Header("Jump")]
+    [SerializeField] private float jumpForce = 2.5f;
+    
+
     private CharacterController controller;
 
     // -1 = left, 0 = center, 1 = right
@@ -33,6 +38,8 @@ public class EndlessRunController : MonoBehaviour
 
     private bool canTurnLeft;
     private bool canTurnRight;
+    
+
 
     // Turn lane targets
     private Transform turnLaneLeft;
@@ -49,6 +56,7 @@ public class EndlessRunController : MonoBehaviour
 
     private void Start()
     {
+        animator.Play("Running");
         forwardDirection = transform.forward.normalized;
         rightDirection = transform.right.normalized;
 
@@ -62,8 +70,11 @@ public class EndlessRunController : MonoBehaviour
     {
         HandleLaneInput();
         HandleTurnInput();
+        HandleJumpInput();
+        HandleSlideInput();
         MovePlayer();
         UpdateAnimation();
+        
     }
 
     private void HandleLaneInput()
@@ -96,13 +107,20 @@ public class EndlessRunController : MonoBehaviour
 
         Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
 
-        if (controller.isGrounded)
+        if (controller.isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = groundedStickForce;
         }
         else
         {
-            verticalVelocity -= gravity * Time.deltaTime;
+            if (verticalVelocity > 0)
+            {
+            verticalVelocity -= gravity * Time.deltaTime; // going up
+            }
+            else
+            {
+            verticalVelocity -= gravity * 2f * Time.deltaTime; // falling faster
+            }
             verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
         }
 
@@ -138,6 +156,50 @@ public class EndlessRunController : MonoBehaviour
         canTurnLeft = false;
         canTurnRight = false;
     }
+
+    private void HandleJumpInput()
+{
+    if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
+    {
+    
+        verticalVelocity = Mathf.Sqrt(jumpForce * 2f * gravity);
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Jump");
+        }
+    }
+}   
+
+private void HandleSlideInput()
+{
+    if (Input.GetKeyDown(KeyCode.S) && controller.isGrounded)
+    {
+        Debug.Log("SLIDE");
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Slide");
+        }
+
+        StartCoroutine(SlideRoutine());
+    }
+}
+private IEnumerator SlideRoutine()
+{
+    float originalHeight = controller.height;
+    Vector3 originalCenter = controller.center;
+
+    // shrink player
+    controller.height = originalHeight / 2;
+    controller.center = new Vector3(originalCenter.x, originalCenter.y / 2, originalCenter.z);
+
+    yield return new WaitForSeconds(1f); // match animation length
+
+    // restore
+    controller.height = originalHeight;
+    controller.center = originalCenter;
+}
 
     private void SnapToClosestLane()
     {
@@ -211,7 +273,7 @@ public class EndlessRunController : MonoBehaviour
     }
 
     private void UpdateAnimation()
-    {
-        if (animator == null) return;
-    }
+{
+    if (animator == null) return;
+}
 }

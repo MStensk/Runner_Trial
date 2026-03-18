@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7ae659c31c9352f47805ed06ce4102b5
+guid: 9d526d7239f428d45bf6b03d66e01a7b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -42,8 +42,8 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
@@ -545,13 +545,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Running(Clone)
+    - name: Jumping(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:Hips
-      parentName: Running(Clone)
+      parentName: Jumping(Clone)
       position: {x: -0.0007319771, y: 1.1419655, z: -0.008726309}
       rotation: {x: -0.069827646, y: 0.11165126, z: -0.016213827, w: 0.99115855}
       scale: {x: 1, y: 1, z: 1}
