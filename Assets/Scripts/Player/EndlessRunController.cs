@@ -8,6 +8,7 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float gravity = 10f;
     [SerializeField] private float groundedStickForce = -0.5f;
     [SerializeField] private float maxFallSpeed = -20f;
+    [SerializeField] private float maxSpeed = 20f;
 
     [Header("Lane Movement")]
     [SerializeField] private float laneOffset = 5f; // match your wide lanes
@@ -203,10 +204,14 @@ public class EndlessRunController : MonoBehaviour
         turnLaneRight = right;
     }
 
+
+    public void AddSpeed(float amount)
+    {
+        forwardSpeed = Mathf.Min(forwardSpeed + amount, maxSpeed);
+    }
+
     private void UpdateAnimation()
     {
         if (animator == null) return;
-
-        animator.SetFloat("Speed", forwardSpeed);
     }
 }
