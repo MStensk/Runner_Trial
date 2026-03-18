@@ -228,6 +228,69 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 0, z: -6}
+--- !u!1 &112323211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 112323214}
+  - component: {fileID: 112323213}
+  - component: {fileID: 112323212}
+  m_Layer: 0
+  m_Name: WoodenFirePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &112323212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112323211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84688041d98855f46a848a2ecfd3cc1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WoodenFireController
+  currentTrackPiece: 0
+  isActiveInnPool: 0
+  commonID: 0
+--- !u!114 &112323213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112323211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfd0cabff755264c865ce8f5641cf91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WoodenFirePool
+  objectToPool: {fileID: 6837939869914729729, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+  pooledObjects: []
+  amountToPool: 10
+--- !u!4 &112323214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112323211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.61478, y: 0, z: 73.50681}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &154682177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,7 +1146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c94c117e37d86b47a85fb439959ff2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndlessRunController
-  useManualTestMovement: 0
   testSideStep: 1.2
   testForwardStep: 5
   forwardSpeed: 8
@@ -1555,6 +1617,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dc692bcc4ba42a4394f4e02f1c8f5f2, type: 3}
+--- !u!1001 &2551605057632043020
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064083197188369394, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837939869914729729, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_Name
+      value: WoodenFireController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7753461563056234144, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 91223a39e0efc9f4eaf8e43ba8a316fc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1572,3 +1695,5 @@ SceneRoots:
   - {fileID: 1495871845}
   - {fileID: 557204913}
   - {fileID: 890661999}
+  - {fileID: 112323214}
+  - {fileID: 2551605057632043020}

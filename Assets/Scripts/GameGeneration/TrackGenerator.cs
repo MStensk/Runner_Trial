@@ -10,6 +10,7 @@ public class TrackGenerator : MonoBehaviour
 {
     CoinPool coinPool;
     BearPool bearPool;
+    WoodenFirePool woodenFirePool;
     private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
     public int initialTrackLength = 1;
     public int turnController = 0;
@@ -59,8 +60,7 @@ public class TrackGenerator : MonoBehaviour
         }
         else{ Debug.Log("No straigth tracks in pool"); }
     }
-     BuildTrack();
-     BuildTrack();
+    
   //   BuildTrack();
   
 
@@ -98,7 +98,7 @@ currentDirection = buildDirections[directionValue];
         public void BuildLeftCorner()
     {
 
-        Debug.Log("left turn build");
+      //  Debug.Log("left turn build");
 
     GameObject trackPiece = LeftTurnPool.SharedInstance.GetTrack();
 
@@ -172,7 +172,7 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
 
   public void BuildRigthCorner()
     {
-       Debug.Log("Build a Rigth corner "); 
+    //   Debug.Log("Build a Rigth corner "); 
      //   Debug.Log("Build direction: " + currentDirection); 
     GameObject trackPiece = RigthTurnPool.SharedInstance.GetTrack();
 
@@ -343,20 +343,21 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
 
         float selectedX;
         float selectedZ;
-       
-        float reverse =-11.7f;
+       // var -11.7f
+        float reverse =-5.8f;
         float leftPart = -4.5f;
         float rigthPart = 4.5f;
 
         int coinSpawn = 3;
         int mudSpawn = 0;
         int speedSpawn = 0;
-        int bearSpawn = 2;
-
-        int isBearSpawn = 0;
-        int bearSpawnLaneFinder = 0;
-        int usedLaneOne = 0;
-        int usedLaneTwo = 0;
+        int bearSpawn = 5;
+        int woodenFireSpawn = 4;
+// Skal nok fjernes isBear
+       // int isBearSpawn = 0;
+        int bearSpawnRowFinder = 0;
+        int usedRowOne = 0;
+        int usedRowTwo = 0;
 
         int spawnNumber = 1;
 
@@ -379,9 +380,9 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionOneZ = zBase + reverse;
          sectionTwoZ = zBase + reverse;
          sectionThreeZ = zBase + reverse;
-         sectionFourZ =zBase + 0.7f;
-         sectionFiveZ =zBase + 0.7f;
-         sectionSixZ =zBase + 0.7f;       
+         sectionFourZ =zBase + 5.9f;
+         sectionFiveZ =zBase + 5.9f;
+         sectionSixZ =zBase + 5.9f;       
         }
         else if(currentDirection == "East")
         {
@@ -390,9 +391,9 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionOneX = xBase + reverse;
          sectionTwoX = xBase + reverse;
          sectionThreeX = xBase + reverse;
-         sectionFourX = xBase + 0.7f;
-         sectionFiveX = xBase + 0.7f;
-         sectionSixX = xBase + 0.7f;  
+         sectionFourX = xBase + 5.9f;
+         sectionFiveX = xBase + 5.9f;
+         sectionSixX = xBase + 5.9f;  
          sectionOneZ = zBase + leftPart;
          sectionTwoZ = zBase;
          sectionThreeZ = zBase + rigthPart;
@@ -412,9 +413,9 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionOneZ = zBase - reverse;
          sectionTwoZ = zBase - reverse;
          sectionThreeZ = zBase - reverse;
-         sectionFourZ =zBase - 0.7f;
-         sectionFiveZ =zBase - 0.7f;
-         sectionSixZ =zBase - 0.7f;       
+         sectionFourZ =zBase - 5.9f;
+         sectionFiveZ =zBase - 5.9f;
+         sectionSixZ =zBase - 5.9f;       
             }
             else  //if(currentDirection == "West")
         {
@@ -424,9 +425,9 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionOneX = xBase - reverse;
          sectionTwoX = xBase - reverse;
          sectionThreeX = xBase - reverse;
-         sectionFourX = xBase - 0.7f;
-         sectionFiveX = xBase - 0.7f;
-         sectionSixX = xBase - 0.7f;  
+         sectionFourX = xBase - 5.9f;
+         sectionFiveX = xBase - 5.9f;
+         sectionSixX = xBase - 5.9f;  
          sectionOneZ = zBase - leftPart;
          sectionTwoZ = zBase;
          sectionThreeZ = zBase - rigthPart;
@@ -441,7 +442,7 @@ Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
     { "bearSpawnValue", bearSpawn},
     {  "mudSpawnValue", mudSpawn},
     { "speedSpawnValue", speedSpawn},
-    { "speedSpawnValues", speedSpawn}
+    { "woodenFireSpawnValue", woodenFireSpawn}
      };
 
        var highest = spawnHierarchy.OrderByDescending(x => x.Value)
@@ -454,10 +455,10 @@ for(int i = 0; i < 4; i++)
         {
             String currentSpawn = highest[i].Key;
 
-       //     Debug.Log("currentSpawn: " + currentSpawn);
-       //     Debug.Log("spawnNumber: " + spawnNumber);
+      //      Debug.Log("currentSpawn: " + currentSpawn);
+        //    Debug.Log("spawnNumber: " + spawnNumber);
  
- int laneNumber = UnityEngine.Random.Range(0, 3);
+ int laneNumber = UnityEngine.Random.Range(1, 4);
 //Debug.Log("laneNumber value: " + laneNumber);
  
  if(spawnNumber == 1)
@@ -466,28 +467,25 @@ if(laneNumber == 1)
                 {
                 selectedX = sectionOneX;
                 selectedZ = sectionOneZ;
-                usedLaneOne = 1;
+                usedRowOne = 1;
                  }
                 else if(laneNumber == 2)
                 {
                 selectedX = sectionTwoX;
                 selectedZ = sectionTwoZ;
-                usedLaneOne = 2;
+                usedRowOne = 2;
               
                 }
                 else
                 {
                 selectedX = sectionThreeX;
                 selectedZ = sectionThreeZ;
-                usedLaneOne = 3;
+                usedRowOne = 3;
                 }
                  spawnNumber += 1;
-// Makes sure that it is known what lane number BearMovement is placed in
-                bearSpawnLaneFinder = 1;
 
         //        Debug.Log("first section"); 
-                } 
-                // Skal måske ændres til else, så alle udfale er i betragtning
+                }
             else if(spawnNumber == 2)
             {
         //         Debug.Log("last section");
@@ -495,28 +493,26 @@ if(laneNumber == 1)
                {
                 selectedX = sectionFourX;
                 selectedZ = sectionFourZ;
-                usedLaneTwo = 1;
+                usedRowTwo = 1;
+              
                }
                else if(laneNumber == 2)
                 {
                 selectedX = sectionFiveX;
                 selectedZ = sectionFiveZ;
-                usedLaneTwo = 2;
-                
-                } 
+                usedRowTwo = 2;
+              }
                 else
                 {
                 selectedX = sectionSixX;
                 selectedZ = sectionSixZ;
-                usedLaneTwo = 3;
+                usedRowTwo = 3;
                
                 }
                  spawnNumber += 1; 
-// Makes sure that it is known what lane number BearMovement is placed in
-                 bearSpawnLaneFinder = 2;
-       // When usedLaneOne  is set to 4, we knaw that all other lanes in row is blocked
 
-            } /*
+       // When usedLaneOne is set to 4, we know that all other lanes in row is blocked
+            } 
             else if(spawnNumber == 3)
      {
         // If third spawn is a bear, its ignored and next object is selected instead. Because Bears
@@ -525,22 +521,13 @@ if(laneNumber == 1)
             if(currentSpawn == "bearSpawnValue") { continue; }
                 // Aktivates that we know a Bear have been placed, so no other object is placed in that lane.
 
-                if(bearSpawnLaneFinder == 1)
-                {
-
-                     usedLaneOne = 4;
-                }
-               else
-               {
-// Jeg skal undersøge om jeg kan fjerne denne del, da jeg ligenu kun bruger usedLaneTwo = 4;
-                    usedLaneTwo = 4;
-                }
+Debug.Log(currentSpawn + "Coin spawn 3. usedLaneOne: " + usedRowOne + "  usedLaneTwo: "  + usedRowTwo);
 
 int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
     // Makes sure that nothing else is placed in a row, if there is a bear
-                if(usedLaneOne == 4)
+                if(usedRowOne == 4)
                 {
-                  if(usedLaneTwo == 1)
+                  if(usedRowTwo == 1)
                     {
                         if(randomLaneNumberThirdSpawn == 1)
                         {
@@ -553,7 +540,7 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                             selectedZ = sectionSixZ;
                         }
                     }  
-                    else if (usedLaneTwo == 2)
+                    else if (usedRowTwo == 2)
                     {
                         if(randomLaneNumberThirdSpawn == 1)
                         {
@@ -582,7 +569,7 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                 }
                 else 
                 {
-                  if(usedLaneOne == 1)
+                  if(usedRowOne == 1)
                     {
                         if(randomLaneNumberThirdSpawn == 1)
                         {
@@ -595,7 +582,7 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                             selectedZ = sectionThreeZ;
                         }
                     }  
-                    else if (usedLaneOne == 2)
+                    else if (usedRowOne == 2)
                     {
                         if(randomLaneNumberThirdSpawn == 1)
                         {
@@ -622,13 +609,18 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                         }
                     } 
                 }
-            } */
+                spawnNumber += 1;
+            } 
                  // Skal fjernes, eller gælde for fjerde spawn
             else{    selectedX = sectionTwoX;
-                            selectedZ = sectionTwoZ;}
+                            selectedZ = sectionTwoZ; break;}
                  
   if(currentSpawn == "coinSpawnValue")
             {
+                //Moves placement from mid point in lane to bigin.
+float placeFirstCoinAtLaneBeginPoint = 5.9f;
+
+                 Debug.Log("Coins spawn as number: " + spawnNumber + " Lane number: " + laneNumber);
          for(float j = 0.0f; j < 11.7f; j += 2.0f)
                 {
  GameObject coin = CoinPool.SharedInstance.GetTrack();
@@ -640,28 +632,28 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                       if(currentDirection == "North")
                     {
             //             Debug.Log("North coin placed");
-                         coin.transform.position = new Vector3(selectedX, 1.1f, selectedZ + j);
+                         coin.transform.position = new Vector3(selectedX, 1.1f, selectedZ + j - placeFirstCoinAtLaneBeginPoint);
                //         Debug.Log("North coin placed, selectedX: " + selectedX);
               //          Debug.Log("North coin placed, selectedZ: " + selectedZ);
                     }
                          else if(currentDirection == "East")
                     {
                  //       Debug.Log("East coin placed");
-                         coin.transform.position = new Vector3(selectedX + j, 1.1f, selectedZ);
+                         coin.transform.position = new Vector3(selectedX + j -placeFirstCoinAtLaneBeginPoint, 1.1f, selectedZ);
                          coin.transform.rotation = Quaternion.Euler(0, 90, 0);
 
                     }
                          else if(currentDirection == "South")
                     {
                 //        Debug.Log("South coin placed");
-                         coin.transform.position = new Vector3(selectedX, 1.1f, selectedZ - j);
+                         coin.transform.position = new Vector3(selectedX, 1.1f, selectedZ - j + placeFirstCoinAtLaneBeginPoint);
                          coin.transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
                      else
                     {
                         //West
                 //        Debug.Log("West coin placed");
-                         coin.transform.position = new Vector3(selectedX - j, 1.1f, selectedZ);
+                         coin.transform.position = new Vector3(selectedX - j + placeFirstCoinAtLaneBeginPoint, 1.1f, selectedZ);
                          coin.transform.rotation = Quaternion.Euler(0, -90, 0);
 
                   //         Debug.Log("West coin placed, selectedX: " + selectedX);
@@ -673,13 +665,28 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                 }
      
             }
-            else if(currentSpawn == "speedSpawnValue")
+            else if(currentSpawn == "woodenFireSpawnValue")
             {
-                //Do something
-             //    Debug.Log("currentSpawn == speedSpawnValue");
+Debug.Log("Fire spawn as number: " + spawnNumber + " Lane number: " + laneNumber);
+
+              GameObject woodenFire = WoodenFirePool.SharedInstance.GetTrack();
+    WoodenFireController controller = woodenFire.GetComponent<WoodenFireController>(); 
+
+    //Sets identifier for removement 
+               controller.SetId(spawnId); 
+
+               woodenFire.transform.position = new Vector3(selectedX, 1.1f, selectedZ);
+
+               woodenFire.SetActive(true);
+               controller.isActiveInnPool = false;
+
+               
+WoodenFirePool.SharedInstance.FindActiveFires();
+          Debug.Log("Spawn fire id=" + spawnId + " x=" + selectedX + " z=" + selectedZ + " instance=" + woodenFire.GetInstanceID());     
             }
             else if(currentSpawn == "bearSpawnValue")
             {
+                Debug.Log("Bear spawn as number: " + spawnNumber + " Lane number: " + laneNumber);
     GameObject bearMovement = BearPool.SharedInstance.GetTrack();
     BearMovement controller = bearMovement.GetComponent<BearMovement>(); 
 
@@ -689,6 +696,19 @@ controller.SetMoveDirection(currentDirection);
  
  controller.SetId(spawnId); 
 
+// spawnNumber == 2, means its first spawn, because of spawnNumber += 1 earlier
+// 4 Blocks the row if bear is placed. 
+if(spawnNumber == 2)
+                {
+                     usedRowOne = 4;
+
+                }
+                else
+                {
+                    //skal måske være else if.
+                    usedRowTwo = 4;
+                }
+
 // selectedX and Z is used different and lane number is ignored for Bears, 
 //because they have to begin in left lane. 
 // spawnNumber is 2 for first row and others for last row, because 1 is already added to the value. 
@@ -696,11 +716,13 @@ controller.SetMoveDirection(currentDirection);
     if(spawnNumber == 2)
                 {
                      bearMovement.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
+                  //   isBearSpawn = 1;
                 } 
                 else
                 {
                    bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);  
-                }
+                 //   isBearSpawn = 2;
+                }  
 
 //Debug.Log("Bear have been placed: ");
  //Debug.Log("Bear place CurrentDirection: " + currentDirection);
@@ -718,8 +740,11 @@ controller.SetMoveDirection(currentDirection);
         }
 
 spawnNumber = 1;
-usedLaneOne = 0;
-usedLaneTwo = 0;
+usedRowOne = 0;
+usedRowTwo = 0;
+//isBearSpawn = 0;
+// Skal måske fjernes: bearSpawnLaneFinder = 0;
+bearSpawnRowFinder = 0;
 spawnId += 1;
  //isBearSpawn = 0;
  //bearSpawnLaneFinder = 0;
@@ -735,12 +760,14 @@ spawnId += 1;
     {
         coinPool.FindLinkedElements(id);
         bearPool.FindLinkedElements(id);
+        woodenFirePool.FindLinkedElements(id);
     }
 
     public void Awake()
     {
-         coinPool = FindObjectOfType<CoinPool>();
+        coinPool = FindObjectOfType<CoinPool>();
         bearPool = FindObjectOfType<BearPool>();
+        woodenFirePool = FindAnyObjectByType<WoodenFirePool>();
     }
 
     // Update is called once per frame
