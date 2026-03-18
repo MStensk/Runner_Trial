@@ -17,6 +17,7 @@ public bool isActiveInnPool;
 
     public int commonId;
 
+bool removeBear = false;
 public void SetId(int id)
     {
         commonId = id;
@@ -37,17 +38,25 @@ public void SetId(int id)
 
         SetInitialRotation();
     }
+
+    public void SetRemoveBear()
+    {
+        removeBear = true;
+    }
     private void Start()
     {
         isActiveInnPool = false; 
         startPos = transform.position;
+        removeBear = false;
         SetInitialRotation();
     }
 
     private void Update()
     {
+        
         float halfLane = laneLength / 2f;
     
+    if(removeBear) return;
         // bevæger sig mellem -halfLane og +halfLane relativt til start pos
         moveTimer += Time.deltaTime;
         float xOffset = Mathf.PingPong(moveTimer * speed, laneLength) - halfLane;
@@ -79,6 +88,7 @@ public void SetId(int id)
             {
                 FaceRight();
             }
+            
     }
 
     private void SetInitialRotation()
@@ -110,4 +120,5 @@ public void SetId(int id)
                 SetId(0);
 
     }
+
 }

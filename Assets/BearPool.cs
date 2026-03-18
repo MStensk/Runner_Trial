@@ -37,16 +37,31 @@ public void Awake()
     public void FindLinkedElements(int id)
 {
     Debug.Log("Bear have been removed in:  FindLinkedElements 2");
-
+int count = 0;
         for(int i = 0; i < pooledObjects.Count; i++)
         {
      GameObject bear = pooledObjects[i];
+if (!bear.activeInHierarchy) continue;
     BearMovement controller = bear.GetComponent<BearMovement>(); 
-            if(controller.commonId == id)
+          
+          Debug.Log(
+            "Pool index: " + i +
+            " | instance: " + bear.GetInstanceID() +
+            " | active: " + bear.activeInHierarchy +
+            " | commonId: " + controller.commonId
+        );
+          
+          if(controller.commonId == id)
             {
+                //Frezez bears movement in lane, needed for Deactivate to work on bearMovement
+                controller.SetRemoveBear();
+
                 controller.DeactivateBear();
-                Debug.Log("Bear have been removed in:  FindLinkedElements loop 3");
+                
+                 Debug.Log("Bear have been removed in:  FindLinkedElements loop 3. Id: " + id);
+            break;
             } 
+            count ++;
         }
 }
 
