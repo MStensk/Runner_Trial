@@ -45,6 +45,7 @@ public class CoinController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, 0);
         SetId(0);
     }
+    
 
     void Start()
     {
@@ -53,6 +54,6 @@ public class CoinController : MonoBehaviour
 
     void Update()
     {
-
+        transform.Rotate(0, 180 * Time.deltaTime, 0);
     }
 }
