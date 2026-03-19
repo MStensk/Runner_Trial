@@ -1,8 +1,13 @@
+
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
 {
+   private bool useManualTestMovement = true;
+    [SerializeField] private float testSideStep = 1.2f;
+    [SerializeField] private float testForwardStep = 5.0f;
+
     [Header("Forward Movement")]
     [SerializeField] private float forwardSpeed = 8f;
     [SerializeField] private float gravity = 10f;
@@ -11,7 +16,7 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float maxSpeed = 20f;
 
     [Header("Lane Movement")]
-    [SerializeField] private float laneOffset = 5f; // match your wide lanes
+    [SerializeField] private float laneOffset = 5f;
     [SerializeField] private float laneChangeSpeed = 5f;
 
     [Header("Turning")]
@@ -21,20 +26,13 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private CharacterController controller;
-
-    // -1 = left, 0 = center, 1 = right
     private int currentLane = 0;
-
     private Vector3 forwardDirection;
     private Vector3 rightDirection;
     private Vector3 currentLaneCenter;
-
     private float verticalVelocity;
-
     private bool canTurnLeft;
     private bool canTurnRight;
-
-    // Turn lane targets
     private Transform turnLaneLeft;
     private Transform turnLaneCenter;
     private Transform turnLaneRight;
@@ -52,19 +50,18 @@ public class EndlessRunController : MonoBehaviour
         forwardDirection = transform.forward.normalized;
         rightDirection = transform.right.normalized;
 
-        currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
+        currentLaneCenter = transform.position;
         currentLaneCenter.y = transform.position.y;
 
         verticalVelocity = groundedStickForce;
     }
 
     private void Update()
-    {
-        HandleLaneInput();
-        HandleTurnInput();
-        MovePlayer();
-        UpdateAnimation();
-    }
+{
+    HandleManualTestMovement();
+    HandleManualTestTurnInput();
+    UpdateAnimation();
+}
 
     private void HandleLaneInput()
     {
@@ -120,8 +117,9 @@ public class EndlessRunController : MonoBehaviour
         forwardDirection = transform.forward.normalized;
         rightDirection = transform.right.normalized;
 
-        SnapToClosestLane();
+        currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
 
+        SnapToTurnLane();
         canTurnLeft = false;
         canTurnRight = false;
     }
@@ -133,25 +131,16 @@ public class EndlessRunController : MonoBehaviour
         forwardDirection = transform.forward.normalized;
         rightDirection = transform.right.normalized;
 
-        SnapToClosestLane();
+        currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
 
+        SnapToTurnLane();
         canTurnLeft = false;
         canTurnRight = false;
     }
 
-    private void SnapToClosestLane()
+    private void SnapToTurnLane()
     {
-        // If no lane targets assigned → fallback
-        if (turnLaneCenter == null)
-        {
-            currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
-            currentLaneCenter.y = transform.position.y;
-
-            Vector3 fallback = currentLaneCenter + rightDirection * (currentLane * laneOffset);
-            fallback.y = transform.position.y;
-            transform.position = fallback;
-            return;
-        }
+        if (turnLaneCenter == null) return;
 
         Transform[] lanes = new Transform[] { turnLaneLeft, turnLaneCenter, turnLaneRight };
 
@@ -169,16 +158,14 @@ public class EndlessRunController : MonoBehaviour
             {
                 closestDistance = dist;
                 closestLane = lanes[i];
-                closestLaneIndex = i - 1; // converts 0,1,2 → -1,0,1
+                closestLaneIndex = i - 1;
             }
         }
 
-        // Snap player
         Vector3 snappedPosition = closestLane.position;
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
 
-        // Update lane system
         currentLane = closestLaneIndex;
 
         currentLaneCenter = turnLaneCenter.position;
@@ -197,13 +184,7 @@ public class EndlessRunController : MonoBehaviour
         canTurnRight = false;
     }
 
-    public void SetTurnLaneTargets(Transform left, Transform center, Transform right)
-    {
-        turnLaneLeft = left;
-        turnLaneCenter = center;
-        turnLaneRight = right;
-    }
-
+    
 
     public void AddSpeed(float amount)
     {
@@ -213,5 +194,50 @@ public class EndlessRunController : MonoBehaviour
     private void UpdateAnimation()
     {
         if (animator == null) return;
+
+        animator.SetFloat("Speed", forwardSpeed);
     }
+
+    public void SetTurnLaneTargets(Transform left, Transform center, Transform right)
+    {
+        turnLaneLeft = left;
+        turnLaneCenter = center;
+        turnLaneRight = right;
+    }
+
+    private void HandleManualTestMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Vector3 move = new Vector3(-1.2f, 0f, 0f);
+            controller.Move(move);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Vector3 move = new Vector3(1.2f, 0f, 0f);
+            controller.Move(move);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Vector3 move = transform.forward * 5.0f;
+            controller.Move(move);
+        }
+    }
+
+    private void HandleManualTestTurnInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            transform.Rotate(0f, -90f, 0f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            transform.Rotate(0f, 90f, 0f);
+        }
+    }
+
+    
 }

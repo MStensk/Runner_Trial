@@ -114,11 +114,21 @@ public void SetId(int id)
 
     public void DeactivateBear()
     {
-                isActiveInnPool = true;
-                gameObject.SetActive(false);
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                SetId(0);
+                removeBear = false;
+    moveTimer = 0f;
+    isActiveInnPool = true;
+    gameObject.SetActive(false);
+    transform.rotation = Quaternion.Euler(0, 0, 0);
+    SetId(0);
 
     }
-
+public void ResetBearState()
+{
+    removeBear = false;
+    moveTimer = 0f;
+}
+public void SetStartPosition(Vector3 newStartPos)
+{
+    startPos = newStartPos;
+}
 }

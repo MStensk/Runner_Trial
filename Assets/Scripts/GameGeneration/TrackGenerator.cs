@@ -696,6 +696,8 @@ controller.SetMoveDirection(currentDirection);
  
  controller.SetId(spawnId); 
 
+ controller.ResetBearState();
+
 // spawnNumber == 2, means its first spawn, because of spawnNumber += 1 earlier
 // 4 Blocks the row if bear is placed. 
 if(spawnNumber == 2)
@@ -723,6 +725,8 @@ if(spawnNumber == 2)
                    bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);  
                  //   isBearSpawn = 2;
                 }  
+
+                controller.SetStartPosition(bearMovement.transform.position);
 
 //Debug.Log("Bear have been placed: ");
  //Debug.Log("Bear place CurrentDirection: " + currentDirection);
