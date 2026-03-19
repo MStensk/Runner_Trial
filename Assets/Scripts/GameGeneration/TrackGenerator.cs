@@ -11,17 +11,50 @@ public class TrackGenerator : MonoBehaviour
     CoinPool coinPool;
     BearPool bearPool;
     WoodenFirePool woodenFirePool;
+    WoodenFencePool woodenFencePool;
     private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
     public int initialTrackLength = 1;
     public int turnController = 0;
-
+    int gameLevel = 1;
+    int currentCount = 0;
+    int neededElements = 10;
     public List<string> buildDirections = new List<string>{
     "North", "East", "South","West"};
 
     public string currentDirection;
     public int directionValue;
+
+// Used to change between build directions like North in List.
     int counter = 0; 
+    // Used to change behavior based on what number of possible 
+    // insets the current is when placing elements on traCK
     int spawnId = 1;
+
+    // Priority values for elements.
+     int coinSpawn = 7;
+     int woodenFenceSpawn = 9;
+     int bearSpawn = 5;
+     int woodenFireSpawn = 6;
+
+    public void UpdateLevel()
+    {
+        gameLevel += 1;
+    }
+
+    public void ManageLevelUpdate()
+    {
+        
+        currentCount += 1;
+
+        if(currentCount >= neededElements)
+        {
+            UpdateLevel();
+
+            currentCount = 0;
+        }
+    }
+
+
     public void InitializeTrack()
     {
 
@@ -93,7 +126,11 @@ currentDirection = buildDirections[directionValue];
             }
         else{
             BuildStraightTrack();
+
             }
+
+            ManageLevelUpdate();
+            Debug.Log("Current Level:  " + gameLevel);
     }
         public void BuildLeftCorner()
     {
@@ -348,14 +385,6 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         float leftPart = -4.5f;
         float rigthPart = 4.5f;
 
-        int coinSpawn = 3;
-        int mudSpawn = 0;
-        int speedSpawn = 0;
-        int bearSpawn = 5;
-        int woodenFireSpawn = 4;
-// Skal nok fjernes isBear
-       // int isBearSpawn = 0;
-        int bearSpawnRowFinder = 0;
         int usedRowOne = 0;
         int usedRowTwo = 0;
 
@@ -440,8 +469,7 @@ Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
 {
     {"coinSpawnValue", coinSpawn},
     { "bearSpawnValue", bearSpawn},
-    {  "mudSpawnValue", mudSpawn},
-    { "speedSpawnValue", speedSpawn},
+    {  "woodenFenceSpawnValue", woodenFenceSpawn},
     { "woodenFireSpawnValue", woodenFireSpawn}
      };
 
@@ -518,14 +546,14 @@ if(laneNumber == 1)
         // If third spawn is a bear, its ignored and next object is selected instead. Because Bears
         //only can be placed in empty rows.
 
-            if(currentSpawn == "bearSpawnValue") { continue; }
-                // Aktivates that we know a Bear have been placed, so no other object is placed in that lane.
+            if(currentSpawn == "bearSpawnValue" || currentSpawn == "woodenFenceSpawnValue") { continue; }
+               
 
-Debug.Log(currentSpawn + "Coin spawn 3. usedLaneOne: " + usedRowOne + "  usedLaneTwo: "  + usedRowTwo);
-
+//Debug.Log(currentSpawn + "Coin spawn 3. usedLaneOne: " + usedRowOne + "  usedLaneTwo: "  + usedRowTwo);
+ // Aktivates that we know a Bear or fence have been placed, so no other object is placed in that lane.
 int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
     // Makes sure that nothing else is placed in a row, if there is a bear
-                if(usedRowOne == 4)
+                if(usedRowOne == 4 || usedRowOne == 5)
                 {
                   if(usedRowTwo == 1)
                     {
@@ -555,6 +583,8 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                     } 
                     else
                     {
+                    if(usedRowTwo == 4 || usedRowTwo == 5) break;
+
                         if(randomLaneNumberThirdSpawn == 1)
                         {
                              selectedX = sectionFourX;
@@ -569,6 +599,7 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                 }
                 else 
                 {
+
                   if(usedRowOne == 1)
                     {
                         if(randomLaneNumberThirdSpawn == 1)
@@ -610,7 +641,7 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                     } 
                 }
                 spawnNumber += 1;
-            } 
+            }
                  // Skal fjernes, eller gælde for fjerde spawn
             else{    selectedX = sectionTwoX;
                             selectedZ = sectionTwoZ; break;}
@@ -662,6 +693,8 @@ float placeFirstCoinAtLaneBeginPoint = 5.9f;
                      
                coin.SetActive(true);
                controller.isActiveInnPool = false;
+
+               // Resets priority for coins.
                 }
      
             }
@@ -680,13 +713,10 @@ Debug.Log("Fire spawn as number: " + spawnNumber + " Lane number: " + laneNumber
                woodenFire.SetActive(true);
                controller.isActiveInnPool = false;
 
-               
-WoodenFirePool.SharedInstance.FindActiveFires();
-          Debug.Log("Spawn fire id=" + spawnId + " x=" + selectedX + " z=" + selectedZ + " instance=" + woodenFire.GetInstanceID());     
             }
-            else if(currentSpawn == "bearSpawnValue")
+       else if(currentSpawn == "bearSpawnValue")
             {
-                Debug.Log("Bear spawn as number: " + spawnNumber + " Lane number: " + laneNumber);
+    //            Debug.Log("Bear spawn as number: " + spawnNumber + " Lane number: " + laneNumber);
     GameObject bearMovement = BearPool.SharedInstance.GetTrack();
     BearMovement controller = bearMovement.GetComponent<BearMovement>(); 
 
@@ -700,32 +730,34 @@ controller.SetMoveDirection(currentDirection);
 
 // spawnNumber == 2, means its first spawn, because of spawnNumber += 1 earlier
 // 4 Blocks the row if bear is placed. 
+// selectedX and Z is used different and lane number is ignored for Bears, 
+//because they have to begin in left lane. 
+// spawnNumber is 2 for first row and others for last row, because 1 is already added to the value. 
 if(spawnNumber == 2)
                 {
                      usedRowOne = 4;
-
+                     bearMovement.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
+              
                 }
                 else
                 {
                     //skal måske være else if.
                     usedRowTwo = 4;
+                    bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);
                 }
 
-// selectedX and Z is used different and lane number is ignored for Bears, 
-//because they have to begin in left lane. 
-// spawnNumber is 2 for first row and others for last row, because 1 is already added to the value. 
-
+/*
     if(spawnNumber == 2)
                 {
                      bearMovement.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
-                  //   isBearSpawn = 1;
+              
                 } 
                 else
                 {
                    bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);  
-                 //   isBearSpawn = 2;
+                 
                 }  
-
+*/
                 controller.SetStartPosition(bearMovement.transform.position);
 
 //Debug.Log("Bear have been placed: ");
@@ -735,10 +767,56 @@ if(spawnNumber == 2)
     controller.isActiveInnPool = false;
 
          }
+            else if(currentSpawn == "woodenFenceSpawnValue")
+            {
+                          Debug.Log("Fence spawn as number: " + spawnNumber + " Lane number: " + laneNumber);
+    GameObject fence = WoodenFencePool.SharedInstance.GetTrack();
+    WoodenFenceController controller = fence.GetComponent<WoodenFenceController>(); 
+
+// spawnNumber == 2, means its first spawn, because of spawnNumber += 1 earlier
+// 4 Blocks the row if bear is placed. 
+// selectedX and Z is used different and lane number is ignored for Bears, 
+//because they have to begin in left lane. 
+// spawnNumber is 2 for first row and others for last row, because 1 is already added to the value. 
+if(spawnNumber == 2)
+                {
+                     usedRowOne = 5;
+                     fence.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
+                }
+                else
+                {
+            
+                    usedRowTwo = 5;
+                    fence.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);
+                }
+ 
+      if(currentDirection == "North")
+                    {
+             
+                  fence.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+           else if(currentDirection == "East")
+                    {
+            
+                  fence.transform.rotation = Quaternion.Euler(0, 90, 0);
+                  }
+           else if (currentDirection == "West")
+                    {
+                fence.transform.rotation = Quaternion.Euler(0, -90, 0);
+
+                    }
+        
+        fence.SetActive(true);
+                        
+    controller.isActiveInnPool = false;
+
+    controller.SetId(spawnId);
+            }
             else
             {
-             //   Debug.Log("currentSpawn == else");
-                // do something, men bliver nok uden else
+
+                //Skal også lige ses på 
+                break;
             }
          
         }
@@ -746,12 +824,7 @@ if(spawnNumber == 2)
 spawnNumber = 1;
 usedRowOne = 0;
 usedRowTwo = 0;
-//isBearSpawn = 0;
-// Skal måske fjernes: bearSpawnLaneFinder = 0;
-bearSpawnRowFinder = 0;
 spawnId += 1;
- //isBearSpawn = 0;
- //bearSpawnLaneFinder = 0;
 
     }
    
@@ -765,6 +838,7 @@ spawnId += 1;
         coinPool.FindLinkedElements(id);
         bearPool.FindLinkedElements(id);
         woodenFirePool.FindLinkedElements(id);
+        woodenFencePool.FindLinkedElements(id);
     }
 
     public void Awake()
@@ -772,6 +846,8 @@ spawnId += 1;
         coinPool = FindObjectOfType<CoinPool>();
         bearPool = FindObjectOfType<BearPool>();
         woodenFirePool = FindAnyObjectByType<WoodenFirePool>();
+        woodenFencePool = FindAnyObjectByType<WoodenFencePool>();
+        
     }
 
     // Update is called once per frame
