@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
@@ -8,10 +9,10 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float gravity = 10f;
     [SerializeField] private float groundedStickForce = -0.5f;
     [SerializeField] private float maxFallSpeed = -20f;
-    [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float maxSpeed = 30f;
 
     [Header("Lane Movement")]
-    [SerializeField] private float laneOffset = 5f; // match your wide lanes
+    [SerializeField] private float laneOffset = 5f;
     [SerializeField] private float laneChangeSpeed = 5f;
 
     [Header("Turning")]
@@ -19,6 +20,14 @@ public class EndlessRunController : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
+
+    [Header("Jump")]
+    [SerializeField] private float jumpForce = 2.5f;
+    [SerializeField] private float fallMultiplier = 2f;
+
+    [Header("Slide")]
+    [SerializeField] private bool isSliding = false;
+    [SerializeField] private float slideDuration = 0.8f;
 
     private CharacterController controller;
 
@@ -56,12 +65,19 @@ public class EndlessRunController : MonoBehaviour
         currentLaneCenter.y = transform.position.y;
 
         verticalVelocity = groundedStickForce;
+
+        if (animator != null)
+        {
+            animator.Play("Running");
+        }
     }
 
     private void Update()
     {
         HandleLaneInput();
         HandleTurnInput();
+        HandleJumpInput();
+        HandleSlideInput();
         MovePlayer();
         UpdateAnimation();
     }
@@ -77,11 +93,55 @@ public class EndlessRunController : MonoBehaviour
 
     private void HandleTurnInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && (canTurnLeft || allowManualTurnDebug))
+        if (Input.GetKeyDown(KeyCode.A) && (canTurnLeft || allowManualTurnDebug))
             TurnLeft();
 
-        if (Input.GetKeyDown(KeyCode.X) && (canTurnRight || allowManualTurnDebug))
+        if (Input.GetKeyDown(KeyCode.D) && (canTurnRight || allowManualTurnDebug))
             TurnRight();
+    }
+
+    private void HandleJumpInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && !isSliding)
+        {
+            verticalVelocity = Mathf.Sqrt(jumpForce * 2f * gravity);
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Jump");
+            }
+        }
+    }
+
+    private void HandleSlideInput()
+    {
+        if (Input.GetKeyDown(KeyCode.S) && controller.isGrounded && !isSliding)
+        {
+            StartCoroutine(SlideRoutine());
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Slide");
+            }
+        }
+    }
+
+    private IEnumerator SlideRoutine()
+    {
+        isSliding = true;
+
+        float originalHeight = controller.height;
+        Vector3 originalCenter = controller.center;
+
+        controller.height = originalHeight / 2f;
+        controller.center = originalCenter + Vector3.down * (originalHeight / 4f);
+
+        yield return new WaitForSeconds(slideDuration);
+
+        controller.height = originalHeight;
+        controller.center = originalCenter;
+
+        isSliding = false;
     }
 
     private void MovePlayer()
@@ -96,13 +156,17 @@ public class EndlessRunController : MonoBehaviour
 
         Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
 
-        if (controller.isGrounded)
+        if (controller.isGrounded && verticalVelocity < 0f)
         {
             verticalVelocity = groundedStickForce;
         }
         else
         {
-            verticalVelocity -= gravity * Time.deltaTime;
+            if (verticalVelocity > 0f)
+                verticalVelocity -= gravity * Time.deltaTime;
+            else
+                verticalVelocity -= gravity * fallMultiplier * Time.deltaTime;
+
             verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
         }
 
@@ -141,7 +205,6 @@ public class EndlessRunController : MonoBehaviour
 
     private void SnapToClosestLane()
     {
-        // If no lane targets assigned → fallback
         if (turnLaneCenter == null)
         {
             currentLaneCenter = transform.position - rightDirection * (currentLane * laneOffset);
@@ -169,16 +232,14 @@ public class EndlessRunController : MonoBehaviour
             {
                 closestDistance = dist;
                 closestLane = lanes[i];
-                closestLaneIndex = i - 1; // converts 0,1,2 → -1,0,1
+                closestLaneIndex = i - 1; // 0,1,2 -> -1,0,1
             }
         }
 
-        // Snap player
         Vector3 snappedPosition = closestLane.position;
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
 
-        // Update lane system
         currentLane = closestLaneIndex;
 
         currentLaneCenter = turnLaneCenter.position;
@@ -204,7 +265,6 @@ public class EndlessRunController : MonoBehaviour
         turnLaneRight = right;
     }
 
-
     public void AddSpeed(float amount)
     {
         forwardSpeed = Mathf.Min(forwardSpeed + amount, maxSpeed);
@@ -213,5 +273,11 @@ public class EndlessRunController : MonoBehaviour
     private void UpdateAnimation()
     {
         if (animator == null) return;
+
+        // Use whichever parameters actually exist in your Animator
+        animator.SetFloat("Speed", forwardSpeed);
+        animator.SetBool("Grounded", controller.isGrounded);
+        animator.SetBool("Sliding", isSliding);
+        animator.SetFloat("VerticalVelocity", verticalVelocity);
     }
 }

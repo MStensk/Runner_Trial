@@ -1755,11 +1755,15 @@ MonoBehaviour:
   gravity: 10
   groundedStickForce: -0.5
   maxFallSpeed: -20
-  maxSpeed: 20
+  maxSpeed: 30
   laneOffset: 5
   laneChangeSpeed: 5
   allowManualTurnDebug: 0
   animator: {fileID: 0}
+  jumpForce: 2.5
+  fallMultiplier: 2
+  isSliding: 0
+  slideDuration: 0.8
 --- !u!1 &1186874987
 GameObject:
   m_ObjectHideFlags: 0
