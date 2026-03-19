@@ -19,6 +19,7 @@ public class Health : MonoBehaviour
         if (currentHealth <= 0)
         {
             this.Die(attacker);
+            GameOverManager.Instance.GameOver();
         }
     }
 
