@@ -16,6 +16,10 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float maxFallSpeed = -20f;
     [SerializeField] private float maxSpeed = 30f;
 
+    [Header("Score Multiplier")]
+    [SerializeField] private int coinScoreMultiplier = 1;
+    [SerializeField] private int maxCoinScoreMultiplier = 3;
+
     [Header("Lane Movement")]
     [SerializeField] private float laneOffset = 5f;
     [SerializeField] private float laneChangeSpeed = 5f;
@@ -45,6 +49,7 @@ public class EndlessRunController : MonoBehaviour
     private Transform turnLaneLeft;
     private Transform turnLaneCenter;
     private Transform turnLaneRight;
+    private float baseForwardSpeed;
 
     private void Awake()
     {
@@ -63,6 +68,8 @@ public class EndlessRunController : MonoBehaviour
         currentLaneCenter.y = transform.position.y;
 
         verticalVelocity = groundedStickForce;
+
+        baseForwardSpeed = forwardSpeed;
 
         if (animator != null)
         {
@@ -267,7 +274,14 @@ public class EndlessRunController : MonoBehaviour
 
     public void AddSpeed(float amount)
     {
-        forwardSpeed = Mathf.Min(forwardSpeed + amount, maxSpeed);
+        if (forwardSpeed < maxSpeed)
+        {
+            forwardSpeed = Mathf.Min(forwardSpeed + amount, maxSpeed);
+        }
+        else
+        {
+            coinScoreMultiplier = Mathf.Min(coinScoreMultiplier + 1, maxCoinScoreMultiplier);
+        }
     }
 
     private void UpdateAnimation()
@@ -312,6 +326,22 @@ public class EndlessRunController : MonoBehaviour
         {
             transform.Rotate(0f, 90f, 0f);
         }
+    }
+
+    public int GetCoinScoreMultiplier()
+    {
+        return coinScoreMultiplier;
+    }
+
+    public int GetCoinScoreValue(int baseCoinValue)
+    {
+        return baseCoinValue * coinScoreMultiplier;
+    }
+
+    public void ResetSpeedAndMultiplier()
+    {
+        forwardSpeed = baseForwardSpeed;
+        coinScoreMultiplier = 1;
     }
 
     

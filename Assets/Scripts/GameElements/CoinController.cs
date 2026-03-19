@@ -24,13 +24,12 @@ public class CoinController : MonoBehaviour
     {
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 
-        // 🔥 Add score
-        ScoreManager.Instance.AddScore(scoreValue);
-
-        // 🔥 Add speed to player
         EndlessRunController player = playerNinjaCollider.GetComponent<EndlessRunController>();
         if (player != null)
         {
+            int finalScore = player.GetCoinScoreValue(scoreValue);
+            ScoreManager.Instance.AddScore(finalScore);
+
             player.AddSpeed(speedBoost);
         }
 

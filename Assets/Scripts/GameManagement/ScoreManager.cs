@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
     private int score = 0;
 
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private EndlessRunController player;
 
     private void Awake()
     {
@@ -26,8 +27,19 @@ public class ScoreManager : MonoBehaviour
     }
 
     private void UpdateUI()
+{
+    if (scoreText == null) return;
+
+    int multiplier = player != null ? player.GetCoinScoreMultiplier() : 1;
+
+    if (multiplier > 1)
     {
-        if (scoreText != null)
-            scoreText.text = "Score: " + score;
+        scoreText.text = "Score: " + score + "  x" + multiplier;
     }
+    else
+    {
+        scoreText.text = "Score: " + score;
+    }
+}
+
 }

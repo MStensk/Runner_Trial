@@ -8,6 +8,12 @@ public class ObstacleDamage : MonoBehaviour
     {
         Health health = other.GetComponentInParent<Health>();
 
+        EndlessRunController player = other.GetComponent<EndlessRunController>();
+        if (player != null)
+        {
+            player.ResetSpeedAndMultiplier();
+        }
+
         if (health != null)
         {
             Debug.Log("Player hit by obstacle");
