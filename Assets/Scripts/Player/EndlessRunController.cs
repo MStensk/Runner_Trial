@@ -203,8 +203,6 @@ private IEnumerator SlideRoutine()
     Vector3 originalCenter = controller.center;
 
     controller.height = originalHeight / 2f;
-
-
     controller.center = originalCenter + Vector3.down * (originalHeight / 4f);
 
     yield return new WaitForSeconds(0.8f);
@@ -290,5 +288,16 @@ private IEnumerator SlideRoutine()
     private void UpdateAnimation()
 {
     if (animator == null) return;
+
+    bool grounded = controller.isGrounded;
+
+    if (grounded && verticalVelocity <= 0)
+    {
+        animator.SetBool("isGrounded", true);
+    }
+    else
+    {
+        animator.SetBool("isGrounded", false);
+    }
 }
 }
