@@ -27,6 +27,9 @@ public class EndlessRunController : MonoBehaviour
     [Header("Slide")]
     [SerializeField] private bool isSliding;
     
+    [Header("Falling")]
+    [SerializeField] private float fallMultiplier = 5f;
+    
     
 
     private CharacterController controller;
@@ -126,7 +129,7 @@ public class EndlessRunController : MonoBehaviour
         }
         else
         {
-            verticalVelocity -= gravity * 6f * Time.deltaTime;
+            verticalVelocity -= gravity * fallMultiplier * Time.deltaTime;
         }
 
         verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);

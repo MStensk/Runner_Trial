@@ -4,6 +4,9 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private int currentHealth; 
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hitSound;
     
     void OnEnable()
     {
@@ -15,6 +18,10 @@ public class Health : MonoBehaviour
         if (attacker == gameObject) return;
 
         currentHealth -= damage;
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        }
 
         if (currentHealth <= 0)
         {
@@ -29,6 +36,14 @@ public class Health : MonoBehaviour
         {
             d.OnDestroy(attacker); 
             */
+        if (musicSource != null)
+        {
+            musicSource.Stop();
+        }
+          if (deathSound != null)
+        {
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        }
         Destroy(gameObject); 
     }
 
