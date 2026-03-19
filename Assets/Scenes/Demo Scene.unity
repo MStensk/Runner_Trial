@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 56c9ed5ee739a324e8d8bdb9613f4890, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -328,7 +328,7 @@ Camera:
   m_GameObject: {fileID: 154682177}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.050980393, g: 0.05490196, b: 0.105882354, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1740,6 +1740,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   currentHealth: 0
   maxHealth: 100
+  musicSource: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 46eac4891b00ad643a241db3be5f3b53, type: 3}
+  hitSound: {fileID: 8300000, guid: 209e358358bc6344093d72d715dc3918, type: 3}
 --- !u!114 &1176769420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,7 +1768,7 @@ MonoBehaviour:
   laneChangeSpeed: 5
   allowManualTurnDebug: 0
   animator: {fileID: 0}
-  jumpForce: 2.5
+  jumpForce: 5
   fallMultiplier: 2
   isSliding: 0
   slideDuration: 0.8

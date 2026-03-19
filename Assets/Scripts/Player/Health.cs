@@ -4,6 +4,9 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private int currentHealth; 
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hitSound;
     
     void OnEnable()
     {
@@ -15,6 +18,10 @@ public class Health : MonoBehaviour
         if (attacker == gameObject) return;
 
         currentHealth -= damage;
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        }
 
         if (currentHealth <= 0)
         {
@@ -25,11 +32,15 @@ public class Health : MonoBehaviour
 
     private void Die(GameObject attacker)
     {
-       /* IDestructible[] destructibles = GetComponentsInChildren<IDestructible>(); 
-        foreach(IDestructible d in destructibles)
+        if (musicSource != null)
         {
-            d.OnDestroy(attacker); 
-            */
+            musicSource.Stop();
+        }
+          if (deathSound != null)
+        {
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        }
+
         Destroy(gameObject); 
     }
 
