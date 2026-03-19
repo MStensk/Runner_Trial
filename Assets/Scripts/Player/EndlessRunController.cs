@@ -23,6 +23,10 @@ public class EndlessRunController : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 2.5f;
+
+    [Header("Slide")]
+    [SerializeField] private bool isSliding;
+    
     
 
     private CharacterController controller;
@@ -95,41 +99,45 @@ public class EndlessRunController : MonoBehaviour
             TurnRight();
     }
 
-    private void MovePlayer()
+   private void MovePlayer()
+{
+    // Move forward always
+   currentLaneCenter += forwardDirection * forwardSpeed * Time.deltaTime;
+
+    Vector3 targetPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
+
+    Vector3 currentPosition = transform.position;
+
+    Vector3 flatCurrent = new Vector3(currentPosition.x, 0f, currentPosition.z);
+    Vector3 flatTarget = new Vector3(targetPosition.x, 0f, targetPosition.z);
+
+    Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
+
+    // Gravity
+    if (controller.isGrounded && verticalVelocity < 0)
     {
-        currentLaneCenter += forwardDirection * forwardSpeed * Time.deltaTime;
-
-        Vector3 targetPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
-
-        Vector3 currentPosition = transform.position;
-        Vector3 flatCurrent = new Vector3(currentPosition.x, 0f, currentPosition.z);
-        Vector3 flatTarget = new Vector3(targetPosition.x, 0f, targetPosition.z);
-
-        Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
-
-        if (controller.isGrounded && verticalVelocity < 0)
+        verticalVelocity = groundedStickForce;
+    }
+    else
+    {
+        if (verticalVelocity > 0)
         {
-            verticalVelocity = groundedStickForce;
+            verticalVelocity -= gravity * Time.deltaTime;
         }
         else
         {
-            if (verticalVelocity > 0)
-            {
-            verticalVelocity -= gravity * Time.deltaTime; // going up
-            }
-            else
-            {
-            verticalVelocity -= gravity * 2f * Time.deltaTime; // falling faster
-            }
-            verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
+            verticalVelocity -= gravity * 6f * Time.deltaTime;
         }
 
-        Vector3 move = horizontalMove;
-        move += forwardDirection * forwardSpeed;
-        move.y = verticalVelocity;
-
-        controller.Move(move * Time.deltaTime);
+        verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
     }
+
+    Vector3 move = horizontalMove;
+    move += forwardDirection * forwardSpeed;
+    move.y = verticalVelocity;
+
+    controller.Move(move * Time.deltaTime);
+}
 
     private void TurnLeft()
     {
@@ -173,32 +181,36 @@ public class EndlessRunController : MonoBehaviour
 
 private void HandleSlideInput()
 {
-    if (Input.GetKeyDown(KeyCode.S) && controller.isGrounded)
+    if (Input.GetKeyDown(KeyCode.S) && controller.isGrounded && !isSliding)
     {
-        Debug.Log("SLIDE");
+        StartCoroutine(SlideRoutine());
 
         if (animator != null)
         {
             animator.SetTrigger("Slide");
         }
-
-        StartCoroutine(SlideRoutine());
     }
 }
 private IEnumerator SlideRoutine()
 {
+    isSliding = true;
+    
+
     float originalHeight = controller.height;
     Vector3 originalCenter = controller.center;
 
-    // shrink player
-    controller.height = originalHeight / 2;
-    controller.center = new Vector3(originalCenter.x, originalCenter.y / 2, originalCenter.z);
+    controller.height = originalHeight / 2f;
 
-    yield return new WaitForSeconds(1f); // match animation length
 
-    // restore
+    controller.center = originalCenter + Vector3.down * (originalHeight / 4f);
+
+    yield return new WaitForSeconds(0.8f);
+
     controller.height = originalHeight;
     controller.center = originalCenter;
+    
+
+    isSliding = false;
 }
 
     private void SnapToClosestLane()
