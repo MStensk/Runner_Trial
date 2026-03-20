@@ -10,11 +10,11 @@ public class TrackGenerator : MonoBehaviour
     BearPool bearPool;
     WoodenFirePool woodenFirePool;
     WoodenFencePool woodenFencePool;
-    private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
+   //private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
+        private Vector3 currentBuildPosition = new Vector3(1192.5f, 1.1f, 1190f );
     public int initialTrackLength = 4;
     public int turnController = 0;
-
-    int straigthPartLength = 6;
+    int straigthPartLength = 4;
     int gameLevel = 1;
     int currentCount = 0;
     int neededElements = 10;
@@ -45,7 +45,7 @@ public class TrackGenerator : MonoBehaviour
     {
         gameLevel += 1;
         // Finds new lane formation
-        SetStraigthPartLength();
+        SetStraightPartLength();
         BoostBearSize();
     }
 
@@ -142,7 +142,7 @@ public void BuildCommonFactor()
 
     }
 
-public void SetStraigthPartLength()
+public void SetStraightPartLength()
     {
         int randomLaneNumberThirdSpawn;
 
@@ -171,7 +171,6 @@ public void SetStraigthPartLength()
         
         straigthPartLength = randomLaneNumberThirdSpawn;
     }
-
 
     public void InitializeTrack()
     {
@@ -224,31 +223,150 @@ currentDirection = buildDirections[directionValue];
     }
     public void BuildTrack()
     {
-        
-        if(turnController >= straigthPartLength)
-        {
-           int turnDirection = UnityEngine.Random.Range(0, 2);
-        //   Debug.Log("Randum number: " + turnDirection);
+// || currentBuildPosition.x < 400|| currentBuildPosition.z > 2000 || currentBuildPosition.z < 400)
 
-            if(turnDirection == 0)
+int turnDirection = UnityEngine.Random.Range(0, 2);
+
+// Makes sure game doesn´t leave tarrain or get close to edges.
+        if(currentBuildPosition.x > 2000)
+        {
+           
+            if(currentDirection == "North")
+            {
+                  BuildLeftCorner();
+                
+            }
+            else if(currentDirection == "South")
+            {
+                BuildRigthCorner();
+             
+            }
+            else if(currentDirection == "West")
+            {
+                BuildStraightTrack();
+            }
+            else
+            {
+                  if(turnDirection == 0)
             {
                 BuildLeftCorner();
-                 BuildCommonFactor();
+             
+            } 
+            else
+            {
+                BuildRigthCorner();
+                
+            }  
+            }
+        }
+        else if( currentBuildPosition.x < 400)
+            {
+                  if(currentDirection == "North")
+            {
+              BuildRigthCorner();    
+            }
+            else if(currentDirection == "South")
+            {  
+              BuildLeftCorner();
+            }
+            else if(currentDirection == "West")
+            {
+            if(turnDirection == 0)
+            {
+                BuildLeftCorner(); 
+            } 
+         else
+            {
+                BuildRigthCorner();
+            }   
+          
+            }
+            }
+            else if( currentBuildPosition.z < 400)
+            {
+               if(currentDirection == "East")  
+            {
+              BuildLeftCorner();
+            }   
+            else if(currentDirection == "West")
+            {  
+               BuildRigthCorner();
+            } 
+            else if(currentDirection == "South")
+            {
+            if(turnDirection == 0)
+            {
+                BuildLeftCorner(); 
             } 
             if(turnDirection == 1)
             {
                 BuildRigthCorner();
-                 BuildCommonFactor();
+            }   
+
+            }
+            }
+            else if( currentBuildPosition.z > 2000)
+            {
+               if(currentDirection == "East")  
+            {
+                BuildRigthCorner();    
+            }   
+            else if(currentDirection == "West")
+            {  
+               BuildLeftCorner();
+            } 
+            else if(currentDirection == "North")
+            {
+            
+            if(turnDirection == 0)
+            {
+                BuildLeftCorner(); 
+            } 
+           else
+            {
+                BuildRigthCorner();
+            }
+            }   
+            else{
+
+            if(turnDirection == 0)
+            {
+                BuildLeftCorner();
+             
+            } 
+            if(turnDirection == 1)
+            {
+                BuildRigthCorner();
+            
+            }       
+        }
+     }
+        else{
+        if(turnController >= straigthPartLength)
+        {
+           
+            if(turnDirection == 0)
+            {
+                BuildLeftCorner();
+            
+            } 
+            if(turnDirection == 1)
+            {
+                BuildRigthCorner();
+            
             }       
             }
         else{
             BuildStraightTrack();
 
             }
+            BuildCommonFactor();
+        }
 
             ManageLevelUpdate();
             SetTrapCommonFactor();
     }
+            
         public void BuildLeftCorner()
     {
 
@@ -752,7 +870,6 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
             {
                 //Moves placement from mid point in lane to bigin.
 float placeFirstCoinAtLaneBeginPoint = 5.9f;
-
 
          for(float j = 0.0f; j < 11.7f; j += 2.0f)
                 {
