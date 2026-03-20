@@ -71,7 +71,7 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2150214, y: 2.7001765, z: 2.576217}
+  m_Size: {x: 1.2150214, y: 2.7001765, z: 2.44}
   m_Center: {x: 0.0063524246, y: 0.850088, z: 0.4630922}
 --- !u!114 &4113980685102170970
 MonoBehaviour:
@@ -132,6 +132,14 @@ PrefabInstance:
     - target: {fileID: 3510999638225019101, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
       propertyPath: m_LocalScale.z
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -209,7 +217,7 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.81609297, y: 1.879182, z: 2.445209}
+  m_Size: {x: 0.816, y: 3, z: 2.445209}
   m_Center: {x: -0.0016791224, y: 0.92016214, z: 0.37150228}
 --- !u!4 &9008410939561722233 stripped
 Transform:

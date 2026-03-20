@@ -25,18 +25,6 @@ public void SetId(int id)
         moveDirection = direction;
     }
 
-    private void Initialize(Vector3 spawnPosition, string direction)
-    {
-        transform.position = spawnPosition;
-        startPos = spawnPosition;
-
-        moveTimer = 0f;
-        isActiveInnPool = true;
-        track = FindObjectOfType<TrackGenerator>();
-
-        SetInitialRotation();
-    }
-
     public void SetRemoveBear()
     {
         removeBear = true;
@@ -115,9 +103,22 @@ public void SetId(int id)
     removeBear = false;
     moveTimer = 0f;
     isActiveInnPool = true;
-    gameObject.SetActive(false);
+
+     startPos = Vector3.zero;
+    moveDirection = "North";
+    speed = 4f;
+
+    Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
+    bearVisual.localScale = Vector3.one * 8f;
+
+    transform.position = Vector3.zero;
+
     transform.rotation = Quaternion.Euler(0, 0, 0);
-    SetId(0);
+
+     SetId(0);
+    
+    gameObject.SetActive(false);
+    
 
     }
 public void ResetBearState()
@@ -133,7 +134,32 @@ public void SetStartPosition(Vector3 newStartPos)
 public void SetBearSize(float grow)
     { 
          Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
-         bearVisual.localScale = new Vector3(grow ,grow, grow);
-    }
 
+         bearVisual.localScale = new Vector3(grow ,grow, grow);
+    
+      BoxCollider col = GetComponent<BoxCollider>();
+
+    Vector3 newSize = col.size;
+    newSize.z += 0.2f;
+    col.size = newSize;
+      
+}
+
+public void SetBearSpeed(float newSpeed)
+{
+    speed = newSpeed;
+}
+
+/* private void Initialize(Vector3 spawnPosition, string direction)
+    {
+        transform.position = spawnPosition;
+        startPos = spawnPosition;
+
+        moveTimer = 0f;
+        isActiveInnPool = true;
+        track = FindObjectOfType<TrackGenerator>();
+
+        SetInitialRotation();
+    }
+*/
 }

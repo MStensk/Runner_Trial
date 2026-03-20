@@ -20,6 +20,7 @@ public void Awake()
             tmp.SetActive(false);
 
         RigthTurnController controller = tmp.GetComponent<RigthTurnController>();
+        
             controller.isActiveInnPool = false;
             controller.triggerTrackConstruction = false;
 

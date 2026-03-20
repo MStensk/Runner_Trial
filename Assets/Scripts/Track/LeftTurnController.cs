@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class LeftTurnController : MonoBehaviour
 {
-
      public bool isActiveInnPool;
      public bool triggerTrackConstruction;
      public float lengthOnX = 41.5f;
@@ -16,7 +15,7 @@ public void SetId(int id)
     }
      private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-Debug.Log("Left turn have entered track build");
+
 
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 
@@ -24,9 +23,8 @@ Debug.Log("Left turn have entered track build");
         {
         TrackGenerator generator = FindObjectOfType<TrackGenerator>();
         generator.BuildTrack();    
-Debug.Log("Left turn have triggered track build");
 
-           triggerTrackConstruction = false;
+        triggerTrackConstruction = false;
         }
     }
 
@@ -39,8 +37,7 @@ Debug.Log("Left turn have triggered track build");
    
     }
     
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+// Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
           GameObject characterObject = GameObject.FindWithTag("PlayerNinja");

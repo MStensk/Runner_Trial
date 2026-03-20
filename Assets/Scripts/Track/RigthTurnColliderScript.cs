@@ -6,8 +6,6 @@ public class RigthTurnColliderScript : MonoBehaviour
     private TrackGenerator trackGenerator;
      private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-
-Debug.Log("Ninja name in Rigth controller" +playerNinjaCollider.name);
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 
@@ -15,9 +13,8 @@ Debug.Log("Ninja name in Rigth controller" +playerNinjaCollider.name);
         {
         TrackGenerator generator = FindObjectOfType<TrackGenerator>();
 
-Debug.Log("Rigth turn have triggered track build");
-
-        generator.BuildTrack();    
+        generator.BuildTrack();  
+          
 //Nyt for at stoppe gentagne builds.
         rightTurnController.triggerTrackConstruction = false;
         }

@@ -10,8 +10,9 @@ public class LeftTurnRemoveController : MonoBehaviour
 Debug.Log(playerNinjaCollider.name);
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
-leftTurnController.RemoveUsedTrack();
-Debug.Log("Dette navn har ramt remove used track for left turn:" + playerNinjaCollider.name);
+         
+         leftTurnController.RemoveUsedTrack();
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

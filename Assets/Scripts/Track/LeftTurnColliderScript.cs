@@ -6,16 +6,12 @@ public class LeftTurnColliderScript : MonoBehaviour
     private TrackGenerator trackGenerator;
      private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-Debug.Log("ok");
-Debug.Log(playerNinjaCollider.name);
-        
+
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 
         if (leftTurnController.triggerTrackConstruction)
         {
         TrackGenerator generator = FindObjectOfType<TrackGenerator>();
-
-Debug.Log("Leftturn have triggered track build");
 
         generator.BuildTrack();    
 //Nyt for at stoppe gentagne builds.

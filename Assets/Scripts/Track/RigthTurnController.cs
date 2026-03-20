@@ -14,7 +14,7 @@ public void SetId(int id)
     }
    private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-Debug.Log("Rigth turn have entered track build");
+
 
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
 
@@ -22,7 +22,7 @@ Debug.Log("Rigth turn have entered track build");
         {
         TrackGenerator generator = FindObjectOfType<TrackGenerator>();
         generator.BuildTrack();    
-Debug.Log("Rigth turn have triggered track build");
+
            triggerTrackConstruction = false;
         }
     }
