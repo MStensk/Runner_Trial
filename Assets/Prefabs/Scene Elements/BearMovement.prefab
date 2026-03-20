@@ -51,6 +51,7 @@ MonoBehaviour:
   isActiveInnPool: 0
   laneLength: 12
   speed: 4
+  commonId: 0
 --- !u!65 &5818212837850967528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -122,15 +123,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3510999638225019101, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
       propertyPath: m_LocalScale.x
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3510999638225019101, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
       propertyPath: m_LocalScale.y
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3510999638225019101, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
       propertyPath: m_LocalScale.z
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3758670404344086155, guid: 20448f50d45eeda408a97e8eb78a6d47, type: 3}
       propertyPath: m_LocalPosition.x

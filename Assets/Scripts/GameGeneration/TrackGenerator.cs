@@ -6,6 +6,7 @@ using Unity.Collections;
 using System.Linq;
 using NUnit.Framework;
 
+
 public class TrackGenerator : MonoBehaviour
 {
     CoinPool coinPool;
@@ -13,8 +14,10 @@ public class TrackGenerator : MonoBehaviour
     WoodenFirePool woodenFirePool;
     WoodenFencePool woodenFencePool;
     private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
-    public int initialTrackLength = 1;
+    public int initialTrackLength = 3;
     public int turnController = 0;
+
+    int straigthPartLength = 6;
     int gameLevel = 1;
     int currentCount = 0;
     int neededElements = 10;
@@ -31,14 +34,23 @@ public class TrackGenerator : MonoBehaviour
     int spawnId = 1;
 
     // Priority values for elements.
-     int coinSpawn = 7;
-     int woodenFenceSpawn = 9;
-     int bearSpawn = 5;
-     int woodenFireSpawn = 6;
+     int coinSpawn = 1000;
+     int woodenFenceSpawn = 150;
+     int bearSpawn = 300;
+     int woodenFireSpawn = 700;
+     int coinSpawnAdd = 0;
+     int woodenFenceSpawnAdd = 0;
+     int bearSpawnAdd = 0;
+     int woodenFireSpawnAdd = 0;
 
+     float bearSize = 8;
+  
     public void UpdateLevel()
     {
         gameLevel += 1;
+        // Finds new lane formation
+        SetStraigthPartLength();
+        BoostBearSize();
     }
 
     public void ManageLevelUpdate()
@@ -52,6 +64,86 @@ public class TrackGenerator : MonoBehaviour
 
             currentCount = 0;
         }
+    }
+
+    public void SetTrapCommonFactor()
+    {
+      coinSpawn += 1000 + coinSpawnAdd;
+      woodenFenceSpawn += 150 + woodenFenceSpawnAdd;
+      bearSpawn += 300 + bearSpawnAdd;
+      woodenFireSpawn += 700 + woodenFireSpawnAdd;
+    }
+
+// Changes trap distribution over time
+public void BuildCommonFactor()
+    {
+       coinSpawnAdd += 1;
+       bearSpawnAdd += 5;
+       woodenFireSpawnAdd += 3;
+       woodenFenceSpawnAdd += 2;
+    }
+
+    public void BoostBearSize()
+    {
+        if(bearSize > 13.9f) return;
+        
+        if(gameLevel > 3 && gameLevel < 8)
+        {
+            bearSize += 1f;
+        }
+        else if(gameLevel > 12 )
+        bearSize += 0.5f;
+    }
+
+/*
+    public void CoinBuildCommonFactor()
+    {
+        coinSpawnAdd += 1;
+    }
+
+     public void BearBuildCommonFactor()
+    {
+        bearSpawnAdd += 5;
+    }
+
+     public void FireBuildCommonFactor()
+    {
+         woodenFireSpawnAdd += 3;
+    }
+     public void FenceBuildCommonFactor()
+    {
+        woodenFenceSpawnAdd += 2;
+    }
+
+*/
+public void SetStraigthPartLength()
+    {
+        int randomLaneNumberThirdSpawn;
+
+        int random =  UnityEngine.Random.Range(1, 100);
+        
+        if(random <= 10)
+        {
+            randomLaneNumberThirdSpawn = 0;
+        }
+        else if(random <= 25)
+        { 
+            randomLaneNumberThirdSpawn = UnityEngine.Random.Range(5, 8);
+        }
+        else if(random <= 35)
+        {
+            randomLaneNumberThirdSpawn = 1;
+        }
+        else if(random <= 40)
+        {
+            randomLaneNumberThirdSpawn = 2;
+        }
+        else
+        {
+            randomLaneNumberThirdSpawn = UnityEngine.Random.Range(3, 5);
+        }
+        
+        straigthPartLength = randomLaneNumberThirdSpawn;
     }
 
 
@@ -110,7 +202,7 @@ currentDirection = buildDirections[directionValue];
     public void BuildTrack()
     {
         
-        if(turnController >= 4)
+        if(turnController >= straigthPartLength)
         {
            int turnDirection = UnityEngine.Random.Range(0, 2);
         //   Debug.Log("Randum number: " + turnDirection);
@@ -118,10 +210,12 @@ currentDirection = buildDirections[directionValue];
             if(turnDirection == 0)
             {
                 BuildLeftCorner();
+                 BuildCommonFactor();
             } 
             if(turnDirection == 1)
             {
                 BuildRigthCorner();
+                 BuildCommonFactor();
             }       
             }
         else{
@@ -130,6 +224,7 @@ currentDirection = buildDirections[directionValue];
             }
 
             ManageLevelUpdate();
+            SetTrapCommonFactor();
             Debug.Log("Current Level:  " + gameLevel);
     }
         public void BuildLeftCorner()
@@ -695,6 +790,8 @@ float placeFirstCoinAtLaneBeginPoint = 5.9f;
                controller.isActiveInnPool = false;
 
                // Resets priority for coins.
+                coinSpawn = 0;
+     
                 }
      
             }
@@ -712,6 +809,8 @@ Debug.Log("Fire spawn as number: " + spawnNumber + " Lane number: " + laneNumber
 
                woodenFire.SetActive(true);
                controller.isActiveInnPool = false;
+// Reset priority
+               woodenFireSpawn = 0;
 
             }
        else if(currentSpawn == "bearSpawnValue")
@@ -728,6 +827,8 @@ controller.SetMoveDirection(currentDirection);
 
  controller.ResetBearState();
 
+ controller.SetBearSize(bearSize);
+
 // spawnNumber == 2, means its first spawn, because of spawnNumber += 1 earlier
 // 4 Blocks the row if bear is placed. 
 // selectedX and Z is used different and lane number is ignored for Bears, 
@@ -741,30 +842,21 @@ if(spawnNumber == 2)
                 }
                 else
                 {
-                    //skal måske være else if.
                     usedRowTwo = 4;
                     bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);
                 }
 
-/*
-    if(spawnNumber == 2)
-                {
-                     bearMovement.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
-              
-                } 
-                else
-                {
-                   bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);  
-                 
-                }  
-*/
                 controller.SetStartPosition(bearMovement.transform.position);
+                
 
 //Debug.Log("Bear have been placed: ");
  //Debug.Log("Bear place CurrentDirection: " + currentDirection);
  
     bearMovement.SetActive(true);
     controller.isActiveInnPool = false;
+
+      //Reset priority
+      bearSpawn = 0;
 
          }
             else if(currentSpawn == "woodenFenceSpawnValue")
@@ -811,6 +903,10 @@ if(spawnNumber == 2)
     controller.isActiveInnPool = false;
 
     controller.SetId(spawnId);
+
+    //Reset priority
+      woodenFenceSpawn = 0;
+          
             }
             else
             {
