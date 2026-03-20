@@ -26,16 +26,12 @@ public class Health : MonoBehaviour
         if (currentHealth <= 0)
         {
             this.Die(attacker);
+            GameOverManager.Instance.GameOver();
         }
     }
 
     private void Die(GameObject attacker)
     {
-       /* IDestructible[] destructibles = GetComponentsInChildren<IDestructible>(); 
-        foreach(IDestructible d in destructibles)
-        {
-            d.OnDestroy(attacker); 
-            */
         if (musicSource != null)
         {
             musicSource.Stop();
@@ -44,6 +40,7 @@ public class Health : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(deathSound, transform.position);
         }
+
         Destroy(gameObject); 
     }
 

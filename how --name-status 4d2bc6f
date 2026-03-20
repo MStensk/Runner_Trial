@@ -1,0 +1,43 @@
+*   [33m9106ff9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmergeBranch[m[33m, [m[1;31morigin/mergeBranch[m[33m)[m woodenFire+3spawn-added
+[31m|[m[32m\[m  
+* [32m|[m [33m0593b94[m fire placement  and 3 spawns possible 2
+* [32m|[m [33md18e04f[m fire placement  and 3 spawns possible
+[32m|[m [32m|[m * [33m4f09192[m[33m ([m[1;31morigin/Animations_Running+Jumping+Sliding[m[33m)[m AnimationsWork
+[32m|[m [32m|[m[32m/[m  
+[32m|[m * [33m4d2bc6f[m coin, score and speed
+[32m|[m * [33mc77e81d[m lane snap
+[32m|[m[32m/[m  
+* [33m82b95dc[m Forgot to switch back to correct endress run controller in privious push, sorry
+* [33m1261741[m korrektion af controller
+*   [33mec94a36[m Merge branch 'mergeBranch' of https://github.com/MStensk/Runner_Trial into mergeBranch
+[34m|[m[35m\[m  
+[34m|[m * [33m724df0b[m Fixed lanePositions after turn
+* [35m|[m [33m407c9ab[m bear remove virker-der er lavet ændring i bearMovement så update kan blokeres før Deactivate
+[35m|[m[35m/[m  
+* [33m4a5ff66[m Corner collider corrected
+*   [33m18f55f3[m Merge branch 'mergeBranch' of https://github.com/MStensk/Runner_Trial into mergeBranch
+[36m|[m[1;31m\[m  
+[36m|[m * [33mdfcc04c[m Health and DMG
+* [1;31m|[m [33m5c29cc7[m element remove added to coin
+[1;31m|[m[1;31m/[m  
+*   [33m679febd[m Merge branch 'mergeBranch' of https://github.com/MStensk/Runner_Trial into mergeBranch
+[1;32m|[m[1;33m\[m  
+[1;32m|[m * [33m55b9a4f[m Camera changes
+[1;32m|[m * [33mf058e0d[m Delete EndlessRunController.cs
+[1;32m|[m * [33m56d63f7[m Fixed run and collision
+* [1;33m|[m [33m3700df8[m Third spawn place objects
+[1;33m|[m[1;33m/[m  
+* [33m5890a55[m More track build
+* [33m789a02a[m with new annimated character
+*   [33m74d4601[m Merge remote-tracking branch 'origin/MathiasBranch' into mergeBranch
+[1;34m|[m[1;35m\[m  
+[1;34m|[m * [33m1578eaf[m[33m ([m[1;31morigin/MathiasBranch[m[33m)[m Ui and Health
+* [1;35m|[m [33m46144c9[m ready for merge
+* [1;35m|[m [33m7c2f784[m[33m ([m[1;31morigin/idSystemRemoveObjectsFromScene-coins[m[33m, [m[1;32midSystemRemoveObjectsFromScene-coins[m[33m)[m some obstracle placement made
+* [1;35m|[m [33mc0ec063[m[33m ([m[1;31morigin/trackbuilder-ajp[m[33m, [m[1;32mtrackbuilder-ajp[m[33m)[m Remove course added + refactorering i generate track
+* [1;35m|[m [33m1f97f62[m Remove course added
+* [1;35m|[m [33m0e255b0[m track generation
+* [1;35m|[m [33m352eb98[m Track builder work
+[1;35m|[m[1;35m/[m  
+* [33mfcf5065[m[33m ([m[1;32mMathiasBranch[m[33m)[m Obstacle refinement
+* [33m7fdf253[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/Movement+Animations_Orhan[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Initial commit
