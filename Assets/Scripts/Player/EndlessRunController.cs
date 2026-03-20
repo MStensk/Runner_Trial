@@ -60,7 +60,10 @@ public class EndlessRunController : MonoBehaviour
     }
 
     private void Start()
-    {
+    {  
+        //added
+         transform.position = new Vector3(1202.7f, 1.1f, 1201f);
+
         forwardDirection = transform.forward.normalized;
         rightDirection = transform.right.normalized;
 
