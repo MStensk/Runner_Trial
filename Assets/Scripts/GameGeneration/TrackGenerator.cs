@@ -45,7 +45,7 @@ public class TrackGenerator : MonoBehaviour
     {
         gameLevel += 1;
         // Finds new lane formation
-        SetStraigthPartLength();
+        SetStraightPartLength();
         BoostBearSize();
     }
 
@@ -142,7 +142,7 @@ public void BuildCommonFactor()
 
     }
 
-public void SetStraigthPartLength()
+public void SetStraightPartLength()
     {
         int randomLaneNumberThirdSpawn;
 
@@ -252,7 +252,7 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
                 BuildLeftCorner();
              
             } 
-            if(turnDirection == 1)
+            else
             {
                 BuildRigthCorner();
                 
@@ -275,14 +275,11 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             {
                 BuildLeftCorner(); 
             } 
-            if(turnDirection == 1)
+         else
             {
                 BuildRigthCorner();
             }   
-            else
-            {
-             BuildStraightTrack();
-            }
+          
             }
             }
             else if( currentBuildPosition.z < 400)
@@ -305,10 +302,6 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             {
                 BuildRigthCorner();
             }   
-            else
-            {
-             BuildStraightTrack();
-            }
 
             }
             }
@@ -329,16 +322,11 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             {
                 BuildLeftCorner(); 
             } 
-            if(turnDirection == 1)
+           else
             {
                 BuildRigthCorner();
+            }
             }   
-            else
-            {
-             BuildStraightTrack();
-            }
-
-            }
             else{
 
             if(turnDirection == 0)
