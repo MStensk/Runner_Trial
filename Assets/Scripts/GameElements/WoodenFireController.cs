@@ -18,8 +18,6 @@ public void SetId(int id)
     // Start is called once before the first execution of Update after the MonoBehaviour is created
       private void OnTriggerEnter(Collider playerNinjaCollider)
     {
-//Debug.Log("ok");
-//Debug.Log(playerNinjaCollider.name);
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
             DeactivateFire();

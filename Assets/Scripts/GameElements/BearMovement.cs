@@ -13,11 +13,9 @@ public bool isActiveInnPool;
     private Vector3 startPos;
     private string moveDirection = "North";
     private float moveTimer;
-    private int updateCount = 1;
-
     public int commonId;
+    bool removeBear = false;
 
-bool removeBear = false;
 public void SetId(int id)
     {
         commonId = id;
@@ -25,18 +23,6 @@ public void SetId(int id)
     public void SetMoveDirection(string direction)
     {
         moveDirection = direction;
-    }
-
-    private void Initialize(Vector3 spawnPosition, string direction)
-    {
-        transform.position = spawnPosition;
-        startPos = spawnPosition;
-
-        moveTimer = 0f;
-        isActiveInnPool = true;
-        track = FindObjectOfType<TrackGenerator>();
-
-        SetInitialRotation();
     }
 
     public void SetRemoveBear()
@@ -114,12 +100,25 @@ public void SetId(int id)
 
     public void DeactivateBear()
     {
-                removeBear = false;
+    removeBear = false;
     moveTimer = 0f;
     isActiveInnPool = true;
-    gameObject.SetActive(false);
+
+     startPos = Vector3.zero;
+    moveDirection = "North";
+    speed = 4f;
+
+    Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
+    bearVisual.localScale = Vector3.one * 8f;
+
+    transform.position = Vector3.zero;
+
     transform.rotation = Quaternion.Euler(0, 0, 0);
-    SetId(0);
+
+     SetId(0);
+    
+    gameObject.SetActive(false);
+    
 
     }
 public void ResetBearState()
@@ -131,4 +130,36 @@ public void SetStartPosition(Vector3 newStartPos)
 {
     startPos = newStartPos;
 }
+
+public void SetBearSize(float grow)
+    { 
+         Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
+
+         bearVisual.localScale = new Vector3(grow ,grow, grow);
+    
+      BoxCollider col = GetComponent<BoxCollider>();
+
+    Vector3 newSize = col.size;
+    newSize.z += 0.2f;
+    col.size = newSize;
+      
+}
+
+public void SetBearSpeed(float newSpeed)
+{
+    speed = newSpeed;
+}
+
+/* private void Initialize(Vector3 spawnPosition, string direction)
+    {
+        transform.position = spawnPosition;
+        startPos = spawnPosition;
+
+        moveTimer = 0f;
+        isActiveInnPool = true;
+        track = FindObjectOfType<TrackGenerator>();
+
+        SetInitialRotation();
+    }
+*/
 }

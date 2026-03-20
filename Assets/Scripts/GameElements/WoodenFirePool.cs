@@ -22,24 +22,8 @@ public void FindLinkedElements(int id)
               
 }
     }
-    }
-
-    public void FindActiveFires()
-{
-    for (int i = 0; i < pooledObjects.Count; i++)
-    {
-        GameObject fire = pooledObjects[i];
-        if (!fire.activeInHierarchy) continue;
-
-        WoodenFireController c = fire.GetComponent<WoodenFireController>();
-        Debug.Log("Fire pool index: " + i +
-                  " id: " + c.commonID +
-                  " pos: " + fire.transform.position +
-                  " instance: " + fire.GetInstanceID());
-    }
 }
         
-
 public void Awake()
     {
         SharedInstance = this;
@@ -56,6 +40,7 @@ public void Awake()
             controller.isActiveInnPool = false;
             pooledObjects.Add(tmp);
         }
+       
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

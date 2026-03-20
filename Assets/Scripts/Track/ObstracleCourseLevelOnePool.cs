@@ -4,15 +4,6 @@ using System.Collections.Generic;
 public class ObstracleCourseLevelOnePool : MonoBehaviour
 {
 
-/*   [SerializeField] private GameObject trackOne;
-
-   // ListGame objcts  (tile prefabs)
-
-private void PlaceTrackElement()
-{
- //   Instantiate();
-}*/
-
 [SerializeField] private GameObject objectToPool;
 public static ObstracleCourseLevelOnePool SharedInstance;
 public List<GameObject> pooledObjects;
@@ -46,10 +37,7 @@ public void Awake()
     }
 
     public GameObject GetTrack()
-    {/*
- if (pooledObjects == null || pooledObjects.Count == 0)
-        return null;  */
-
+    {
         for(int i = 0; i < amountToPool; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)

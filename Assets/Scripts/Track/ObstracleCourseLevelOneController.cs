@@ -36,8 +36,7 @@ private void OnTriggerEnter(Collider playerNinjaCollider)
                 triggerTrackConstruction = false;
                 gameObject.SetActive(false);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                // Kalde metode i generate track med sit: currentTrackPiece værdi
-                // Der kalder pools med nmmeret for at deaktivere tilhørende game objekter 
+              
     }
 
  // Start is called once before the first execution of Update after the MonoBehaviour is created
