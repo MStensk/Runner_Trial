@@ -8,6 +8,7 @@ public class RigthTurnRemoveController : MonoBehaviour
     {
         
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
+
 rigthTurnController.RemoveUsedTrack();
 
     }

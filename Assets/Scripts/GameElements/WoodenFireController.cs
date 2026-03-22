@@ -15,15 +15,7 @@ public void SetId(int id)
     {
         currentTrackPiece = level;
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-      private void OnTriggerEnter(Collider playerNinjaCollider)
-    {
-        
-        if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
-            DeactivateFire();
-      
-    }
-
+   
     public void DeactivateFire()
     {
                 isActiveInnPool = true;

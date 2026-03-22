@@ -11,9 +11,11 @@ public class TrackGenerator : MonoBehaviour
     WoodenFirePool woodenFirePool;
     WoodenFencePool woodenFencePool;
    //private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
-        private Vector3 currentBuildPosition = new Vector3(1192.5f, 1.1f, 1190f );
+    private Vector3 currentBuildPosition = new Vector3(1192.5f, 1.1f, 1190f );
     public int initialTrackLength = 4;
     public int turnController = 0;
+    public int leftTurnCount = 0;
+    public int rigthTurnCount = 0;
     int straigthPartLength = 4;
     int gameLevel = 1;
     int currentCount = 0;
@@ -39,6 +41,7 @@ public class TrackGenerator : MonoBehaviour
      int woodenFireSpawnAdd = 0;
      int noSpawn = 0;
     float bearSize = 8;
+    float bearColliderSize = 0.2f;
     float bearSpeed = 4;
   
     public void UpdateLevel()
@@ -86,25 +89,31 @@ public void BuildCommonFactor()
        if(gameLevel > 3 && gameLevel < 7)
          {
             bearSize += 3.0f;
+            bearColliderSize += 0.2f;
         }
         else if(gameLevel >= 18 && gameLevel < 29 )
         {
             bearSize += 0.4f;
+            bearColliderSize += 0.04f;
         }
         else if(gameLevel >= 29 && gameLevel < 34)
         {
             bearSize += 2.0f;
+            bearColliderSize += 0.15f;
+
         }
         else if(gameLevel >= 45 && gameLevel < 66)
         {
             bearSize += 0.5f;
+            bearColliderSize += 0.04f;
         }
          else if(gameLevel >= 100 && gameLevel < 111)
         {
             bearSize += 0.4f;
+             bearColliderSize += 0.03f;
         }
-
     }
+
 
     public void BoostBearSpeed()
     {
@@ -144,32 +153,25 @@ public void BuildCommonFactor()
 
 public void SetStraightPartLength()
     {
-        int randomLaneNumberThirdSpawn;
+        int randomStraigthBuildAmount;
 
         int random =  UnityEngine.Random.Range(1, 100);
         
-        if(random <= 10)
-        {
-            randomLaneNumberThirdSpawn = 0;
-        }
-        else if(random <= 25)
+ 
+        if(random <= 15)
         { 
-            randomLaneNumberThirdSpawn = UnityEngine.Random.Range(5, 8);
+            randomStraigthBuildAmount = UnityEngine.Random.Range(5, 8);
         }
         else if(random <= 35)
         {
-            randomLaneNumberThirdSpawn = 1;
-        }
-        else if(random <= 40)
-        {
-            randomLaneNumberThirdSpawn = 2;
+            randomStraigthBuildAmount = 2;
         }
         else
         {
-            randomLaneNumberThirdSpawn = UnityEngine.Random.Range(3, 5);
+            randomStraigthBuildAmount = UnityEngine.Random.Range(3, 5);
         }
         
-        straigthPartLength = randomLaneNumberThirdSpawn;
+        straigthPartLength = randomStraigthBuildAmount;
     }
 
     public void InitializeTrack()
@@ -207,7 +209,7 @@ public void SetStraightPartLength()
 
         BuildTrack();
         BuildTrack();
-        BuildTrack();
+       
     
     }
 
@@ -228,6 +230,8 @@ currentDirection = buildDirections[directionValue];
 int turnDirection = UnityEngine.Random.Range(0, 2);
 
 // Makes sure game doesn´t leave tarrain or get close to edges.
+      if(leftTurnCount < 2 && rigthTurnCount < 2)
+      {
         if(currentBuildPosition.x > 2000)
         {
            
@@ -341,27 +345,44 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             }       
         }
      }
-        else{
+      }
+
         if(turnController >= straigthPartLength)
         {
-           
-            if(turnDirection == 0)
-            {
+           if(rigthTurnCount > 2)
+                {
+                    BuildLeftCorner();
+                    leftTurnCount += 1;
+                    rigthTurnCount = 0;
+                }
+                else if(leftTurnCount > 2)
+                {
+                    BuildRigthCorner();
+                    rigthTurnCount += 1;
+                    leftTurnCount = 0;
+                }           
+                else
+                {
+                if(turnDirection == 0)
+                {
                 BuildLeftCorner();
-            
-            } 
-            if(turnDirection == 1)
-            {
+                leftTurnCount += 1;
+                rigthTurnCount = 0;
+                } 
+                else
+                {
                 BuildRigthCorner();
-            
-            }       
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
+                }      
+        } 
             }
         else{
             BuildStraightTrack();
 
             }
             BuildCommonFactor();
-        }
+
 
             ManageLevelUpdate();
             SetTrapCommonFactor();
@@ -400,6 +421,9 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 90, 0);
 
+             // values are found by placing track after a corner, and estimate cordinates, 
+             // because track elements are sampled from many pieces.
+
                 currentBuildPosition += new Vector3(24.8f, 0f, +20.3f);
           
             }
@@ -409,6 +433,9 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
              newZValue = currentBuildPosition.z - zPosition;
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
+
+             // values are found by placing track after a corner, and estimate cordinates, 
+             // because track elements are sampled from many pieces.
            
             currentBuildPosition += new Vector3(21.2f, 0f, -24.8f);
            }
@@ -419,6 +446,9 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
              newZValue = currentBuildPosition.z + xPosition;
 
              trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
+
+             // values are found by placing track after a corner, and estimate cordinates, 
+             // because track elements are sampled from many pieces.
 
             currentBuildPosition += new Vector3(-24.8f, 0f, -21.2f);    
             }
@@ -463,6 +493,9 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
              newXValue = currentBuildPosition.x + xPosition;
              newZValue = currentBuildPosition.z + zPosition;
 
+             // values are found by placing track after a corner, and estimate cordinates, 
+             // because track elements are sampled from many pieces.
+
              currentBuildPosition += new Vector3(25.45f, 0f, 41.5f);
 
             }
@@ -473,6 +506,10 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 90, 0);
 
+
+             // values are found by placing track after a corner, and estimate cordinates, 
+             // because track elements are sampled from many pieces.
+
              currentBuildPosition += new Vector3(41.6f, 0f, -41.4f);
             }
               else if(currentDirection == "South")
@@ -481,6 +518,9 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
              newZValue = currentBuildPosition.z - zPosition;
 
              trackPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
+
+             // values are found by placing track after a corner, and estimate cordinates, 
+             // because track elements are sampled from many pieces.
 
              currentBuildPosition += new Vector3(-40f, 0f, -41.5f);
 
@@ -493,6 +533,8 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
              trackPiece.transform.rotation = Quaternion.Euler(0, -90, 0);
 
+            // values are found by placing track after a corner, and estimate cordinates, 
+            //because track elements are sampled from many pieces.
              currentBuildPosition += new Vector3(-41.2f, 0f, 25.8f);
                   
             }
@@ -625,7 +667,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
     "sectorFour", "sectorFive", "sectorSix"};
 
      List<string> backSections = new List<string>{
-    "setorOne", "sectorTwo", "sectorThree"};
+    "sectorOne", "sectorTwo", "sectorThree"};
 
         if(currentDirection == "North")
         {
@@ -692,18 +734,11 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionSixZ = zBase - rigthPart;       
         }    
 
-Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
-{
-    {"coinSpawnValue", coinSpawn},
-    { "bearSpawnValue", bearSpawn},
-    {  "woodenFenceSpawnValue", woodenFenceSpawn},
-    { "woodenFireSpawnValue", woodenFireSpawn},
-    {"noSpawns", noSpawn}
-     };
 
-       var highest = spawnHierarchy.OrderByDescending(x => x.Value)
-       .Take(4)
-       .ToList();
+//Nu kender vi positionerne for de forskellige lanes
+//Her kunne jeg opdele, så der er en metode til at hente liste med spawn herachy 
+
+List<KeyValuePair<string, int>> highest = FindHighestSpawnValues();
 
 for(int i = 0; i < 4; i++)
         {
@@ -863,9 +898,13 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                 }
                 spawnNumber += 1;
             }
-            else{    selectedX = sectionTwoX;
-                            selectedZ = sectionTwoZ; break;}
-                 
+            else{    
+                selectedX = sectionTwoX;
+                selectedZ = sectionTwoZ; break;
+                }
+
+
+
   if(currentSpawn == "coinSpawnValue")
             {
                 //Moves placement from mid point in lane to bigin.
@@ -948,13 +987,14 @@ float placeFirstCoinAtLaneBeginPoint = 5.9f;
 if(spawnNumber == 2)
                 {
                      usedRowOne = 4;
-                     bearMovement.transform.position = new Vector3(sectionTwoX, 1.1f, sectionTwoZ);
+                     bearMovement.transform.position = new Vector3(sectionTwoX, 1f, sectionTwoZ);
+                   
               
                 }
                 else
                 {
                     usedRowTwo = 4;
-                    bearMovement.transform.position = new Vector3(sectionFiveX, 1.1f, sectionFiveZ);
+                    bearMovement.transform.position = new Vector3(sectionFiveX, 1f, sectionFiveZ);
                 }
 
 
@@ -964,11 +1004,28 @@ if(spawnNumber == 2)
 
 controller.SetMoveDirection(currentDirection);
 controller.SetStartPosition(bearMovement.transform.position);
- controller.ResetBearState();
- 
-controller.SetBearSize(bearSize);
+controller.ResetBearState();
 
- controller.SetBearSpeed(bearSpeed);
+controller.SetBearSize(bearSize, bearColliderSize);
+
+BoxCollider collider = bearMovement.GetComponent<BoxCollider>();
+
+if (collider != null)
+{
+    Vector3 center = collider.center;
+    center.y = bearColliderSize;   
+    collider.center = center;
+
+// Divided by two because i should be half way between the heitgth of the collider
+
+    Vector3 size = collider.size;
+    size.y = (bearColliderSize / 2) ;     
+    collider.size = size;
+}
+
+controller.SetBearSpeed(bearSpeed);
+
+
 
 bearMovement.SetActive(true);
     controller.isActiveInnPool = false;
@@ -1037,6 +1094,25 @@ spawnNumber = 1;
 usedRowOne = 0;
 usedRowTwo = 0;
 spawnId += 1;
+
+    }
+
+    public List<KeyValuePair<string, int>> FindHighestSpawnValues()
+    {
+        Dictionary<string, int> spawnHierarchy = new Dictionary<string, int>()
+{
+    {"coinSpawnValue", coinSpawn},
+    { "bearSpawnValue", bearSpawn},
+    {  "woodenFenceSpawnValue", woodenFenceSpawn},
+    { "woodenFireSpawnValue", woodenFireSpawn},
+    {"noSpawns", noSpawn}
+     };
+
+      List<KeyValuePair<string, int>> highest = spawnHierarchy.OrderByDescending(x => x.Value)
+       .Take(4)
+       .ToList();
+
+return highest;
 
     }
    

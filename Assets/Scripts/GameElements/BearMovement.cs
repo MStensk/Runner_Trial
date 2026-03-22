@@ -2,19 +2,22 @@ using UnityEngine;
 
 public class BearMovement : MonoBehaviour
 {
-public bool isActiveInnPool;
 
- TrackGenerator track; 
+    BearWalkController bearWalkController;
+public bool isActiveInnPool;
 
     [SerializeField] private float laneLength = 12f;   // længden den kan bevæge sig
     [SerializeField] private float speed = 4f;   
          // move speed
-
     private Vector3 startPos;
+
+    //Calibrate bear y posisition
+    private Vector3 bearY = new Vector3 (0f, 0.0f, 0f);
     private string moveDirection = "North";
     private float moveTimer;
     public int commonId;
     bool removeBear = false;
+    bool bearWait = true;
 
 public void SetId(int id)
     {
@@ -34,6 +37,9 @@ public void SetId(int id)
         isActiveInnPool = false; 
         startPos = transform.position;
         removeBear = false;
+
+        bearWalkController = GetComponentInChildren<BearWalkController>();
+       
         SetInitialRotation();
     }
 
@@ -44,22 +50,24 @@ public void SetId(int id)
     
     if(removeBear) return;
         // bevæger sig mellem -halfLane og +halfLane relativt til start pos
+        if(bearWait) return;
+        
         moveTimer += Time.deltaTime;
         float xOffset = Mathf.PingPong(moveTimer * speed, laneLength) - halfLane;
 
     if(moveDirection == "North" || moveDirection == "South")
         {
-            transform.position = new Vector3(
+          transform.position = new Vector3(
                 startPos.x + xOffset,
-                startPos.y,
+                transform.position.y,
                 startPos.z
             );
-        }
+        } // bearY.y,
             else
             {
                 transform.position = new Vector3(
                 startPos.x,
-                startPos.y,
+               transform.position.y,
                 startPos.z + xOffset
                 );
             }
@@ -103,23 +111,29 @@ public void SetId(int id)
     removeBear = false;
     moveTimer = 0f;
     isActiveInnPool = true;
-
-     startPos = Vector3.zero;
-    moveDirection = "North";
     speed = 4f;
-
-    Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
+    bearWait = true;
+    startPos = Vector3.zero;
+    moveDirection = "North";
+   
+Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
     bearVisual.localScale = Vector3.one * 8f;
+
+BoxCollider col = GetComponent<BoxCollider>();
+    Vector3 newSize = col.size;
+newSize.y = 2;
+col.size = newSize;
 
     transform.position = Vector3.zero;
 
     transform.rotation = Quaternion.Euler(0, 0, 0);
 
      SetId(0);
-    
+ 
+bearWalkController.ResetCollider();
+
     gameObject.SetActive(false);
     
-
     }
 public void ResetBearState()
 {
@@ -131,7 +145,7 @@ public void SetStartPosition(Vector3 newStartPos)
     startPos = newStartPos;
 }
 
-public void SetBearSize(float grow)
+public void SetBearSize(float grow, float collider)
     { 
          Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
 
@@ -140,7 +154,7 @@ public void SetBearSize(float grow)
       BoxCollider col = GetComponent<BoxCollider>();
 
     Vector3 newSize = col.size;
-    newSize.z += 0.2f;
+    newSize.y = collider;
     col.size = newSize;
       
 }
@@ -149,6 +163,20 @@ public void SetBearSpeed(float newSpeed)
 {
     speed = newSpeed;
 }
+
+ private void OnTriggerEnter(Collider playerNinjaCollider)
+    {
+        if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
+
+//Activats bear walk, when character get0s close, physics kan work on bear and ground it. 
+ bearWait = false;
+        }
+
+public void StartBearWalk()
+    {
+        bearWait = false;
+    }
+       
 
 /* private void Initialize(Vector3 spawnPosition, string direction)
     {

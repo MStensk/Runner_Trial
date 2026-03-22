@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
@@ -12,7 +13,7 @@ public class EndlessRunController : MonoBehaviour
     [Header("Forward Movement")]
     [SerializeField] private float forwardSpeed = 8f;
     [SerializeField] private float gravity = 10f;
-    [SerializeField] private float groundedStickForce = -0.5f;
+    [SerializeField] private float groundedStickForce = 0f;
     [SerializeField] private float maxFallSpeed = -20f;
     [SerializeField] private float maxSpeed = 30f;
 
@@ -61,8 +62,9 @@ public class EndlessRunController : MonoBehaviour
 
     private void Start()
     {  
+
         //added
-         transform.position = new Vector3(1202.7f, 1.1f, 1201f);
+         transform.position = new Vector3(1202.7f, 0.9f, 1201f);
 
         forwardDirection = transform.forward.normalized;
         rightDirection = transform.right.normalized;
@@ -164,15 +166,18 @@ public class EndlessRunController : MonoBehaviour
 
         Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
 
+
         if (controller.isGrounded && verticalVelocity < 0f)
         {
+
             verticalVelocity = groundedStickForce;
         }
         else
         {
             if (verticalVelocity > 0f)
                 verticalVelocity -= gravity * Time.deltaTime;
-            else
+            
+            else  
                 verticalVelocity -= gravity * fallMultiplier * Time.deltaTime;
 
             verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
@@ -181,6 +186,8 @@ public class EndlessRunController : MonoBehaviour
         Vector3 move = horizontalMove;
         move += forwardDirection * forwardSpeed;
         move.y = verticalVelocity;
+
+
 
         controller.Move(move * Time.deltaTime);
     }
@@ -297,27 +304,6 @@ public class EndlessRunController : MonoBehaviour
         animator.SetBool("Sliding", isSliding);
         animator.SetFloat("VerticalVelocity", verticalVelocity);
     }
-    private void HandleManualTestMovement()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Vector3 move = new Vector3(-1.2f, 0f, 0f);
-            controller.Move(move);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Vector3 move = new Vector3(1.2f, 0f, 0f);
-            controller.Move(move);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Vector3 move = transform.forward * 5.0f;
-            controller.Move(move);
-        }
-    }
-
     private void HandleManualTestTurnInput()
     {
         if (Input.GetKeyDown(KeyCode.Z))
@@ -343,7 +329,7 @@ public class EndlessRunController : MonoBehaviour
 
     public void ResetSpeedAndMultiplier()
     {
-        forwardSpeed = baseForwardSpeed;
+        forwardSpeed = baseForwardSpeed + baseForwardSpeed /2;
         coinScoreMultiplier = 1;
     }
 

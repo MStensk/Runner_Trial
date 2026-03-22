@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Health : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage, GameObject attacker)
     {
         if (attacker == gameObject) return;
+Debug.Log("Attack Name:  " + attacker );
+
 
         currentHealth -= damage;
         if (hitSound != null)
@@ -28,6 +31,7 @@ public class Health : MonoBehaviour
             this.Die(attacker);
             GameOverManager.Instance.GameOver();
         }
+
     }
 
     private void Die(GameObject attacker)
