@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public class Health : MonoBehaviour
 {
+    public static Health Instance;
     [SerializeField] private int currentHealth; 
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private AudioSource musicSource;
@@ -57,4 +58,16 @@ Debug.Log("Attack Name:  " + attacker );
     {
         return maxHealth;
     }
+
+    public void AddHealth()
+    {
+        if(currentHealth > 0 && currentHealth <= 99)
+        currentHealth += 2;
+    }
+
+    public void Awake()
+    {
+      Instance = this;
+    }
+
 }

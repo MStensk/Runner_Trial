@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CoinController : MonoBehaviour
 {
+
     public int currentTrackPiece;
     public bool isActiveInnPool;
     public int commonID;
@@ -15,11 +16,6 @@ public class CoinController : MonoBehaviour
         commonID = id;
     }
 
-    public void SetCurrentTrackPiece(int level)
-    {
-        currentTrackPiece = level;
-    }
-
     private void OnTriggerEnter(Collider playerNinjaCollider)
     {
         if (!playerNinjaCollider.CompareTag("PlayerNinja")) return;
@@ -31,6 +27,9 @@ public class CoinController : MonoBehaviour
             ScoreManager.Instance.AddScore(finalScore);
 
             player.AddSpeed(speedBoost);
+
+            HandleHealthPickup();
+
         }
 
         DeactivateCoin();
@@ -43,6 +42,30 @@ public class CoinController : MonoBehaviour
         currentTrackPiece = 0;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         SetId(0);
+    }
+
+    public void HandleHealthPickup()
+    {
+
+     int weight = FindHealthBoostOnCurrentLevel();
+
+     int random = UnityEngine.Random.Range(1, weight + 3);
+
+ if (Health.Instance != null && random > weight)
+    {
+        Health.Instance.AddHealth();
+    }
+    }
+
+    public int FindHealthBoostOnCurrentLevel()
+    {
+
+       float gameLevel = TrackGenerator.Instance.GetGameLevel();
+
+        float result = Mathf.Sqrt(gameLevel);
+
+        return Mathf.CeilToInt(result);
+    
     }
     
 

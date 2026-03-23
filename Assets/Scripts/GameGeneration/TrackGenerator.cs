@@ -6,6 +6,8 @@ using System.Linq;
 
 public class TrackGenerator : MonoBehaviour
 {
+
+    public static TrackGenerator Instance;
     CoinPool coinPool;
     BearPool bearPool;
     WoodenFirePool woodenFirePool;
@@ -1137,6 +1139,8 @@ return highest;
 
     public void Awake()
     {
+        Instance = this;
+
         coinPool = FindObjectOfType<CoinPool>();
         bearPool = FindObjectOfType<BearPool>();
         woodenFirePool = FindAnyObjectByType<WoodenFirePool>();
