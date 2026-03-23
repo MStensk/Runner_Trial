@@ -333,5 +333,12 @@ public class EndlessRunController : MonoBehaviour
         coinScoreMultiplier = 1;
     }
 
+public void RestartRunningAnimation()
+    {
+         if (animator != null)
+        {
+            animator.Play("Running");
+        }
+    }
     
 }
