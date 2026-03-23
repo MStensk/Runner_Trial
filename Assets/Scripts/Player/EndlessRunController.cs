@@ -39,9 +39,9 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private bool isSliding = false;
     [SerializeField] private float slideDuration = 0.8f;
 
+    [SerializeField] public TrackGenerator trackGenerator;
     private CharacterController controller;
 
-    public TrackGenerator trackGenerator;
     private int currentLane = 0;
     private Vector3 forwardDirection;
     private Vector3 rightDirection;
@@ -352,6 +352,7 @@ public void RestartRunningAnimation()
 
     public int GetGameLevel()
     {
+        if (trackGenerator == null) return 1;
         return trackGenerator.GetGameLevel();
     }
     
