@@ -40,6 +40,8 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float slideDuration = 0.8f;
 
     private CharacterController controller;
+
+    public TrackGenerator trackGenerator;
     private int currentLane = 0;
     private Vector3 forwardDirection;
     private Vector3 rightDirection;
@@ -58,12 +60,17 @@ public class EndlessRunController : MonoBehaviour
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
+
+            trackGenerator = FindAnyObjectByType<TrackGenerator>();
     }
 
     private void Start()
     {  
 
         //added
+
+        controller.enabled = false;
+
          transform.position = new Vector3(1202.7f, 0.9f, 1201f);
 
         forwardDirection = transform.forward.normalized;
@@ -75,6 +82,8 @@ public class EndlessRunController : MonoBehaviour
         verticalVelocity = groundedStickForce;
 
         baseForwardSpeed = forwardSpeed;
+
+        controller.enabled = true;
 
         if (animator != null)
         {
@@ -339,6 +348,11 @@ public void RestartRunningAnimation()
         {
             animator.Play("Running");
         }
+    }
+
+    public int GetGameLevel()
+    {
+        return trackGenerator.GetGameLevel();
     }
     
 }

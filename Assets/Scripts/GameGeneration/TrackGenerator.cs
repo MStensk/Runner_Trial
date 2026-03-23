@@ -1129,6 +1129,11 @@ return highest;
         woodenFencePool.FindLinkedElements(id);
     }
 
+    public int GetGameLevel()
+    {
+        return gameLevel;
+    }
+
     public void Awake()
     {
         coinPool = FindObjectOfType<CoinPool>();

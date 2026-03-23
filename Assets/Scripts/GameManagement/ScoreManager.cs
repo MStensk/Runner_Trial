@@ -32,13 +32,15 @@ public class ScoreManager : MonoBehaviour
 
     int multiplier = player != null ? player.GetCoinScoreMultiplier() : 1;
 
+    int gameLevel = player != null ? player.GetGameLevel() : 1;
+
     if (multiplier > 1)
     {
-        scoreText.text = "Score: " + score + "  x" + multiplier;
+        scoreText.text = "Level: " + gameLevel + "\nScore: " + score + "  x" + multiplier;
     }
     else
     {
-        scoreText.text = "Score: " + score;
+        scoreText.text = "Level: " + gameLevel + "\nScore: " + score;
     }
 }
 
