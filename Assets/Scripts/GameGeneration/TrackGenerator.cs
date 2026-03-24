@@ -14,7 +14,7 @@ public class TrackGenerator : MonoBehaviour
     WoodenFencePool woodenFencePool;
    //private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
     private Vector3 currentBuildPosition = new Vector3(1192.5f, 1.1f, 1190f );
-    public int initialTrackLength = 1;
+    public int initialTrackLength = 3;
     public int turnController = 0;
     public int leftTurnCount = 0;
     public int rigthTurnCount = 0;
@@ -220,7 +220,7 @@ public void SetStraightPartLength()
         }
         else{ Debug.Log("No straigth tracks in pool"); }
 
-BuildStraightTrack();
+BuildTrack();
      
     }
 
@@ -229,6 +229,7 @@ BuildStraightTrack();
     {
 // || currentBuildPosition.x < 400|| currentBuildPosition.z > 2000 || currentBuildPosition.z < 400)
 
+bool buildInBoarderSituation = false;
 int turnDirection = UnityEngine.Random.Range(0, 2);
 
 // Makes sure game doesn´t leave tarrain or get close to edges.
@@ -239,7 +240,7 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
            
             if(currentDirection == "North")
             {
-                  BuildLeftCorner();
+                BuildLeftCorner();
                 leftTurnCount += 1;
                 rigthTurnCount = 0;
                 
@@ -274,6 +275,7 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
                 
             }  
             }
+            buildInBoarderSituation = true;
         }
         else if( currentBuildPosition.x < 400)
             {
@@ -305,6 +307,9 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             }   
           
             }
+
+            buildInBoarderSituation = true;
+
             }
             else if( currentBuildPosition.z < 400)
             {
@@ -328,15 +333,17 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
                 leftTurnCount += 1;
                 rigthTurnCount = 0; 
             } 
-            if(turnDirection == 1)
+            else
             {
                 BuildRigthCorner();
                 rigthTurnCount += 1;
                 leftTurnCount = 0;
                
             }   
-
+            
             }
+
+            buildInBoarderSituation = true;
             }
             else if( currentBuildPosition.z > 2000)
             {
@@ -386,9 +393,18 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
                 
             }       
         }
+        buildInBoarderSituation = true;
      }
-     return;
+     
       }
+
+      if(buildInBoarderSituation == true)
+        {
+            BuildCommonFactor();
+            ManageLevelUpdate();
+            SetTrapCommonFactor();
+            return;
+        }
 
         if(turnController >= straigthPartLength)
         {
@@ -424,9 +440,8 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             BuildStraightTrack();
 
             }
+
             BuildCommonFactor();
-
-
             ManageLevelUpdate();
             SetTrapCommonFactor();
     }
@@ -969,8 +984,6 @@ int randomLaneNumberThirdSpawn = UnityEngine.Random.Range(0, 2);
                 selectedZ = sectionTwoZ; break;
                 }
 
-
-
   if(currentSpawn == "coinSpawnValue")
             {
                 //Moves placement from mid point in lane to bigin.
@@ -1085,13 +1098,11 @@ if (collider != null)
 // Divided by two because i should be half way between the heitgth of the collider
 
     Vector3 size = collider.size;
-    size.y = (bearColliderSize / 2) ;     
+    size.y = bearColliderSize / 2 ;     
     collider.size = size;
 }
 
 controller.SetBearSpeed(bearSpeed);
-
-
 
 bearMovement.SetActive(true);
     controller.isActiveInnPool = false;
