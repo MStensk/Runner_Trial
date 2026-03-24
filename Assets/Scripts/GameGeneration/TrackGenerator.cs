@@ -14,7 +14,7 @@ public class TrackGenerator : MonoBehaviour
     WoodenFencePool woodenFencePool;
    //private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
     private Vector3 currentBuildPosition = new Vector3(1192.5f, 1.1f, 1190f );
-    public int initialTrackLength = 4;
+    public int initialTrackLength = 1;
     public int turnController = 0;
     public int leftTurnCount = 0;
     public int rigthTurnCount = 0;
@@ -45,6 +45,15 @@ public class TrackGenerator : MonoBehaviour
     float bearSize = 8;
     float bearColliderSize = 0.2f;
     float bearSpeed = 4;
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+void Start()
+    {
+      directionValue = 0;
+currentDirection = buildDirections[directionValue];
+
+        InitializeTrack();  
+    }
   
     public void UpdateLevel()
     {
@@ -90,7 +99,7 @@ public void BuildCommonFactor()
         
        if(gameLevel > 3 && gameLevel < 7)
          {
-            bearSize += 3.0f;
+            bearSize += 1.5f;
             bearColliderSize += 0.2f;
         }
         else if(gameLevel >= 18 && gameLevel < 29 )
@@ -109,7 +118,9 @@ public void BuildCommonFactor()
             bearSize += 0.5f;
             bearColliderSize += 0.04f;
         }
-         else if(gameLevel >= 100 && gameLevel < 111)
+        // 125 top constrain is just a safe guard for bear not to grow to much
+        // it should stop at 44-44.3 a few levels before
+         else if(gameLevel >= 100 && gameLevel < 125)
         {
             bearSize += 0.4f;
              bearColliderSize += 0.03f;
@@ -171,7 +182,7 @@ public void SetStraightPartLength()
         else
         {
             randomStraigthBuildAmount = UnityEngine.Random.Range(3, 5);
-        }
+        }  
         
         straigthPartLength = randomStraigthBuildAmount;
     }
@@ -209,21 +220,10 @@ public void SetStraightPartLength()
         }
         else{ Debug.Log("No straigth tracks in pool"); }
 
-        BuildTrack();
-        BuildTrack();
-       
-    
+BuildStraightTrack();
+     
     }
 
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-      directionValue = 0;
-currentDirection = buildDirections[directionValue];
-
-        InitializeTrack();  
     }
     public void BuildTrack()
     {
@@ -240,27 +240,37 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             if(currentDirection == "North")
             {
                   BuildLeftCorner();
+                leftTurnCount += 1;
+                rigthTurnCount = 0;
                 
             }
             else if(currentDirection == "South")
             {
                 BuildRigthCorner();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
              
             }
             else if(currentDirection == "West")
             {
                 BuildStraightTrack();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
             }
             else
             {
                   if(turnDirection == 0)
             {
                 BuildLeftCorner();
+                leftTurnCount += 1;
+                rigthTurnCount = 0;
              
             } 
             else
             {
                 BuildRigthCorner();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
                 
             }  
             }
@@ -269,21 +279,29 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             {
                   if(currentDirection == "North")
             {
-              BuildRigthCorner();    
+              BuildRigthCorner();
+              rigthTurnCount += 1;
+              leftTurnCount = 0;    
             }
             else if(currentDirection == "South")
             {  
               BuildLeftCorner();
+               leftTurnCount += 1;
+               rigthTurnCount = 0;
             }
             else if(currentDirection == "West")
             {
             if(turnDirection == 0)
             {
                 BuildLeftCorner(); 
+                leftTurnCount += 1;
+                rigthTurnCount = 0;
             } 
          else
             {
                 BuildRigthCorner();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
             }   
           
             }
@@ -293,20 +311,29 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
                if(currentDirection == "East")  
             {
               BuildLeftCorner();
+               leftTurnCount += 1;
+               rigthTurnCount = 0;
             }   
             else if(currentDirection == "West")
             {  
                BuildRigthCorner();
+               rigthTurnCount += 1;
+               leftTurnCount = 0;
             } 
             else if(currentDirection == "South")
             {
             if(turnDirection == 0)
             {
-                BuildLeftCorner(); 
+                BuildLeftCorner();
+                leftTurnCount += 1;
+                rigthTurnCount = 0; 
             } 
             if(turnDirection == 1)
             {
                 BuildRigthCorner();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
+               
             }   
 
             }
@@ -315,11 +342,15 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             {
                if(currentDirection == "East")  
             {
-                BuildRigthCorner();    
+                BuildRigthCorner();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;    
             }   
             else if(currentDirection == "West")
             {  
                BuildLeftCorner();
+               leftTurnCount += 1;
+               rigthTurnCount = 0;
             } 
             else if(currentDirection == "North")
             {
@@ -327,10 +358,14 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             if(turnDirection == 0)
             {
                 BuildLeftCorner(); 
+                leftTurnCount += 1;
+                rigthTurnCount = 0;
             } 
            else
             {
                 BuildRigthCorner();
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
             }
             }   
             else{
@@ -338,15 +373,21 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             if(turnDirection == 0)
             {
                 BuildLeftCorner();
+                leftTurnCount += 1;
+                rigthTurnCount = 0;
              
             } 
             if(turnDirection == 1)
             {
                 BuildRigthCorner();
-            
+                rigthTurnCount += 1;
+                leftTurnCount = 0;
+
+                
             }       
         }
      }
+     return;
       }
 
         if(turnController >= straigthPartLength)
@@ -454,7 +495,15 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
 
             currentBuildPosition += new Vector3(-24.8f, 0f, -21.2f);    
             }
-            else{return;}
+            else{
+                
+            newXValue = 0;
+            newZValue = 0;
+
+            BuildStraightTrack();
+                
+                return;
+                }
 
             trackPiece.transform.position = new Vector3(newXValue, 1.0f, newZValue);
             trackPiece.SetActive(true);
@@ -540,7 +589,14 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
              currentBuildPosition += new Vector3(-41.2f, 0f, 25.8f);
                   
             }
-            else{return;}
+            else{
+            newXValue = 0;
+            newZValue = 0;
+
+            BuildStraightTrack();
+
+            return;
+                }
 
             trackPiece.transform.position = new Vector3(newXValue, 1.0f, newZValue);
             trackPiece.SetActive(true);
@@ -612,8 +668,19 @@ if(currentDirection == "North")
 
                 currentBuildPosition += new Vector3(-zDisplacement, 0f, 0.0f);
             }
-            // skal undersøges om det skal være andet end else (return;)
-            else{return;}
+            // //Build corners as safeguard, if ObstracleCourse is null
+            else
+            {
+            if(leftTurnCount > rigthTurnCount)
+                {
+                    BuildRigthCorner();
+                }   
+                else
+                {
+                    BuildLeftCorner();
+                } 
+                return;
+                }
 
             trackPiece.transform.position = new Vector3(newXValue, 1.1f, newZValue);
             
@@ -637,8 +704,6 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         float xBase = trackPiece.transform.position.x;
 
         float zBase = trackPiece.transform.position.z;
-    
-        float yBase = trackPiece.transform.position.y;
        
         float sectionOneX;
         float sectionTwoX;
@@ -660,10 +725,9 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
         float leftPart = -4.5f;
         float rigthPart = 4.5f;
 
+        int spawnNumber = 1;
         int usedRowOne = 0;
         int usedRowTwo = 0;
-
-        int spawnNumber = 1;
 
        List<string> frontSections= new List<string>{
     "sectorFour", "sectorFive", "sectorSix"};
@@ -989,14 +1053,14 @@ float placeFirstCoinAtLaneBeginPoint = 5.9f;
 if(spawnNumber == 2)
                 {
                      usedRowOne = 4;
-                     bearMovement.transform.position = new Vector3(sectionTwoX, 1f, sectionTwoZ);
+                     bearMovement.transform.position = new Vector3(sectionTwoX, 3f, sectionTwoZ);
                    
               
                 }
                 else
                 {
                     usedRowTwo = 4;
-                    bearMovement.transform.position = new Vector3(sectionFiveX, 1f, sectionFiveZ);
+                    bearMovement.transform.position = new Vector3(sectionFiveX, 3f, sectionFiveZ);
                 }
 
 
@@ -1092,9 +1156,6 @@ if(spawnNumber == 2)
          
         }
 
-spawnNumber = 1;
-usedRowOne = 0;
-usedRowTwo = 0;
 spawnId += 1;
 
     }
@@ -1132,8 +1193,7 @@ return highest;
     }
 
     public int GetGameLevel()
-    {
-         
+    {      
         return gameLevel;
     }
 
@@ -1148,9 +1208,4 @@ return highest;
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }  
 }

@@ -14,6 +14,8 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float forwardSpeed = 8f;
     [SerializeField] private float gravity = 10f;
     [SerializeField] private float groundedStickForce = 0f;
+    
+    // maxFallSpeed good test on -50f
     [SerializeField] private float maxFallSpeed = -20f;
     [SerializeField] private float maxSpeed = 30f;
 
@@ -32,14 +34,15 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [Header("Jump")]
+
+    // jumpForce was 2.5f
     [SerializeField] private float jumpForce = 2.5f;
     [SerializeField] private float fallMultiplier = 2f;
 
     [Header("Slide")]
     [SerializeField] private bool isSliding = false;
     [SerializeField] private float slideDuration = 0.8f;
-
-    [SerializeField] public TrackGenerator trackGenerator;
+    
     private CharacterController controller;
 
     private int currentLane = 0;
@@ -60,8 +63,6 @@ public class EndlessRunController : MonoBehaviour
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
-
-            trackGenerator = FindAnyObjectByType<TrackGenerator>();
     }
 
     private void Start()
@@ -123,6 +124,7 @@ public class EndlessRunController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && !isSliding)
         {
+            // Was 2f
             verticalVelocity = Mathf.Sqrt(jumpForce * 2f * gravity);
 
             if (animator != null)
@@ -190,13 +192,14 @@ public class EndlessRunController : MonoBehaviour
                 verticalVelocity -= gravity * fallMultiplier * Time.deltaTime;
 
             verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
+
+
+          //  verticalVelocity -= 0.05f;
         }
 
         Vector3 move = horizontalMove;
         move += forwardDirection * forwardSpeed;
         move.y = verticalVelocity;
-
-
 
         controller.Move(move * Time.deltaTime);
     }
@@ -352,8 +355,8 @@ public void RestartRunningAnimation()
 
     public int GetGameLevel()
     {
-        if (trackGenerator == null) return 1;
-        return trackGenerator.GetGameLevel();
+        
+        return TrackGenerator.Instance.GetGameLevel();
     }
     
 }

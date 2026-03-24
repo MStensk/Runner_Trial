@@ -49,7 +49,12 @@ public class CoinController : MonoBehaviour
 
      int weight = FindHealthBoostOnCurrentLevel();
 
-     int random = UnityEngine.Random.Range(1, weight + 3);
+     if(weight < 2) return;
+
+// sets loft for how difficoult it is to gain health
+     if(weight > 16){ weight = 16; }
+// The /2 reduces weigths impact n the propabillity to gain life
+     int random = UnityEngine.Random.Range(1, (weight / 2) + 3);
 
  if (Health.Instance != null && random > weight)
     {

@@ -786,7 +786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   objectToPool: {fileID: 5386036753796940452, guid: 48ca397703928294cb7f361098898223, type: 3}
   pooledObjects: []
-  amountToPool: 6
+  amountToPool: 12
 --- !u!4 &256127256
 Transform:
   m_ObjectHideFlags: 0
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   objectToPool: {fileID: 530798429783138257, guid: a7c75b58bb540e74ea6c71723ec3852e, type: 3}
   pooledObjects: []
-  amountToPool: 3
+  amountToPool: 4
 --- !u!4 &488660602
 Transform:
   m_ObjectHideFlags: 0
@@ -1465,7 +1465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   objectToPool: {fileID: 35171671173491424, guid: 2534e41e77430a74a927ba22c6bfc202, type: 3}
   pooledObjects: []
-  amountToPool: 3
+  amountToPool: 4
 --- !u!4 &880691844
 Transform:
   m_ObjectHideFlags: 0
@@ -1823,7 +1823,6 @@ MonoBehaviour:
   fallMultiplier: 2
   isSliding: 0
   slideDuration: 0.8
-  trackGenerator: {fileID: 0}
 --- !u!1 &1186874987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,7 +2326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   objectToPool: {fileID: 3404517143945160609, guid: 1231f1466ea52fe4096ab8989236dc91, type: 3}
   pooledObjects: []
-  amountToPool: 70
+  amountToPool: 80
 --- !u!1001 &1956394254
 PrefabInstance:
   m_ObjectHideFlags: 0
