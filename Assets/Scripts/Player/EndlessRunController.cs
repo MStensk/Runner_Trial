@@ -60,6 +60,8 @@ public class EndlessRunController : MonoBehaviour
     private Transform turnLaneRight;
     private float baseForwardSpeed;
 
+    public float coinBank;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -103,6 +105,11 @@ public class EndlessRunController : MonoBehaviour
         HandleSlideInput();
         MovePlayer();
         UpdateAnimation();
+
+        if (forwardSpeed > 12f)
+          {
+         ReduceCoinSpeedBoost();
+          }
     }
 
     private void HandleLaneInput()
@@ -369,9 +376,27 @@ public void RestartRunningAnimation()
         return TrackGenerator.Instance.GetGameLevel();
     }
 
-    public void RemoveCoinSpeedBoost()
+    public void ReduceCoinSpeedBoost()
     {
+
+        float speedLoss = (coinBank * Time.deltaTime)/40;
         
+            forwardSpeed -= speedLoss;
+
+            forwardSpeed = Mathf.Max(12f, forwardSpeed);
+
+            coinBank -= speedLoss;
+
+            if(forwardSpeed < 14f)
+        {
+            coinBank = 0;
+        }
+          
+    }
+
+    public void AddToCoinBank()
+    {
+        coinBank += 1;
     }
     
 }
