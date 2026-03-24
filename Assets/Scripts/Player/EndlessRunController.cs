@@ -30,6 +30,7 @@ public class EndlessRunController : MonoBehaviour
 
     [Header("Turning")]
     [SerializeField] private bool allowManualTurnDebug = false;
+    [SerializeField] private bool haveJumped = false;
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
@@ -105,6 +106,14 @@ public class EndlessRunController : MonoBehaviour
         HandleSlideInput();
         MovePlayer();
         UpdateAnimation();
+
+        if(transform.position.y > 3.6f) { haveJumped = true; }
+        
+        if(haveJumped == true && transform.position.y < 1.4f)
+        {
+           RestartRunningAnimation();
+           haveJumped = false; 
+        }
 
         if (forwardSpeed > 12f)
           {
