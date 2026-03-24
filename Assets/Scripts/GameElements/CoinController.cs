@@ -6,6 +6,11 @@ public class CoinController : MonoBehaviour
     public int currentTrackPiece;
     public bool isActiveInnPool;
     public int commonID;
+    
+    public int removeSpeedIdentifier = 0;
+    public bool speedBoostActivate = false;
+
+
 
     [Header("Coin Effects")]
     [SerializeField] private int scoreValue = 10;
@@ -30,6 +35,10 @@ public class CoinController : MonoBehaviour
 
             HandleHealthPickup();
 
+            speedBoostActivate = true;
+
+            removeSpeedIdentifier = TrackGenerator.Instance.spawnId();
+
         }
 
         DeactivateCoin();
@@ -42,6 +51,7 @@ public class CoinController : MonoBehaviour
         currentTrackPiece = 0;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         SetId(0);
+        speedBoostActivate = false;
     }
 
     public void HandleHealthPickup()
@@ -82,5 +92,10 @@ public class CoinController : MonoBehaviour
     void Update()
     {
         transform.Rotate(0, 180 * Time.deltaTime, 0);
+
+        if(speedBoostActivate == true)
+        {
+            removeSpeedIdentifier = 0;
+        }
     }
 }

@@ -1219,4 +1219,9 @@ return highest;
         
     }
 
+    public int GetSpawnId()
+    {
+        return spawnId;
+    }
+
 }

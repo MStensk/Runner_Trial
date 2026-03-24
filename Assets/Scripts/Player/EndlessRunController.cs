@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
@@ -16,7 +17,7 @@ public class EndlessRunController : MonoBehaviour
     [SerializeField] private float groundedStickForce = 0f;
     
     // maxFallSpeed good test on -50f
-    [SerializeField] private float maxFallSpeed = -20f;
+    [SerializeField] private float maxFallSpeed = -50f;
     [SerializeField] private float maxSpeed = 30f;
 
     [Header("Score Multiplier")]
@@ -36,12 +37,14 @@ public class EndlessRunController : MonoBehaviour
     [Header("Jump")]
 
     // jumpForce was 2.5f
-    [SerializeField] private float jumpForce = 2.5f;
+    [SerializeField] private float jumpForce = 3.5f;
     [SerializeField] private float fallMultiplier = 2f;
 
     [Header("Slide")]
     [SerializeField] private bool isSliding = false;
     [SerializeField] private float slideDuration = 0.8f;
+
+    float maxJump = 3.8f;
     
     private CharacterController controller;
 
@@ -177,7 +180,6 @@ public class EndlessRunController : MonoBehaviour
 
         Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
 
-
         if (controller.isGrounded && verticalVelocity < 0f)
         {
 
@@ -193,8 +195,16 @@ public class EndlessRunController : MonoBehaviour
 
             verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
 
+if(transform.position.y > maxJump )
+{
+           verticalVelocity -= 0.11f;
+           maxJump = 1.5f;
+}
+        }
 
-          //  verticalVelocity -= 0.05f;
+        if(transform.position.y < 1.3f)
+        {
+            maxJump = 3.8f;
         }
 
         Vector3 move = horizontalMove;
@@ -357,6 +367,11 @@ public void RestartRunningAnimation()
     {
         
         return TrackGenerator.Instance.GetGameLevel();
+    }
+
+    public void RemoveCoinSpeedBoost()
+    {
+        
     }
     
 }
