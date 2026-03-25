@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DangerSystem : MonoBehaviour
 {
@@ -7,7 +8,11 @@ public class DangerSystem : MonoBehaviour
     [SerializeField] private float maxDanger = 100f;
     [SerializeField] private float increaseInterval = 0.5f;
     [SerializeField] private float increaseAmount = 1f;
+    [SerializeField] private Image dangerFill;
+    [Header("Player Health")]
+    [SerializeField] private Health playerHealth;
     private float timer;
+    private bool isDead = false;
 
     
     void Start()
@@ -16,12 +21,35 @@ public class DangerSystem : MonoBehaviour
     }
 
     
-    void Update()
+  void Update()
+{
+    IncreaseDangerOverTime();
+
+    float normalizedDanger = danger / maxDanger;
+
+    // Update fill
+    dangerFill.fillAmount = normalizedDanger;
+
+    // Smooth color transition
+    Color color;
+
+    if (normalizedDanger < 0.5f)
     {
-        IncreaseDangerOverTime();
-        Debug.Log("Current Danger: " + danger);
-        CheckDangerState();
+        // Green → Yellow
+        float t = normalizedDanger / 0.5f;
+        color = Color.Lerp(Color.green, Color.yellow, t);
     }
+    else
+    {
+        // Yellow → Red
+        float t = (normalizedDanger - 0.5f) / 0.5f;
+        color = Color.Lerp(Color.yellow, Color.red, t);
+    }
+
+    dangerFill.color = color;
+
+    CheckDangerState();
+}
 
 
  private void IncreaseDangerOverTime()
@@ -40,21 +68,19 @@ public class DangerSystem : MonoBehaviour
     }
 
 private void CheckDangerState()
+{
+    if (danger >= maxDanger && !isDead)
     {
-        if (danger >= maxDanger)
+        isDead = true;
+
+        Debug.Log("PLAYER DEAD (Danger reached 100)");
+
+        if (playerHealth != null)
         {
-            Debug.Log("PLAYER DEAD (Danger reached 100)");
-            // TODO: Call death logic
-        }
-        else if (danger >= 75f)
-        {
-            Debug.Log("DANGER RED");
-        }
-        else if (danger >= 50f)
-        {
-            Debug.Log("DANGER YELLOW");
+            playerHealth.TakeDamage(9999, gameObject);
         }
     }
+}
 
 
 public void ReduceDanger(float amount)
