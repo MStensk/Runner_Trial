@@ -22,7 +22,9 @@ public class EndlessRunController : MonoBehaviour
 
     [Header("Score Multiplier")]
     [SerializeField] private int coinScoreMultiplier = 1;
-    [SerializeField] private int maxCoinScoreMultiplier = 3;
+    [SerializeField] private int coinsCollected = 0;
+    [SerializeField] private int coinsPerMultiplierStep = 10;
+    [SerializeField] private int maxCoinScoreMultiplier = 10;
 
     [Header("Lane Movement")]
     [SerializeField] private float laneOffset = 5f;
@@ -355,6 +357,16 @@ if(transform.position.y > maxJump )
         }
     }
 
+   public void AddToCoinBank()
+    {
+        coinsCollected++;
+
+        coinScoreMultiplier = Mathf.Min(
+            1 + (coinsCollected / coinsPerMultiplierStep),
+            maxCoinScoreMultiplier
+        );
+    }
+
     public int GetCoinScoreMultiplier()
     {
         return coinScoreMultiplier;
@@ -367,11 +379,12 @@ if(transform.position.y > maxJump )
 
     public void ResetSpeedAndMultiplier()
     {
-        forwardSpeed = baseForwardSpeed + baseForwardSpeed /2;
+        forwardSpeed = baseForwardSpeed;
         coinScoreMultiplier = 1;
+        coinsCollected = 0;
     }
 
-public void RestartRunningAnimation()
+    public void RestartRunningAnimation()
     {
          if (animator != null)
         {
@@ -401,11 +414,6 @@ public void RestartRunningAnimation()
             coinBank = 0;
         }
           
-    }
-
-    public void AddToCoinBank()
-    {
-        coinBank += 1;
     }
     
 }
