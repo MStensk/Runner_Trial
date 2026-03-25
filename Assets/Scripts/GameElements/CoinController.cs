@@ -11,6 +11,8 @@ public class CoinController : MonoBehaviour
     [Header("Coin Effects")]
     [SerializeField] private int scoreValue = 10;
     [SerializeField] private float speedBoost = 1f;
+    [Header("Danger Reduction")]
+    [SerializeField] private float dangerReduction = 1f;
     int levelDurabillity = 10;
 
     public void SetId(int id)
@@ -31,6 +33,11 @@ public class CoinController : MonoBehaviour
             ScoreManager.Instance.AddScore(finalScore);
 
             player.AddSpeed(speedBoost);
+            DangerSystem dangerSystem = FindObjectOfType<DangerSystem>();
+            if (dangerSystem != null)
+            {
+            dangerSystem.ReduceDanger(dangerReduction); // you can tweak this later
+            }
 
             HandleHealthPickup();
 
