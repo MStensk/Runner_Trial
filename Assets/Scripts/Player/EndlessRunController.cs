@@ -115,7 +115,7 @@ public class EndlessRunController : MonoBehaviour
            haveJumped = false; 
         }
 
-        if (forwardSpeed > 12f)
+        if (forwardSpeed > 10f)
           {
          ReduceCoinSpeedBoost();
           }
@@ -359,6 +359,8 @@ if(transform.position.y > maxJump )
     {
         coinsCollected++;
 
+        coinBank += 1;
+
         coinScoreMultiplier = Mathf.Min(
             1 + (coinsCollected / coinsPerMultiplierStep),
             maxCoinScoreMultiplier
@@ -399,7 +401,7 @@ if(transform.position.y > maxJump )
     public void ReduceCoinSpeedBoost()
     {
 
-        float speedLoss = (coinBank * Time.deltaTime)/20;
+        float speedLoss = (coinBank * Time.deltaTime)/40;
         
             forwardSpeed -= speedLoss;
 
@@ -407,7 +409,7 @@ if(transform.position.y > maxJump )
 
             coinBank -= speedLoss;
 
-            if(forwardSpeed < 14f)
+            if(forwardSpeed < 10.0f)
         {
             coinBank = 0;
         }
