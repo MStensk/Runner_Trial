@@ -1,8 +1,6 @@
-
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
+
 
 [RequireComponent(typeof(CharacterController))]
 public class EndlessRunController : MonoBehaviour
@@ -388,7 +386,7 @@ public void RestartRunningAnimation()
     public void ReduceCoinSpeedBoost()
     {
 
-        float speedLoss = (coinBank * Time.deltaTime)/40;
+        float speedLoss = (coinBank * Time.deltaTime)/20;
         
             forwardSpeed -= speedLoss;
 

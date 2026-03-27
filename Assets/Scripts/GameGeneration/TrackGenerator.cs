@@ -12,9 +12,9 @@ public class TrackGenerator : MonoBehaviour
     BearPool bearPool;
     WoodenFirePool woodenFirePool;
     WoodenFencePool woodenFencePool;
-   //private Vector3 currentBuildPosition = new Vector3(292.5f, 1.1f, 290f );
+ 
     private Vector3 currentBuildPosition = new Vector3(1192.5f, 1.1f, 1190f );
-    public int initialTrackLength = 3;
+    public int initialTrackLength = 4;
     public int turnController = 0;
     public int leftTurnCount = 0;
     public int rigthTurnCount = 0;
@@ -227,7 +227,7 @@ BuildTrack();
     }
     public void BuildTrack()
     {
-// || currentBuildPosition.x < 400|| currentBuildPosition.z > 2000 || currentBuildPosition.z < 400)
+
 
 bool buildInBoarderSituation = false;
 int turnDirection = UnityEngine.Random.Range(0, 2);
@@ -388,9 +388,7 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
             {
                 BuildRigthCorner();
                 rigthTurnCount += 1;
-                leftTurnCount = 0;
-
-                
+                leftTurnCount = 0;   
             }       
         }
         buildInBoarderSituation = true;
@@ -451,6 +449,8 @@ int turnDirection = UnityEngine.Random.Range(0, 2);
 
     GameObject trackPiece = LeftTurnPool.SharedInstance.GetTrack();
 
+      if(trackPiece != null)
+        {
 LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
 
  float xDisplacement = controller.lengthOnX;
@@ -462,8 +462,6 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
  float newXValue;
  float newZValue;
 
-      if(trackPiece != null)
-        {
             if(currentDirection == "North")
             {
              newXValue = currentBuildPosition.x + xPosition;
@@ -541,7 +539,10 @@ LeftTurnController controller = trackPiece.GetComponent<LeftTurnController>();
  
     GameObject trackPiece = RigthTurnPool.SharedInstance.GetTrack();
 
-RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
+      if(trackPiece != null)
+    {
+
+        RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
  float xDisplacement = controller.lengthOnX;
  float zDisplacement = controller.lengthOnZ;
@@ -552,8 +553,6 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
  float newXValue;
  float newZValue;
 
-      if(trackPiece != null)
-    {
             if(currentDirection == "North")
             {
              newXValue = currentBuildPosition.x + xPosition;
@@ -588,7 +587,7 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
              // values are found by placing track after a corner, and estimate cordinates, 
              // because track elements are sampled from many pieces.
 
-             currentBuildPosition += new Vector3(-40f, 0f, -41.5f);
+             currentBuildPosition += new Vector3(-41.5f, 0f, -41.5f);
 
             }
             else if(currentDirection == "West")
@@ -633,7 +632,22 @@ RigthTurnController controller = trackPiece.GetComponent<RigthTurnController>();
 
 GameObject trackPiece = ObstracleCourseLevelOnePool.SharedInstance.GetTrack();
 
- ObstracleCourseLevelOneController controller = trackPiece.GetComponent< ObstracleCourseLevelOneController>();
+    if (trackPiece == null)
+    {
+
+        if (leftTurnCount > rigthTurnCount)
+        {
+            BuildRigthCorner();
+        }
+        else
+        {
+            BuildLeftCorner();
+        }
+
+        return;
+    }
+
+             ObstracleCourseLevelOneController controller = trackPiece.GetComponent< ObstracleCourseLevelOneController>();
 
  float xDisplacement = controller.lengthOnX;
  float zDisplacement = controller.lengthOnZ;
@@ -644,8 +658,6 @@ GameObject trackPiece = ObstracleCourseLevelOnePool.SharedInstance.GetTrack();
  float newXValue;
  float newZValue;
 
-         if(trackPiece != null)
-        {
 if(currentDirection == "North")
             {
                  newXValue = currentBuildPosition.x + xPosition;
@@ -710,7 +722,7 @@ if(currentDirection == "North")
             turnController += 1;
 
             PlaceObstraclesStraigthTrack(trackPiece, currentDirection);     
-        }   
+          
     }
 
 public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDirection)
@@ -798,7 +810,7 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionFiveZ =zBase - 5.9f;
          sectionSixZ =zBase - 5.9f;       
             }
-            else 
+            else if(currentDirection == "West")
         {
      //West
          sectionOneX = xBase - reverse;
@@ -814,10 +826,13 @@ public void PlaceObstraclesStraigthTrack(GameObject trackPiece, String currentDi
          sectionFiveZ = zBase;
          sectionSixZ = zBase - rigthPart;       
         }    
+        else
+        {
+            return;
+        }
 
 
-//Nu kender vi positionerne for de forskellige lanes
-//Her kunne jeg opdele, så der er en metode til at hente liste med spawn herachy 
+//Nu kender vi positionerne for de forskellige lanes 
 
 List<KeyValuePair<string, int>> highest = FindHighestSpawnValues();
 
@@ -880,7 +895,7 @@ if(laneNumber == 1)
             } 
             else if(spawnNumber == 3)
      {
-        // If third spawn is a bear, its ignored and next object is selected instead. Because Bears
+        // If third spawn is a bear or wooden fence, its ignored and next object is selected instead. Because Bears
         //only can be placed in empty rows.
 
             if(currentSpawn == "bearSpawnValue" || currentSpawn == "woodenFenceSpawnValue") { continue; }
@@ -992,7 +1007,19 @@ float placeFirstCoinAtLaneBeginPoint = 5.9f;
          for(float j = 0.0f; j < 11.7f; j += 2.0f)
                 {
  GameObject coin = CoinPool.SharedInstance.GetTrack();
+
+ if (coin == null)
+{
+     j -= 2.0f;
+    continue;
+}
  CoinController controller = coin.GetComponent<CoinController>();  
+
+if (controller == null)
+{
+    j -= 2.0f;
+    continue;
+}
 
 //Sets identifier for removement 
  controller.SetId(spawnId);      
