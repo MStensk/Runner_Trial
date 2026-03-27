@@ -145,6 +145,7 @@ public void SetStartPosition(Vector3 newStartPos)
     startPos = newStartPos;
 }
 
+/* gl version
 public void SetBearSize(float grow, float collider)
     { 
          Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
@@ -157,6 +158,39 @@ public void SetBearSize(float grow, float collider)
     newSize.y = collider;
     col.size = newSize;
       
+}
+*/
+
+public void SetBearSize(float grow, float bodyColliderHeight, float damageColliderSize)
+{
+    Transform bearVisual = transform.GetChild(0).GetChild(0).GetChild(0);
+    bearVisual.localScale = new Vector3(grow, grow, grow);
+
+    BoxCollider bodyCol = GetComponent<BoxCollider>();
+    if (bodyCol != null)
+    {
+        Vector3 center = bodyCol.center;
+        center.y = bodyColliderHeight;
+        bodyCol.center = center;
+
+        Vector3 size = bodyCol.size;
+        size.y = bodyColliderHeight / 2f;
+        bodyCol.size = size;
+    }
+
+    Transform walkColliderTransform = transform.GetChild(0);
+    BoxCollider damageCol = walkColliderTransform.GetComponent<BoxCollider>();
+    if (damageCol != null)
+    {
+        Vector3 damageSize = damageCol.size;
+        damageSize.x = damageColliderSize/3;
+        damageSize.z = damageColliderSize;
+        damageCol.size = damageSize;
+
+        Vector3 damageCenter = damageCol.center;
+        damageCenter.y = damageColliderSize * 0.5f;
+        damageCol.center = damageCenter;
+    }
 }
 
 public void SetBearSpeed(float newSpeed)

@@ -59,7 +59,7 @@ public class CoinController : MonoBehaviour
      if(weight < 2) return;
 
 // sets loft for how difficoult it is to gain health
-     if(weight > 16){ weight = 16; }
+     if(weight > 12){ weight = 12; }
 // The /2 reduces weigths impact n the propabillity to gain life
      int random = UnityEngine.Random.Range(1, (weight / 2) + 3);
 

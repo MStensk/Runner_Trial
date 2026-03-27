@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Multiplayer.Center.Common;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -186,15 +187,22 @@ public class EndlessRunController : MonoBehaviour
 
     private void MovePlayer()
     {
-        currentLaneCenter += forwardDirection * forwardSpeed * Time.deltaTime;
+   
+   
+      Vector3 targetPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
 
-        Vector3 targetPosition = currentLaneCenter + rightDirection * (currentLane * laneOffset);
-
-        Vector3 currentPosition = transform.position;
+  /*      Vector3 currentPosition = transform.position;
         Vector3 flatCurrent = new Vector3(currentPosition.x, 0f, currentPosition.z);
-        Vector3 flatTarget = new Vector3(targetPosition.x, 0f, targetPosition.z);
+        Vector3 flatTarget = new Vector3(targetPosition.x, 0f, targetPosition.z); 
+        Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed; */
 
-        Vector3 horizontalMove = (flatTarget - flatCurrent) * laneChangeSpeed;
+        Vector3 toTarget = targetPosition - transform.position;
+toTarget.y = 0f;
+
+float sideDelta = Vector3.Dot(toTarget, rightDirection);
+Vector3 horizontalMove = rightDirection * (sideDelta * laneChangeSpeed);
+
+        
 
         if (controller.isGrounded && verticalVelocity < 0f)
         {
@@ -227,7 +235,19 @@ if(transform.position.y > maxJump )
         move += forwardDirection * forwardSpeed;
         move.y = verticalVelocity;
 
-        controller.Move(move * Time.deltaTime);
+        Vector3 beforeMove = transform.position;
+    controller.Move(move * Time.deltaTime);
+    Vector3 afterMove = transform.position;
+
+
+        Vector3 actualDelta = afterMove - beforeMove;
+    float actualForward = Vector3.Dot(actualDelta, forwardDirection);
+
+    if (actualForward > 0f)
+    {
+        currentLaneCenter += forwardDirection * actualForward;
+        currentLaneCenter.y = transform.position.y;
+    }
     }
 
     private void TurnLeft()
@@ -358,7 +378,7 @@ if(transform.position.y > maxJump )
    public void AddToCoinBank()
     {
         coinsCollected++;
-
+if (coinBank < 40)
         coinBank += 1;
 
         coinScoreMultiplier = Mathf.Min(
@@ -400,10 +420,27 @@ if(transform.position.y > maxJump )
 
     public void ReduceCoinSpeedBoost()
     {
+        float reduceFactor;
 
         float speedLoss = (coinBank * Time.deltaTime)/40;
-        
-            forwardSpeed -= speedLoss;
+
+        if(forwardSpeed  < 15)
+        {
+            reduceFactor = 0.7f;
+        }
+        else if (forwardSpeed < 22)
+        {
+            reduceFactor = 1f;
+        }
+        else if (forwardSpeed < 26)
+        {
+            reduceFactor = 1.5f;
+        }
+        else
+        {
+            reduceFactor = 2;
+        }
+            forwardSpeed -= speedLoss * reduceFactor;
 
             forwardSpeed = Mathf.Max(12f, forwardSpeed);
 

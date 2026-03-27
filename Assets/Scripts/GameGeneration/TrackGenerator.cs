@@ -44,6 +44,7 @@ public class TrackGenerator : MonoBehaviour
      int noSpawn = 0;
     float bearSize = 8;
     float bearColliderSize = 0.2f;
+    float bearDamageColliderSize = 2.5f;
     float bearSpeed = 4;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -101,20 +102,24 @@ public void BuildCommonFactor()
          {
             bearSize += 1.5f;
             bearColliderSize += 0.2f;
+            bearDamageColliderSize += 0.2f;
         }
         else if(gameLevel >= 18 && gameLevel < 29 )
         {
+            bearDamageColliderSize = 3.3f;
             bearSize += 0.4f;
             bearColliderSize += 0.04f;
         }
         else if(gameLevel >= 29 && gameLevel < 34)
         {
+            bearDamageColliderSize = 5.5f;
             bearSize += 2.0f;
             bearColliderSize += 0.15f;
 
         }
         else if(gameLevel >= 45 && gameLevel < 66)
         {
+            bearDamageColliderSize = 7f;
             bearSize += 0.5f;
             bearColliderSize += 0.04f;
         }
@@ -122,6 +127,7 @@ public void BuildCommonFactor()
         // it should stop at 44-44.3 a few levels before
          else if(gameLevel >= 100 && gameLevel < 125)
         {
+            bearDamageColliderSize = 9f;
             bearSize += 0.4f;
              bearColliderSize += 0.03f;
         }
@@ -1103,8 +1109,6 @@ if(spawnNumber == 2)
                     bearMovement.transform.position = new Vector3(sectionFiveX, 3f, sectionFiveZ);
                 }
 
-
-
 //Sets identifier for removement 
  controller.SetId(spawnId); 
 
@@ -1112,22 +1116,7 @@ controller.SetMoveDirection(currentDirection);
 controller.SetStartPosition(bearMovement.transform.position);
 controller.ResetBearState();
 
-controller.SetBearSize(bearSize, bearColliderSize);
-
-BoxCollider collider = bearMovement.GetComponent<BoxCollider>();
-
-if (collider != null)
-{
-    Vector3 center = collider.center;
-    center.y = bearColliderSize;   
-    collider.center = center;
-
-// Divided by two because i should be half way between the heitgth of the collider
-
-    Vector3 size = collider.size;
-    size.y = bearColliderSize / 2 ;     
-    collider.size = size;
-}
+controller.SetBearSize(bearSize, bearColliderSize, bearDamageColliderSize);
 
 controller.SetBearSpeed(bearSpeed);
 
@@ -1137,7 +1126,8 @@ bearMovement.SetActive(true);
       //Reset priority
       bearSpawn = 0;
 
-         }else if(currentSpawn == "woodenFenceSpawnValue")
+         }
+         else if(currentSpawn == "woodenFenceSpawnValue")
 {
 
     GameObject fence = WoodenFencePool.SharedInstance.GetTrack();
