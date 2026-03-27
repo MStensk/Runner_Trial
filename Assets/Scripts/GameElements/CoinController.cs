@@ -25,12 +25,12 @@ public class CoinController : MonoBehaviour
         EndlessRunController player = playerNinjaCollider.GetComponent<EndlessRunController>();
         if (player != null)
         {
+            player.AddToCoinBank();
+
             int finalScore = player.GetCoinScoreValue(scoreValue);
             ScoreManager.Instance.AddScore(finalScore);
 
             player.AddSpeed(speedBoost);
-
-            player.AddToCoinBank();
 
             HandleHealthPickup();
 

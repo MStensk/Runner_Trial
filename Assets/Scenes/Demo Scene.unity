@@ -1814,15 +1814,19 @@ MonoBehaviour:
   maxFallSpeed: -20
   maxSpeed: 30
   coinScoreMultiplier: 1
+  coinsCollected: 0
+  coinsPerMultiplierStep: 10
   maxCoinScoreMultiplier: 3
   laneOffset: 5
   laneChangeSpeed: 5
   allowManualTurnDebug: 0
+  haveJumped: 0
   animator: {fileID: 0}
   jumpForce: 5
   fallMultiplier: 2
   isSliding: 0
   slideDuration: 0.8
+  coinBank: 0
 --- !u!1 &1186874987
 GameObject:
   m_ObjectHideFlags: 0
